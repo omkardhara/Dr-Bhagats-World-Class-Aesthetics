@@ -3,27 +3,27 @@ import type { NextConfig } from "next";
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
 /**
- * Loopback proxy for the Sanity API.
+ * Opt-in loopback proxy for the Sanity API. Disabled unless
+ * NEXT_PUBLIC_SANITY_DEV_PROXY_ORIGIN is set, and never active in production.
  *
- * Some endpoint-security products (Sophos Network Threat Protection here)
- * transparently inspect browser traffic and buffer `text/event-stream`
- * responses, waiting for a body that never ends. Ordinary requests succeed;
- * the Studio's real-time listener hangs at readyState 0 until it times out
- * with "No activity within 45000 milliseconds", leaving the Studio stuck on
- * "Trying to connect...".
+ * Only needed on machines where endpoint-security software inspects browser
+ * traffic and buffers `text/event-stream` responses. Ordinary requests still
+ * succeed there, so the Studio loads and authenticates but its real-time
+ * listener hangs, leaving the UI stuck on "Trying to connect...".
  *
- * Loopback traffic is not inspected, and Node reaches Sanity fine. So the
- * browser talks only to localhost and the dev server makes the external call.
- * `apiHost` in sanity.config.ts prepends the project id as a subdomain, which
- * is why this matches on `<projectId>.localhost` rather than a path prefix.
+ * Loopback traffic is not inspected, so with this enabled the browser talks
+ * only to the dev server and Node makes the external call. The origin is
+ * configurable because it must match the port the dev server is actually on.
  *
- * This forwards to a route handler rather than straight to api.sanity.io: the
- * upstream response must be uncompressed, because gzipping a stream buffers
- * it. See app/api/sanity/[...path]/route.ts.
+ * Requests go to a route handler rather than straight to api.sanity.io: the
+ * upstream response must be uncompressed, since gzipping a stream buffers it.
+ * See app/api/sanity/[...path]/route.ts.
  */
+const devProxyOrigin = process.env.NEXT_PUBLIC_SANITY_DEV_PROXY_ORIGIN;
+
 const nextConfig: NextConfig = {
   async rewrites() {
-    if (!projectId) return [];
+    if (!projectId || !devProxyOrigin) return [];
 
     return [
       {

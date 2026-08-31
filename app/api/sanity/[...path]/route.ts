@@ -35,7 +35,11 @@ const STRIP_RESPONSE = new Set([
 ]);
 
 async function proxy(request: NextRequest, path: string[]) {
-  if (process.env.NODE_ENV !== "development") {
+  // Opt-in and development-only; see next.config.ts.
+  if (
+    process.env.NODE_ENV !== "development" ||
+    !process.env.NEXT_PUBLIC_SANITY_DEV_PROXY_ORIGIN
+  ) {
     return new Response("Not found", { status: 404 });
   }
   if (!projectId) {
