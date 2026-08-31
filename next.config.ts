@@ -16,6 +16,10 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
  * browser talks only to localhost and the dev server makes the external call.
  * `apiHost` in sanity.config.ts prepends the project id as a subdomain, which
  * is why this matches on `<projectId>.localhost` rather than a path prefix.
+ *
+ * This forwards to a route handler rather than straight to api.sanity.io: the
+ * upstream response must be uncompressed, because gzipping a stream buffers
+ * it. See app/api/sanity/[...path]/route.ts.
  */
 const nextConfig: NextConfig = {
   async rewrites() {
@@ -25,7 +29,7 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         has: [{ type: "host", value: `${projectId}.localhost` }],
-        destination: `https://${projectId}.api.sanity.io/:path*`,
+        destination: "/api/sanity/:path*",
       },
     ];
   },
