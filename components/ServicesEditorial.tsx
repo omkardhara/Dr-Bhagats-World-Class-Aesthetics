@@ -1,46 +1,20 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 
+import {
+  useEditorialMotion,
+  VIEWPORT_BLOCK,
+  VIEWPORT_ITEM,
+} from "@/components/editorialMotion";
 import type { CoreService } from "@/sanity/lib/types";
-
-/** Slow, weighted easing - avoids the springy feel of the default curve. */
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-function useVariants(): { block: Variants; item: Variants } {
-  const reduced = useReducedMotion();
-  const rise = reduced ? 0 : 28;
-
-  return {
-    block: {
-      hidden: { opacity: 0, y: rise },
-      show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: reduced ? 0 : 1.1, ease: EASE },
-      },
-    },
-    item: {
-      hidden: { opacity: 0, y: rise },
-      show: (index: number) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: reduced ? 0 : 0.9,
-          ease: EASE,
-          delay: reduced ? 0 : index * 0.09,
-        },
-      }),
-    },
-  };
-}
 
 export default function ServicesEditorial({
   services,
 }: {
   services: CoreService[];
 }) {
-  const { block, item } = useVariants();
+  const { block, item } = useEditorialMotion();
 
   return (
     <div className="divide-y divide-brand-gray-muted/25">
@@ -50,7 +24,7 @@ export default function ServicesEditorial({
           variants={block}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-96px" }}
+          viewport={VIEWPORT_BLOCK}
           className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32"
         >
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
@@ -77,7 +51,7 @@ export default function ServicesEditorial({
                       variants={item}
                       initial="hidden"
                       whileInView="show"
-                      viewport={{ once: true, margin: "-64px" }}
+                      viewport={VIEWPORT_ITEM}
                       className="border-t border-brand-gray-muted/30 py-10 first:border-t-0 first:pt-0"
                     >
                       <h3 className="text-lg font-light tracking-wide text-brand-black">

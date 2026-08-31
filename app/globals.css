@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
+/* Declared here rather than as `content` globs in the config: those do not
+   match route-group directories like app/(site)/, which silently drops any
+   class used only in those files. */
+@source "../app";
+@source "../components";
+@source "../sanity";
+
 :root {
   --background: #ffffff;
   --foreground: #000000;
