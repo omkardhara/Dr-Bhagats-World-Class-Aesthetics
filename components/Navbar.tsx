@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { BRAND } from "@/lib/site";
@@ -21,11 +22,16 @@ export default function Navbar() {
         aria-label="Primary"
         className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 lg:px-10"
       >
-        {/* Wordmark. Swap for an <Image /> once the horizontal logo asset lands. */}
         <Link href="/" className="flex items-center" aria-label={BRAND.name}>
-          <span className="text-xs font-light uppercase tracking-[0.3em] text-brand-white sm:text-sm">
-            {BRAND.shortName}
-          </span>
+          {/* Light lockup: the navbar is always brand-black. */}
+          <Image
+            src="/brand/logo-horizontal-light.svg"
+            alt={BRAND.name}
+            width={204}
+            height={57}
+            priority
+            className="h-7 w-auto sm:h-8"
+          />
         </Link>
 
         {/* Desktop links */}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { BRAND, formatPhone, LOCATIONS, SOCIALS } from "@/lib/site";
@@ -18,10 +19,14 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-28">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <p className="text-sm font-light uppercase tracking-widest text-brand-cream">
-              {BRAND.name}
-            </p>
-            <p className="mt-6 max-w-xs text-xs font-light leading-loose text-brand-gray-muted">
+            <Image
+              src="/brand/logo-vertical-light.svg"
+              alt={BRAND.name}
+              width={144}
+              height={95}
+              className="h-20 w-auto"
+            />
+            <p className="mt-8 max-w-xs text-xs font-light leading-loose text-brand-gray-muted">
               {BRAND.description}
             </p>
           </div>
