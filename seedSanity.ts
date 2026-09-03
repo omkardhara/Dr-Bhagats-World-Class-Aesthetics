@@ -12,6 +12,8 @@
 import { createClient } from "@sanity/client";
 import { config as loadEnv } from "dotenv";
 
+import { CONCERNS, DOCTORS, TESTIMONIALS } from "./sanity/seed/content";
+
 loadEnv({ path: ".env.local" });
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -39,6 +41,9 @@ const slug = (value: string) =>
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+
+/** A Sanity slug field value. */
+const slugField = (value: string) => ({ _type: "slug" as const, current: slug(value) });
 
 /** A Sanity reference to a machine, keyed for array stability. */
 const machineRef = (name: string) => ({
@@ -295,6 +300,7 @@ async function seed() {
       _id: `machine.${slug(m.name)}`,
       _type: "machine",
       name: m.name,
+      slug: slugField(m.name),
       description: m.description,
     });
   }
@@ -304,6 +310,7 @@ async function seed() {
       _id: `technologyPillar.${slug(p.title)}`,
       _type: "technologyPillar",
       title: p.title,
+      slug: slugField(p.title),
       description: p.description,
       machines: p.machines.map(machineRef),
     });
@@ -315,6 +322,7 @@ async function seed() {
         _id: `treatment.${slug(t.name)}`,
         _type: "treatment",
         name: t.name,
+        slug: slugField(t.name),
         description: t.description,
         machines: t.machines.map(machineRef),
       });
@@ -324,7 +332,44 @@ async function seed() {
       _id: `coreService.${slug(s.title)}`,
       _type: "coreService",
       title: s.title,
+      slug: slugField(s.title),
       treatments: s.treatments.map((t) => treatmentRef(t.name)),
+    });
+  }
+
+  for (const c of CONCERNS) {
+    transaction.createOrReplace({
+      _id: `concern.${slug(c.title)}`,
+      _type: "concern",
+      title: c.title,
+      slug: slugField(c.title),
+      category: c.category,
+      treatments: (c.treatments ?? []).map(treatmentRef),
+    });
+  }
+
+  for (const d of DOCTORS) {
+    transaction.createOrReplace({
+      _id: `doctor.${slug(d.name)}`,
+      _type: "doctor",
+      name: d.name,
+      slug: slugField(d.name),
+      role: d.role,
+      qualifications: d.qualifications,
+      bio: d.bio,
+      order: d.order,
+    });
+  }
+
+  for (const t of TESTIMONIALS) {
+    transaction.createOrReplace({
+      _id: `testimonial.${slug(t.author)}`,
+      _type: "testimonial",
+      author: t.author,
+      quote: t.quote,
+      source: "google",
+      date: t.date,
+      featured: t.featured ?? false,
     });
   }
 
@@ -335,8 +380,9 @@ async function seed() {
 
   console.log(
     `Committing ${MACHINES.length} machines, ${PILLARS.length} pillars, ` +
-      `${treatmentCount} treatments and ${SERVICES.length} core services ` +
-      `to ${projectId}/${dataset}...`
+      `${treatmentCount} treatments, ${SERVICES.length} core services, ` +
+      `${CONCERNS.length} concerns, ${DOCTORS.length} doctors and ` +
+      `${TESTIMONIALS.length} testimonials to ${projectId}/${dataset}...`
   );
 
   await transaction.commit();

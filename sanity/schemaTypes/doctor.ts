@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const machine = defineType({
-  name: "machine",
-  title: "Machine",
+export const doctor = defineType({
+  name: "doctor",
+  title: "Doctor",
   type: "document",
   fields: [
     defineField({
@@ -18,15 +18,17 @@ export const machine = defineType({
       options: { source: "name", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({ name: "role", title: "Role", type: "string" }),
     defineField({
-      name: "description",
-      title: "Description",
-      type: "text",
-      rows: 4,
+      name: "qualifications",
+      title: "Qualifications",
+      type: "array",
+      of: [{ type: "string" }],
     }),
+    defineField({ name: "bio", title: "Biography", type: "text", rows: 6 }),
     defineField({
-      name: "image",
-      title: "Image",
+      name: "portrait",
+      title: "Portrait",
       type: "image",
       options: { hotspot: true },
       fields: [
@@ -38,8 +40,19 @@ export const machine = defineType({
         }),
       ],
     }),
+    defineField({
+      name: "order",
+      title: "Display order",
+      type: "number",
+      initialValue: 0,
+    }),
   ],
-  preview: {
-    select: { title: "name", subtitle: "description" },
-  },
+  orderings: [
+    {
+      title: "Display order",
+      name: "order",
+      by: [{ field: "order", direction: "asc" }],
+    },
+  ],
+  preview: { select: { title: "name", subtitle: "role", media: "portrait" } },
 });

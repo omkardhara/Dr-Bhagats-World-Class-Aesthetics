@@ -23,3 +23,33 @@ export type CoreService = {
   title: string;
   treatments?: Treatment[];
 };
+
+export type ConcernCategory = "skin" | "face" | "hair" | "body";
+
+export type Concern = {
+  _id: string;
+  title: string;
+  slug: string;
+  category: ConcernCategory;
+  summary?: string;
+  description?: string;
+  faqs?: { question: string; answer: string }[];
+  treatments?: (Treatment & { slug?: string })[];
+};
+
+export type Doctor = {
+  _id: string;
+  name: string;
+  slug: string;
+  role?: string;
+  qualifications?: string[];
+  bio?: string;
+};
+
+export type Testimonial = {
+  _id: string;
+  author: string;
+  quote: string;
+  date?: string;
+  source?: string;
+};

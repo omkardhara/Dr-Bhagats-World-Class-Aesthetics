@@ -6,8 +6,9 @@ import { BRAND } from "@/lib/site";
 import { useState } from "react";
 
 const NAV_LINKS = [
-  { label: "Technology", href: "/technology" },
+  { label: "Concerns", href: "/concerns" },
   { label: "Services", href: "/services" },
+  { label: "Technology", href: "/technology" },
   { label: "About", href: "/about" },
 ];
 

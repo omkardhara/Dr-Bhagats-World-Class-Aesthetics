@@ -12,10 +12,31 @@ export const coreService = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "treatments",
       title: "Treatments",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: [{ type: "treatment" }] })],
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description: "Describe the image for screen readers.",
+        }),
+      ],
     }),
   ],
   preview: {

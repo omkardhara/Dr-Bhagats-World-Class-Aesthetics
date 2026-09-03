@@ -12,6 +12,13 @@ export const technologyPillar = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "text",
@@ -22,6 +29,20 @@ export const technologyPillar = defineType({
       title: "Machines",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: [{ type: "machine" }] })],
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description: "Describe the image for screen readers.",
+        }),
+      ],
     }),
   ],
   preview: {

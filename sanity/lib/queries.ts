@@ -21,3 +21,46 @@ export const coreServicesQuery = defineQuery(`
     }
   }
 `);
+
+export const concernsQuery = defineQuery(`
+  *[_type == "concern"] | order(category asc, title asc) {
+    _id, title, category, summary,
+    "slug": slug.current
+  }
+`);
+
+export const concernBySlugQuery = defineQuery(`
+  *[_type == "concern" && slug.current == $slug][0] {
+    _id, title, category, summary, description,
+    "slug": slug.current,
+    faqs[]{ question, answer },
+    "treatments": treatments[]->{
+      _id, name, description,
+      "slug": slug.current,
+      "machines": machines[]->{ _id, name }
+    }
+  }
+`);
+
+export const concernSlugsQuery = defineQuery(`
+  *[_type == "concern" && defined(slug.current)].slug.current
+`);
+
+export const doctorsQuery = defineQuery(`
+  *[_type == "doctor"] | order(order asc) {
+    _id, name, role, qualifications, bio,
+    "slug": slug.current
+  }
+`);
+
+export const featuredTestimonialsQuery = defineQuery(`
+  *[_type == "testimonial" && featured == true] | order(date desc) {
+    _id, author, quote, date, source
+  }
+`);
+
+export const testimonialsQuery = defineQuery(`
+  *[_type == "testimonial"] | order(date desc) {
+    _id, author, quote, date, source
+  }
+`);

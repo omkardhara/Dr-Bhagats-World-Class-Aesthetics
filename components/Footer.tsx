@@ -3,9 +3,11 @@ import Link from "next/link";
 import { BRAND, formatPhone, LOCATIONS, SOCIALS } from "@/lib/site";
 
 const NAV = [
+  { label: "Concerns", href: "/concerns" },
   { label: "Technology", href: "/technology" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
   { label: "Book Consultation", href: "/book" },
 ];
 
