@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+
+import { BRAND } from "@/lib/site";
 import { useState } from "react";
 
 const NAV_LINKS = [
@@ -18,11 +20,11 @@ export default function Navbar() {
         aria-label="Primary"
         className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 lg:px-10"
       >
-        {/* Horizontal brand logo placeholder — swap for an <Image /> when the asset lands. */}
-        <Link href="/" className="flex items-center" aria-label="Home">
-          <div className="flex h-8 w-40 items-center justify-center border border-brand-gray-muted/40 text-xs uppercase tracking-[0.3em] text-brand-white sm:w-48">
-            Logo
-          </div>
+        {/* Wordmark. Swap for an <Image /> once the horizontal logo asset lands. */}
+        <Link href="/" className="flex items-center" aria-label={BRAND.name}>
+          <span className="text-xs font-light uppercase tracking-[0.3em] text-brand-white sm:text-sm">
+            {BRAND.shortName}
+          </span>
         </Link>
 
         {/* Desktop links */}

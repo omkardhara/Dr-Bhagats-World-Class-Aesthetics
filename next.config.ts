@@ -22,6 +22,23 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const devProxyOrigin = process.env.NEXT_PUBLIC_SANITY_DEV_PROXY_ORIGIN;
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    // The .vercel.app domain stays publicly reachable after a custom domain is
+    // attached, so it competes with the canonical host in the index. Send it
+    // (and any other non-canonical host) to the real domain.
+    const canonical = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!canonical) return [];
+
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "(?<vercelHost>.*\.vercel\.app)" }],
+        destination: `${canonical}/:path*`,
+        permanent: true,
+      },
+    ];
+  },
+
   async rewrites() {
     if (!projectId || !devProxyOrigin) return [];
 
