@@ -21,7 +21,7 @@ export type Treatment = {
 export type CoreService = {
   _id: string;
   title: string;
-  treatments?: Treatment[];
+  treatments?: (Treatment & { slug?: string })[];
 };
 
 export type ConcernCategory = "skin" | "face" | "hair" | "body";
@@ -52,4 +52,10 @@ export type Testimonial = {
   quote: string;
   date?: string;
   source?: string;
+};
+
+export type TreatmentDetail = Treatment & {
+  slug: string;
+  service?: { _id: string; title: string; slug: string } | null;
+  concerns?: { _id: string; title: string; category: ConcernCategory; slug: string }[];
 };

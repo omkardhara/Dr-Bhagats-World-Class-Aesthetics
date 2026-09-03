@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 import {
   useEditorialMotion,
@@ -55,7 +56,16 @@ export default function ServicesEditorial({
                       className="border-t border-brand-gray-muted/30 py-10 first:border-t-0 first:pt-0"
                     >
                       <h3 className="text-lg font-light tracking-wide text-brand-black">
-                        {treatment.name}
+                        {treatment.slug ? (
+                          <Link
+                            href={`/services/${treatment.slug}`}
+                            className="transition-colors hover:text-brand-champagne-dark"
+                          >
+                            {treatment.name}
+                          </Link>
+                        ) : (
+                          treatment.name
+                        )}
                       </h3>
 
                       {treatment.description ? (

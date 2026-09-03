@@ -2,7 +2,10 @@ import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
-import { concernSlugsQuery } from "@/sanity/lib/queries";
+import {
+  concernSlugsQuery,
+  treatmentSlugsQuery,
+} from "@/sanity/lib/queries";
 
 const STATIC_ROUTES = [
   { path: "/", priority: 1 },
@@ -12,6 +15,7 @@ const STATIC_ROUTES = [
   { path: "/technology", priority: 0.8 },
   { path: "/contact", priority: 0.8 },
   { path: "/about", priority: 0.7 },
+  { path: "/testimonials", priority: 0.6 },
 ] as const;
 
 export const revalidate = 3600;
@@ -29,10 +33,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   let concernSlugs: string[] = [];
+  let treatmentSlugs: string[] = [];
   try {
-    concernSlugs = await getClient().fetch<string[]>(concernSlugsQuery);
+    const client = getClient();
+    [concernSlugs, treatmentSlugs] = await Promise.all([
+      client.fetch<string[]>(concernSlugsQuery),
+      client.fetch<string[]>(treatmentSlugsQuery),
+    ]);
   } catch (error) {
-    // A sitemap missing the concern pages is better than a failed build.
+    // A sitemap missing content pages is better than a failed build.
     console.error("[sitemap] Sanity fetch failed:", error);
   }
 
@@ -40,6 +49,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...concernSlugs.map((slug) => ({
       url: `${SITE_URL}/concerns/${slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...treatmentSlugs.map((slug) => ({
+      url: `${SITE_URL}/services/${slug}`,
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.7,

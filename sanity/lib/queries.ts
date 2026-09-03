@@ -17,6 +17,7 @@ export const coreServicesQuery = defineQuery(`
       _id,
       name,
       description,
+      "slug": slug.current,
       "machines": machines[]->{ _id, name }
     }
   }
@@ -63,4 +64,22 @@ export const testimonialsQuery = defineQuery(`
   *[_type == "testimonial"] | order(date desc) {
     _id, author, quote, date, source
   }
+`);
+
+export const treatmentBySlugQuery = defineQuery(`
+  *[_type == "treatment" && slug.current == $slug][0] {
+    _id, name, description,
+    "slug": slug.current,
+    "machines": machines[]->{ _id, name, description, "slug": slug.current },
+    "service": *[_type == "coreService" && references(^._id)][0]{
+      _id, title, "slug": slug.current
+    },
+    "concerns": *[_type == "concern" && references(^._id)] | order(title asc) {
+      _id, title, category, "slug": slug.current
+    }
+  }
+`);
+
+export const treatmentSlugsQuery = defineQuery(`
+  *[_type == "treatment" && defined(slug.current)].slug.current
 `);

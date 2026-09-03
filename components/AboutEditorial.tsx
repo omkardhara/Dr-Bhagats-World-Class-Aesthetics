@@ -6,96 +6,100 @@ import {
   useEditorialMotion,
   VIEWPORT_ITEM,
 } from "@/components/editorialMotion";
+import type { Doctor } from "@/sanity/lib/types";
 
 /**
- * PLACEHOLDER CONTENT.
- *
- * Every entry below is scaffolding. This is a real medical practice, so the
- * history, dates and claims must come from the clinic - none of it is invented
- * here beyond obviously neutral phrasing. Replace before publishing.
+ * PLACEHOLDER: the practice narrative is scaffolding. This is a real medical
+ * practice, so its history and claims must come from the clinic. Doctor
+ * records are real and edited in the Studio.
  */
-type Entry =
-  | { kind: "prose"; era: string; body: string[] }
-  | { kind: "image"; caption: string };
-
-const ENTRIES: Entry[] = [
+const NARRATIVE = [
   {
-    kind: "prose",
-    era: "The beginning",
+    era: "The practice",
     body: [
-      "Placeholder. Describe how the practice started, and what it set out to do differently.",
-      "A second paragraph for the founding intent, in the clinic's own words.",
+      "Placeholder. Describe the practice as it stands today: who it treats, and the standard it holds itself to.",
     ],
   },
-  { kind: "image", caption: "Portrait — placeholder" },
   {
-    kind: "prose",
-    era: "The practice today",
-    body: [
-      "Placeholder. Describe the practice as it stands: who it treats, and the standard it holds itself to.",
-    ],
-  },
-  { kind: "image", caption: "Interior — placeholder" },
-  {
-    kind: "prose",
     era: "The standard",
     body: [
       "Placeholder. Describe how technology is selected, and why devices are retired.",
-      "A closing paragraph on the result the practice is aiming for.",
     ],
   },
 ];
 
-export default function AboutEditorial() {
+export default function AboutEditorial({ doctors }: { doctors: Doctor[] }) {
   const { item } = useEditorialMotion();
 
   return (
     <div className="flex flex-col gap-32 lg:gap-40">
-      {ENTRIES.map((entry, index) =>
-        entry.kind === "image" ? (
-          <motion.figure
-            key={`image-${index}`}
-            custom={0}
-            variants={item}
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT_ITEM}
-          >
-            {/* Structural placeholder — swap for the clinic's photography. */}
-            <div
-              role="img"
-              aria-label={entry.caption}
-              className="aspect-[3/4] w-full bg-brand-gray-dark"
-            />
-            <figcaption className="mt-6 text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">
-              {entry.caption}
-            </figcaption>
-          </motion.figure>
-        ) : (
-          <motion.section
-            key={`prose-${index}`}
-            custom={0}
-            variants={item}
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT_ITEM}
-          >
-            <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
-              {entry.era}
-            </h2>
-            <div className="mt-10 flex flex-col gap-8">
-              {entry.body.map((paragraph, paragraphIndex) => (
-                <p
-                  key={paragraphIndex}
-                  className="max-w-xl text-base font-light leading-loose text-brand-cream/80"
+      {doctors.map((doctor) => (
+        <motion.section
+          key={doctor._id}
+          custom={0}
+          variants={item}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT_ITEM}
+        >
+          {/* Structural placeholder — swap for the doctor's portrait. */}
+          <div
+            role="img"
+            aria-label={`Portrait of ${doctor.name} — placeholder`}
+            className="aspect-[3/4] w-full bg-brand-gray-dark"
+          />
+          <h2 className="mt-10 text-2xl font-light tracking-wide text-brand-cream">
+            {doctor.name}
+          </h2>
+          {doctor.role ? (
+            <p className="mt-4 text-[0.65rem] uppercase tracking-widest text-brand-champagne">
+              {doctor.role}
+            </p>
+          ) : null}
+          {doctor.bio ? (
+            <p className="mt-8 max-w-xl text-base font-light leading-loose text-brand-cream/80">
+              {doctor.bio}
+            </p>
+          ) : null}
+          {doctor.qualifications && doctor.qualifications.length > 0 ? (
+            <ul className="mt-10">
+              {doctor.qualifications.map((qualification) => (
+                <li
+                  key={qualification}
+                  className="border-t border-brand-gray-muted/30 py-4 text-xs font-light leading-loose text-brand-gray-muted"
                 >
-                  {paragraph}
-                </p>
+                  {qualification}
+                </li>
               ))}
-            </div>
-          </motion.section>
-        )
-      )}
+            </ul>
+          ) : null}
+        </motion.section>
+      ))}
+
+      {NARRATIVE.map((entry) => (
+        <motion.section
+          key={entry.era}
+          custom={0}
+          variants={item}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT_ITEM}
+        >
+          <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
+            {entry.era}
+          </h2>
+          <div className="mt-10 flex flex-col gap-8">
+            {entry.body.map((paragraph, index) => (
+              <p
+                key={index}
+                className="max-w-xl text-base font-light leading-loose text-brand-cream/80"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </motion.section>
+      ))}
     </div>
   );
 }

@@ -124,7 +124,16 @@ export default async function ConcernPage({
                     className="border-t border-brand-gray-muted/30 py-10"
                   >
                     <h3 className="text-lg font-light tracking-wide text-brand-black">
-                      {treatment.name}
+                      {treatment.slug ? (
+                        <Link
+                          href={`/services/${treatment.slug}`}
+                          className="transition-colors hover:text-brand-champagne-dark"
+                        >
+                          {treatment.name}
+                        </Link>
+                      ) : (
+                        treatment.name
+                      )}
                     </h3>
                     {treatment.description ? (
                       <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
