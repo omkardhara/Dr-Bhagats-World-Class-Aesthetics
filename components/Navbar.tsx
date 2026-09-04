@@ -39,7 +39,11 @@ export default function Navbar() {
         aria-label="Primary"
         className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 lg:px-10"
       >
-        <Link href="/" className="flex items-center" aria-label={BRAND.name}>
+        <Link
+          href="/"
+          className="-ml-2 flex min-h-11 items-center px-2"
+          aria-label={BRAND.name}
+        >
           {/* Light lockup: the navbar is always brand-black. */}
           <Image
             src="/brand/logo-horizontal-light.svg"
@@ -68,9 +72,12 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             href="/book"
-            className="hidden rounded-full bg-champagne-gradient-deep px-6 py-3 text-xs font-medium uppercase tracking-[0.15em] text-brand-white transition-opacity hover:opacity-90 md:inline-block"
+            aria-label="Book Consultation"
+            className="flex min-h-11 items-center rounded-full bg-champagne-gradient-deep px-5 text-[0.7rem] font-medium uppercase tracking-[0.15em] text-brand-white transition-opacity hover:opacity-90 md:px-6 md:text-xs"
           >
-            Book Consultation
+            {/* Full label once there is room for it. */}
+            <span className="md:hidden">Book</span>
+            <span className="hidden md:inline">Book Consultation</span>
           </Link>
 
           {/* Mobile toggle */}
@@ -80,7 +87,7 @@ export default function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label="Toggle navigation"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+            className="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
           >
             <span className="block h-px w-6 bg-brand-white" />
             <span className="block h-px w-6 bg-brand-white" />
@@ -101,19 +108,21 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block py-3 text-sm uppercase tracking-[0.15em] text-brand-gray-light hover:text-brand-champagne-light"
+                className="block py-4 text-sm uppercase tracking-[0.15em] text-brand-gray-light hover:text-brand-champagne-light"
               >
                 {link.label}
               </Link>
             </li>
           ))}
+          {/* No booking link here: the CTA is now always visible in the bar,
+              so repeating it inside the panel is redundant. */}
           <li className="pt-2 pb-2">
             <Link
-              href="/book"
+              href="/contact"
               onClick={() => setOpen(false)}
-              className="block rounded-full bg-champagne-gradient-deep px-6 py-3 text-center text-xs font-medium uppercase tracking-[0.15em] text-brand-white"
+              className="block py-4 text-sm uppercase tracking-[0.15em] text-brand-gray-light hover:text-brand-champagne-light"
             >
-              Book Consultation
+              Contact
             </Link>
           </li>
         </ul>
