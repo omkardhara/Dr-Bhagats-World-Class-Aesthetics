@@ -96,10 +96,12 @@ export default async function ConcernPage({
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
+      <div className="pt-24 lg:pt-32">
         <EditorialImage
           fallback={stockForCategory(concern.category)}
           sanity={imageProps(concern.image)}
+          fullBleed
+          ratio="21/9"
         />
       </div>
 

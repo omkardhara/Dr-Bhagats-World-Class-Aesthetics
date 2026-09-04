@@ -91,9 +91,7 @@ export default async function Home() {
 
       <Stats />
 
-      <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-        <EditorialImage fallback={STOCK.clinicalRoom} />
-      </div>
+      <EditorialImage fallback={STOCK.consultRoom} fullBleed ratio="21/9" />
 
       <ServicesPreview services={services} />
       <Testimonials items={testimonials} />

@@ -30,7 +30,7 @@ export default async function TechnologyPage() {
     <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
-          <p className="text-xs font-light uppercase tracking-widest text-brand-champagne-light">
+          <p className="text-xs font-normal uppercase tracking-widest text-brand-champagne-light">
             Technology
           </p>
           <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">

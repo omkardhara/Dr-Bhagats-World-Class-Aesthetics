@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { BRAND } from "@/lib/site";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { label: "Concerns", href: "/concerns" },
@@ -15,9 +15,26 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  /**
+   * Transparent over the hero, solid once the page moves - the pattern every
+   * luxury hotel site measured uses. It lets the hero image run to the top of
+   * the viewport instead of being cropped by a bar.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-brand-black">
+    <header
+      className={`fixed top-0 z-50 w-full transition-colors duration-500 ${
+        scrolled || open ? "bg-brand-black" : "bg-transparent"
+      }`}
+    >
       <nav
         aria-label="Primary"
         className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 lg:px-10"

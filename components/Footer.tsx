@@ -49,7 +49,7 @@ export default function Footer() {
               {location.phone ? (
                 <a
                   href={`tel:${location.phone}`}
-                  className="mt-4 inline-block text-xs font-light text-brand-cream transition-colors hover:text-brand-champagne-light"
+                  className="mt-4 inline-block text-xs font-normal text-brand-cream transition-colors hover:text-brand-champagne-light"
                 >
                   {formatPhone(location.phone)}
                 </a>
@@ -66,7 +66,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-xs font-light text-brand-gray-muted transition-colors hover:text-brand-cream"
+                    className="text-xs font-normal text-brand-gray-muted transition-colors hover:text-brand-cream"
                   >
                     {link.label}
                   </Link>

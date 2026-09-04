@@ -76,10 +76,12 @@ export default async function TreatmentPage({
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
+      <div className="pt-24 lg:pt-32">
         <EditorialImage
           fallback={stockForSlug(treatment.slug)}
           sanity={imageProps(treatment.image)}
+          fullBleed
+          ratio="21/9"
         />
       </div>
 
@@ -129,7 +131,7 @@ export default async function TreatmentPage({
                     <li key={concern._id}>
                       <Link
                         href={`/concerns/${concern.slug}`}
-                        className="border-b border-brand-champagne-light pb-1 text-xs font-light text-brand-champagne-dark transition-colors hover:text-brand-black"
+                        className="border-b border-brand-champagne-light pb-1 text-xs font-normal text-brand-champagne-dark transition-colors hover:text-brand-black"
                       >
                         {concern.title}
                       </Link>
