@@ -26,7 +26,7 @@ export default function Footer() {
               height={95}
               className="h-20 w-auto"
             />
-            <p className="mt-8 max-w-xs text-xs font-light leading-loose text-brand-gray-muted">
+            <p className="mt-8 max-w-xs text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted">
               {BRAND.description}
             </p>
           </div>
@@ -39,7 +39,7 @@ export default function Footer() {
               <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
                 {location.name}
               </p>
-              <p className="mt-6 text-xs font-light leading-loose text-brand-gray-muted">
+              <p className="mt-6 text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted">
                 {location.streetAddress}
                 <br />
                 {location.locality}

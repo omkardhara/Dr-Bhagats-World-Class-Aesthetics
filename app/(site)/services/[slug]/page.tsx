@@ -55,7 +55,7 @@ export default async function TreatmentPage({
   if (!treatment) notFound();
 
   return (
-    <main className="flex-1 bg-brand-white">
+    <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
           <Link
@@ -64,11 +64,11 @@ export default async function TreatmentPage({
           >
             {treatment.service?.title ?? "Services"}
           </Link>
-          <h1 className="mt-10 max-w-3xl text-4xl font-light leading-tight tracking-tight text-brand-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             {treatment.name}
           </h1>
           {treatment.description ? (
-            <p className="mt-8 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+            <p className="mt-8 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
               {treatment.description}
             </p>
           ) : null}
@@ -87,7 +87,7 @@ export default async function TreatmentPage({
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
           <header className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
-              <h2 className="text-2xl font-light uppercase tracking-widest text-brand-black lg:text-3xl">
+              <h2 className="text-2xl font-normal uppercase tracking-widest text-brand-black lg:text-3xl">
                 Platforms
               </h2>
               <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
@@ -106,7 +106,7 @@ export default async function TreatmentPage({
                       {machine.name}
                     </h3>
                     {machine.description ? (
-                      <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
+                      <p className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                         {machine.description}
                       </p>
                     ) : null}
@@ -114,7 +114,7 @@ export default async function TreatmentPage({
                 ))}
               </ul>
             ) : (
-              <p className="text-sm font-light leading-loose text-brand-gray-text">
+              <p className="text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                 This treatment is delivered without a device platform.
               </p>
             )}

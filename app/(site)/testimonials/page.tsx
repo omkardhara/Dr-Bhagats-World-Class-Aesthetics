@@ -23,13 +23,13 @@ export default async function TestimonialsPage() {
   const testimonials = await getTestimonials();
 
   return (
-    <main className="flex-1 bg-brand-white">
+    <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
           <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
             Patient stories
           </p>
-          <h1 className="mt-10 max-w-3xl text-4xl font-light leading-tight tracking-tight text-brand-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             In their words.
           </h1>
           <span className="mt-16 block h-px w-full bg-champagne-gradient" />
@@ -38,7 +38,7 @@ export default async function TestimonialsPage() {
 
       <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
         {testimonials.length === 0 ? (
-          <p className="text-sm font-light text-brand-gray-text">
+          <p className="text-[0.95rem] font-normal text-brand-gray-text">
             No patient stories published yet.
           </p>
         ) : (
@@ -48,7 +48,7 @@ export default async function TestimonialsPage() {
                 key={testimonial._id}
                 className="border-t border-brand-gray-muted/30 pt-10"
               >
-                <blockquote className="text-base font-light leading-loose text-brand-gray-text">
+                <blockquote className="text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text">
                   {testimonial.quote}
                 </blockquote>
                 <p className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">

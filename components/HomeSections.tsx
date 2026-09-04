@@ -30,7 +30,7 @@ export function Stats() {
       initial="hidden"
       whileInView="show"
       viewport={VIEWPORT_BLOCK}
-      className="border-t border-brand-gray-muted/25 bg-brand-white"
+      className="border-t border-brand-gray-muted/25 bg-brand-bone"
     >
       <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-12 px-6 py-24 lg:grid-cols-4 lg:px-10 lg:py-32">
         {STATS.map((stat, index) => (
@@ -42,7 +42,7 @@ export function Stats() {
             whileInView="show"
             viewport={VIEWPORT_ITEM}
           >
-            <p className="text-3xl font-thin tracking-tight text-brand-black lg:text-4xl">
+            <p className="text-3xl font-normal tracking-normal text-brand-black lg:text-4xl">
               {stat.value}
             </p>
             <p className="mt-4 text-[0.65rem] uppercase tracking-widest text-brand-gray-text">
@@ -66,7 +66,7 @@ export function ServicesPreview({ services }: { services: CoreService[] }) {
       initial="hidden"
       whileInView="show"
       viewport={VIEWPORT_BLOCK}
-      className="border-t border-brand-gray-muted/25 bg-brand-white"
+      className="border-t border-brand-gray-muted/25 bg-brand-bone"
     >
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
@@ -74,7 +74,7 @@ export function ServicesPreview({ services }: { services: CoreService[] }) {
             <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
               What we do
             </p>
-            <h2 className="mt-8 text-2xl font-light uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
+            <h2 className="mt-8 text-2xl font-normal uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
               Core Services
             </h2>
             <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
@@ -91,11 +91,11 @@ export function ServicesPreview({ services }: { services: CoreService[] }) {
                 viewport={VIEWPORT_ITEM}
                 className="border-t border-brand-gray-muted/30 py-10 first:border-t-0 first:pt-0"
               >
-                <h3 className="text-lg font-light tracking-wide text-brand-black">
+                <h3 className="text-lg font-normal tracking-wide text-brand-black">
                   {service.title}
                 </h3>
                 {service.treatments && service.treatments.length > 0 ? (
-                  <p className="mt-4 text-sm font-light leading-loose text-brand-gray-text">
+                  <p className="mt-4 text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                     {service.treatments.map((t) => t.name).join(" · ")}
                   </p>
                 ) : null}
@@ -143,7 +143,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
               whileInView="show"
               viewport={VIEWPORT_ITEM}
             >
-              <blockquote className="text-sm font-light leading-loose text-brand-cream/80">
+              <blockquote className="text-[0.95rem] font-normal leading-[1.75] text-brand-cream/80">
                 {testimonial.quote}
               </blockquote>
               <figcaption className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">

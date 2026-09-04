@@ -25,16 +25,16 @@ export default async function ServicesPage() {
   const services = await getServices();
 
   return (
-    <main className="flex-1 bg-brand-white">
+    <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
           <p className="text-xs font-light uppercase tracking-widest text-brand-champagne-light">
             Services
           </p>
-          <h1 className="mt-10 max-w-3xl text-4xl font-light leading-tight tracking-tight text-brand-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             Considered treatment, not a menu.
           </h1>
-          <p className="mt-8 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+          <p className="mt-8 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
             Every protocol begins with a diagnosis, then the platform best
             suited to deliver it.
           </p>
@@ -44,7 +44,7 @@ export default async function ServicesPage() {
 
       {services.length === 0 ? (
         <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
-          <p className="text-sm font-light text-brand-gray-text">
+          <p className="text-[0.95rem] font-normal text-brand-gray-text">
             No services published yet. Add them in the{" "}
             <Link className="text-brand-champagne-dark underline" href="/studio">
               Studio

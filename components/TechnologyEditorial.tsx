@@ -33,7 +33,7 @@ export default function TechnologyEditorial({
                 <span className="block text-xs font-light tracking-widest text-brand-champagne-dark">
                   {String(pillarIndex + 1).padStart(2, "0")}
                 </span>
-                <h2 className="mt-8 text-2xl font-light uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
+                <h2 className="mt-8 text-2xl font-normal uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
                   {pillar.title}
                 </h2>
                 <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
@@ -48,7 +48,7 @@ export default function TechnologyEditorial({
                   initial="hidden"
                   whileInView="show"
                   viewport={VIEWPORT_ITEM}
-                  className="max-w-xl text-base font-light leading-loose text-brand-gray-text"
+                  className="max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text"
                 >
                   {pillar.description}
                 </motion.p>
@@ -70,7 +70,7 @@ export default function TechnologyEditorial({
                         {machine.name}
                       </h3>
                       {machine.description ? (
-                        <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
+                        <p className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                           {machine.description}
                         </p>
                       ) : null}

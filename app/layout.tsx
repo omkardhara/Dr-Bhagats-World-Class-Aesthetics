@@ -54,7 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-IN"
       className={`${neueHaasFallback.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-brand-white font-sans text-brand-black">
+      <body className="flex min-h-full flex-col bg-brand-bone font-sans text-brand-black">
         <StructuredData />
         {children}
         {/* Cookieless, so no consent banner is required for these two. */}

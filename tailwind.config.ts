@@ -22,7 +22,11 @@ const config: Config = {
           // white, below WCAG AA; this is the same hue darkened to 4.54:1.
           // gray-muted stays as specified and is still used on dark grounds,
           // where it measures 7.54:1.
-          "gray-text": "#7B7571",
+          "gray-text": "#77716D",
+          // Warm page ground. Premium peers (Aman #F3EEE7, Rosewood #FAFBF5)
+          // avoid stark white; this is the same move at low intensity, and
+          // keeps brand-gray-text above AA at 4.50:1.
+          bone: "#FAF7F3",
           "champagne-dark": "#7F6753",
           champagne: "#A08E7C",
           "champagne-light": "#C7B8AA",

@@ -57,7 +57,7 @@ export default async function ConcernPage({
   const faqs = concern.faqs ?? [];
 
   return (
-    <main className="flex-1 bg-brand-white">
+    <main className="flex-1 bg-brand-bone">
       {faqs.length > 0 ? (
         <script
           type="application/ld+json"
@@ -84,11 +84,11 @@ export default async function ConcernPage({
           >
             {concern.category} concerns
           </Link>
-          <h1 className="mt-10 max-w-3xl text-4xl font-light leading-tight tracking-tight text-brand-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             {concern.title}
           </h1>
           {concern.summary ? (
-            <p className="mt-8 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+            <p className="mt-8 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
               {concern.summary}
             </p>
           ) : null}
@@ -107,7 +107,7 @@ export default async function ConcernPage({
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
           <header className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
-              <h2 className="text-2xl font-light uppercase tracking-widest text-brand-black lg:text-3xl">
+              <h2 className="text-2xl font-normal uppercase tracking-widest text-brand-black lg:text-3xl">
                 How we treat it
               </h2>
               <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
@@ -116,11 +116,11 @@ export default async function ConcernPage({
 
           <div className="lg:col-span-7 lg:col-start-6">
             {concern.description ? (
-              <p className="max-w-xl text-base font-light leading-loose text-brand-gray-text">
+              <p className="max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text">
                 {concern.description}
               </p>
             ) : (
-              <p className="max-w-xl text-base font-light leading-loose text-brand-gray-text">
+              <p className="max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text">
                 {/* PLACEHOLDER: needs clinical copy per concern. */}
                 Clinical detail for this concern has not been written yet.
               </p>
@@ -133,7 +133,7 @@ export default async function ConcernPage({
                     key={treatment._id}
                     className="border-t border-brand-gray-muted/30 py-10"
                   >
-                    <h3 className="text-lg font-light tracking-wide text-brand-black">
+                    <h3 className="text-lg font-normal tracking-wide text-brand-black">
                       {treatment.slug ? (
                         <Link
                           href={`/services/${treatment.slug}`}
@@ -146,7 +146,7 @@ export default async function ConcernPage({
                       )}
                     </h3>
                     {treatment.description ? (
-                      <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
+                      <p className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                         {treatment.description}
                       </p>
                     ) : null}
@@ -178,10 +178,10 @@ export default async function ConcernPage({
                       key={faq.question}
                       className="border-t border-brand-gray-muted/30 py-8"
                     >
-                      <dt className="text-base font-light text-brand-black">
+                      <dt className="text-[1.05rem] font-normal text-brand-black">
                         {faq.question}
                       </dt>
-                      <dd className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
+                      <dd className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                         {faq.answer}
                       </dd>
                     </div>

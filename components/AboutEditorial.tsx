@@ -75,7 +75,7 @@ export default function AboutEditorial({
               </span>
             </div>
           )}
-          <h2 className="mt-10 text-2xl font-light tracking-wide text-brand-cream">
+          <h2 className="mt-10 text-2xl font-normal tracking-wide text-brand-cream">
             {doctor.name}
           </h2>
           {doctor.role ? (
@@ -84,7 +84,7 @@ export default function AboutEditorial({
             </p>
           ) : null}
           {doctor.bio ? (
-            <p className="mt-8 max-w-xl text-base font-light leading-loose text-brand-cream/80">
+            <p className="mt-8 max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-cream/80">
               {doctor.bio}
             </p>
           ) : null}
@@ -93,7 +93,7 @@ export default function AboutEditorial({
               {doctor.qualifications.map((qualification) => (
                 <li
                   key={qualification}
-                  className="border-t border-brand-gray-muted/30 py-4 text-xs font-light leading-loose text-brand-gray-muted"
+                  className="border-t border-brand-gray-muted/30 py-4 text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted"
                 >
                   {qualification}
                 </li>
@@ -119,7 +119,7 @@ export default function AboutEditorial({
             {entry.body.map((paragraph, index) => (
               <p
                 key={index}
-                className="max-w-xl text-base font-light leading-loose text-brand-cream/80"
+                className="max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-cream/80"
               >
                 {paragraph}
               </p>

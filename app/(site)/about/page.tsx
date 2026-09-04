@@ -44,7 +44,7 @@ export default async function AboutPage() {
               <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
                 About
               </p>
-              <h1 className="mt-10 text-4xl font-thin leading-[1.15] tracking-tight text-brand-cream sm:text-5xl lg:text-6xl">
+              <h1 className="mt-10 text-4xl font-normal leading-[1.15] tracking-[0.01em] text-brand-cream sm:text-5xl lg:text-6xl">
                 Dr. Bhagat&apos;s Philosophy
               </h1>
               <span className="mt-12 block h-px w-16 bg-champagne-gradient" />

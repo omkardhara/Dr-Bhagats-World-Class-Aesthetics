@@ -43,7 +43,7 @@ const LABEL_FLOATED =
   "top-0 text-[0.65rem] uppercase tracking-widest text-brand-champagne";
 
 const INPUT_CLASSES =
-  "w-full border-b border-brand-gray-muted bg-transparent pb-3 pt-8 text-base font-light text-brand-cream outline-none transition-colors duration-300 focus:border-brand-champagne";
+  "w-full border-b border-brand-gray-muted bg-transparent pb-3 pt-8 text-[1.05rem] font-normal text-brand-cream outline-none transition-colors duration-300 focus:border-brand-champagne";
 
 function FloatingField({ field }: { field: FieldDef }) {
   const [value, setValue] = useState("");
@@ -99,10 +99,10 @@ export default function BookForm() {
       <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
         Consultation
       </p>
-      <h1 className="mt-8 text-4xl font-thin leading-[1.15] tracking-tight text-brand-cream sm:text-5xl">
+      <h1 className="mt-8 text-4xl font-normal leading-[1.15] tracking-[0.01em] text-brand-cream sm:text-5xl">
         Book a consultation.
       </h1>
-      <p className="mt-8 max-w-md text-sm font-light leading-loose text-brand-gray-muted">
+      <p className="mt-8 max-w-md text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
         Tell us what you would like to address, and we will come back to you to
         arrange a time.
       </p>
@@ -130,7 +130,7 @@ export default function BookForm() {
 
           <p
             aria-live="polite"
-            className="text-xs font-light leading-loose text-brand-gray-muted"
+            className="text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted"
           >
             {notice
               ? "This form is not connected to a booking system yet, so nothing was sent. Please contact the clinic directly in the meantime."

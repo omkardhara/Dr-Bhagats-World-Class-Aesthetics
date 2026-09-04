@@ -9,7 +9,10 @@
 @source "../sanity";
 
 :root {
-  --background: #ffffff;
+  /* Warm ground, matching brand-bone. This rule is unlayered, so it wins
+     over Tailwind's layered utilities - the utility class on <body> alone
+     would not take effect. */
+  --background: #faf7f3;
   --foreground: #000000;
 }
 

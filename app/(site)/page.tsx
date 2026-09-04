@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -35,17 +36,38 @@ export default async function Home() {
   const { services, testimonials } = await getHomeContent();
 
   return (
-    <main className="flex-1 bg-brand-white">
-      <section className="bg-brand-black">
-        <div className="mx-auto w-full max-w-7xl px-6 py-32 lg:px-10 lg:py-48">
+    <main className="flex-1 bg-brand-bone">
+      {/* Full-bleed hero. Every premium peer measured (Aman, Rosewood,
+          Lanserhof, Augustinus Bader) leads with photography rather than a
+          flat colour field; the scrim keeps the headline above AA over it. */}
+      <section className="relative isolate flex min-h-[88vh] items-end overflow-hidden bg-brand-black">
+        <Image
+          src={STOCK.texturePlaster.src}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {/* Two-part scrim: vertical for depth, horizontal to protect the
+            headline on the left while the texture stays legible on the right. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-t from-brand-black/95 via-brand-black/55 to-brand-black/35"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-r from-brand-black/85 via-brand-black/40 to-transparent"
+        />
+
+        <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 pt-40 lg:px-10 lg:pb-32 lg:pt-56">
           <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
             Mumbai &amp; Navi Mumbai
           </p>
-          <h1 className="mt-10 max-w-4xl text-4xl font-thin leading-[1.15] tracking-tight text-brand-cream sm:text-5xl lg:text-7xl">
+          <h1 className="mt-10 max-w-4xl text-4xl font-normal leading-[1.1] tracking-[0.01em] text-brand-cream sm:text-5xl lg:text-7xl">
             {BRAND.name}
           </h1>
-          <p className="mt-10 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
-            {/* PLACEHOLDER: replace with the practice's own positioning line. */}
+          <p className="mt-10 max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-cream/85">
             Medical aesthetics, dermatology and laser treatment, led by
             consultant dermatologists.
           </p>

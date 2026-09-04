@@ -10,16 +10,16 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="flex-1 bg-brand-white">
+    <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
           <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
             Contact
           </p>
-          <h1 className="mt-10 max-w-3xl text-4xl font-light leading-tight tracking-tight text-brand-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             Two clinics, one standard.
           </h1>
-          <p className="mt-8 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+          <p className="mt-8 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
             {BRAND.name} operates in Goregaon East, Mumbai and Vashi, Navi
             Mumbai.
           </p>
@@ -38,14 +38,14 @@ export default function ContactPage() {
                 <span className="block text-xs font-light tracking-widest text-brand-champagne-dark">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h2 className="mt-8 text-2xl font-light uppercase tracking-widest text-brand-black lg:text-3xl">
+                <h2 className="mt-8 text-2xl font-normal uppercase tracking-widest text-brand-black lg:text-3xl">
                   {location.name}
                 </h2>
                 <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
               </header>
 
               <div className="lg:col-span-7 lg:col-start-6">
-                <address className="not-italic text-base font-light leading-loose text-brand-gray-text">
+                <address className="not-italic text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text">
                   {location.streetAddress}
                   <br />
                   {location.locality}
@@ -58,7 +58,7 @@ export default function ContactPage() {
                     <dt className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
                       Telephone
                     </dt>
-                    <dd className="mt-3 text-sm font-light text-brand-black">
+                    <dd className="mt-3 text-[0.95rem] font-normal text-brand-black">
                       {location.phone ? (
                         <a
                           href={`tel:${location.phone}`}
@@ -79,7 +79,7 @@ export default function ContactPage() {
                     <dt className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
                       Opening hours
                     </dt>
-                    <dd className="mt-3 text-sm font-light text-brand-gray-text">
+                    <dd className="mt-3 text-[0.95rem] font-normal text-brand-gray-text">
                       {location.openingHours
                         ? location.openingHours.join(", ")
                         : "To be confirmed"}

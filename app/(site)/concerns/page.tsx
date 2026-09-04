@@ -32,13 +32,13 @@ export default async function ConcernsPage() {
   const concerns = await getConcerns();
 
   return (
-    <main className="flex-1 bg-brand-white">
+    <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
           <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
             Concerns
           </p>
-          <h1 className="mt-10 max-w-3xl text-4xl font-light leading-tight tracking-tight text-brand-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             Start with what you would like to address.
           </h1>
           <span className="mt-16 block h-px w-full bg-champagne-gradient" />
@@ -58,7 +58,7 @@ export default async function ConcernsPage() {
               <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
                 <header className="lg:col-span-4">
                   <div className="lg:sticky lg:top-32">
-                    <h2 className="text-2xl font-light uppercase tracking-widest text-brand-black lg:text-3xl">
+                    <h2 className="text-2xl font-normal uppercase tracking-widest text-brand-black lg:text-3xl">
                       {CATEGORY_LABEL[category]}
                     </h2>
                     <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
@@ -75,7 +75,7 @@ export default async function ConcernsPage() {
                         href={`/concerns/${concern.slug}`}
                         className="group flex items-baseline justify-between gap-8 py-8 transition-colors"
                       >
-                        <span className="text-lg font-light tracking-wide text-brand-black transition-colors group-hover:text-brand-champagne-dark">
+                        <span className="text-lg font-normal tracking-wide text-brand-black transition-colors group-hover:text-brand-champagne-dark">
                           {concern.title}
                         </span>
                         <span

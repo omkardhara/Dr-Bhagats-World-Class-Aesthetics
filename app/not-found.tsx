@@ -9,10 +9,10 @@ export default function NotFound() {
         <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
           404
         </p>
-        <h1 className="mt-10 text-4xl font-thin leading-[1.15] tracking-tight text-brand-cream sm:text-5xl">
+        <h1 className="mt-10 text-4xl font-normal leading-[1.15] tracking-[0.01em] text-brand-cream sm:text-5xl">
           This page has moved, or never existed.
         </h1>
-        <p className="mt-8 max-w-md text-sm font-light leading-loose text-brand-gray-muted">
+        <p className="mt-8 max-w-md text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
           If you followed a link from the previous site, the page may now live
           somewhere else.
         </p>

@@ -35,7 +35,7 @@ export default function ServicesEditorial({
                 <span className="block text-xs font-light tracking-widest text-brand-champagne-dark">
                   {String(serviceIndex + 1).padStart(2, "0")}
                 </span>
-                <h2 className="mt-8 text-2xl font-light uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
+                <h2 className="mt-8 text-2xl font-normal uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
                   {service.title}
                 </h2>
                 <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
@@ -55,7 +55,7 @@ export default function ServicesEditorial({
                       viewport={VIEWPORT_ITEM}
                       className="border-t border-brand-gray-muted/30 py-10 first:border-t-0 first:pt-0"
                     >
-                      <h3 className="text-lg font-light tracking-wide text-brand-black">
+                      <h3 className="text-lg font-normal tracking-wide text-brand-black">
                         {treatment.slug ? (
                           <Link
                             href={`/services/${treatment.slug}`}
@@ -69,7 +69,7 @@ export default function ServicesEditorial({
                       </h3>
 
                       {treatment.description ? (
-                        <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
+                        <p className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
                           {treatment.description}
                         </p>
                       ) : null}
