@@ -38,6 +38,20 @@ export const concern = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: "summary", title: "Summary", type: "text", rows: 3 }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+          description: "Describe the image for screen readers.",
+        }),
+      ],
+    }),
     defineField({ name: "description", title: "Description", type: "text", rows: 6 }),
     defineField({
       name: "treatments",

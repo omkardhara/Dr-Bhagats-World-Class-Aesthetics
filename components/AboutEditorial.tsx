@@ -1,12 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import {
   useEditorialMotion,
   VIEWPORT_ITEM,
 } from "@/components/editorialMotion";
 import type { Doctor } from "@/sanity/lib/types";
+
+export type DoctorWithPortrait = Doctor & {
+  portraitUrl?: string | null;
+  portraitAlt?: string | null;
+};
 
 /**
  * PLACEHOLDER: the practice narrative is scaffolding. This is a real medical
@@ -28,7 +34,11 @@ const NARRATIVE = [
   },
 ];
 
-export default function AboutEditorial({ doctors }: { doctors: Doctor[] }) {
+export default function AboutEditorial({
+  doctors,
+}: {
+  doctors: DoctorWithPortrait[];
+}) {
   const { item } = useEditorialMotion();
 
   return (
@@ -42,12 +52,29 @@ export default function AboutEditorial({ doctors }: { doctors: Doctor[] }) {
           whileInView="show"
           viewport={VIEWPORT_ITEM}
         >
-          {/* Structural placeholder — swap for the doctor's portrait. */}
-          <div
-            role="img"
-            aria-label={`Portrait of ${doctor.name} — placeholder`}
-            className="aspect-[3/4] w-full bg-brand-gray-dark"
-          />
+          {doctor.portraitUrl ? (
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-brand-gray-dark">
+              <Image
+                src={doctor.portraitUrl}
+                alt={doctor.portraitAlt ?? `Portrait of ${doctor.name}`}
+                fill
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            /* Neutral placeholder on purpose. A stock face here would be a
+               fabricated likeness of a named, real clinician. */
+            <div
+              role="img"
+              aria-label={`Portrait of ${doctor.name} — awaiting photography`}
+              className="flex aspect-[3/4] w-full items-end bg-brand-gray-dark p-8"
+            >
+              <span className="text-[0.6rem] uppercase tracking-widest text-brand-gray-muted">
+                Awaiting portrait
+              </span>
+            </div>
+          )}
           <h2 className="mt-10 text-2xl font-light tracking-wide text-brand-cream">
             {doctor.name}
           </h2>

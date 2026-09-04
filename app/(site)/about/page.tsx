@@ -1,5 +1,8 @@
-import AboutEditorial from "@/components/AboutEditorial";
+import AboutEditorial, {
+  type DoctorWithPortrait,
+} from "@/components/AboutEditorial";
 import { getClient } from "@/sanity/lib/client";
+import { imageProps } from "@/sanity/lib/image";
 import { doctorsQuery } from "@/sanity/lib/queries";
 import type { Doctor } from "@/sanity/lib/types";
 
@@ -11,9 +14,17 @@ export const metadata = {
 
 export const revalidate = 60;
 
-async function getDoctors(): Promise<Doctor[]> {
+async function getDoctors(): Promise<DoctorWithPortrait[]> {
   try {
-    return await getClient().fetch<Doctor[]>(doctorsQuery);
+    const doctors = await getClient().fetch<Doctor[]>(doctorsQuery);
+    return doctors.map((doctor) => {
+      const portrait = imageProps(doctor.portrait, 1200);
+      return {
+        ...doctor,
+        portraitUrl: portrait?.url ?? null,
+        portraitAlt: portrait?.alt ?? null,
+      };
+    });
   } catch (error) {
     console.error("[about] Sanity fetch failed:", error);
     return [];

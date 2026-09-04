@@ -32,7 +32,7 @@ export const concernsQuery = defineQuery(`
 
 export const concernBySlugQuery = defineQuery(`
   *[_type == "concern" && slug.current == $slug][0] {
-    _id, title, category, summary, description,
+    _id, title, category, summary, description, image,
     "slug": slug.current,
     faqs[]{ question, answer },
     "treatments": treatments[]->{
@@ -49,7 +49,7 @@ export const concernSlugsQuery = defineQuery(`
 
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc) {
-    _id, name, role, qualifications, bio,
+    _id, name, role, qualifications, bio, portrait,
     "slug": slug.current
   }
 `);
@@ -68,7 +68,7 @@ export const testimonialsQuery = defineQuery(`
 
 export const treatmentBySlugQuery = defineQuery(`
   *[_type == "treatment" && slug.current == $slug][0] {
-    _id, name, description,
+    _id, name, description, image,
     "slug": slug.current,
     "machines": machines[]->{ _id, name, description, "slug": slug.current },
     "service": *[_type == "coreService" && references(^._id)][0]{

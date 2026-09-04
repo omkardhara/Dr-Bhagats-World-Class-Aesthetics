@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -35,6 +37,15 @@ export const metadata: Metadata = {
     description: BRAND.description,
   },
   robots: { index: true, follow: true },
+  // Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to the token Search Console gives
+  // you under "HTML tag" verification. Omitted entirely when unset.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -46,6 +57,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-brand-white font-sans text-brand-black">
         <StructuredData />
         {children}
+        {/* Cookieless, so no consent banner is required for these two. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

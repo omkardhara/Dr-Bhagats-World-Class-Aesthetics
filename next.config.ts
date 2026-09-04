@@ -24,6 +24,12 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const devProxyOrigin = process.env.NEXT_PUBLIC_SANITY_DEV_PROXY_ORIGIN;
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
+    ],
+  },
+
   async redirects() {
     // The .vercel.app domain stays publicly reachable after a custom domain is
     // attached, so it competes with the canonical host in the index. Send it

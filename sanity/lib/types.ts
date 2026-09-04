@@ -1,3 +1,5 @@
+import type { SanityImage } from "./image";
+
 export type Machine = {
   _id: string;
   name: string;
@@ -30,6 +32,7 @@ export type Concern = {
   _id: string;
   title: string;
   slug: string;
+  image?: SanityImage | null;
   category: ConcernCategory;
   summary?: string;
   description?: string;
@@ -41,6 +44,7 @@ export type Doctor = {
   _id: string;
   name: string;
   slug: string;
+  portrait?: SanityImage | null;
   role?: string;
   qualifications?: string[];
   bio?: string;
@@ -56,6 +60,7 @@ export type Testimonial = {
 
 export type TreatmentDetail = Treatment & {
   slug: string;
+  image?: SanityImage | null;
   service?: { _id: string; title: string; slug: string } | null;
   concerns?: { _id: string; title: string; category: ConcernCategory; slug: string }[];
 };

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import EditorialImage from "@/components/EditorialImage";
 import { SITE_URL } from "@/lib/site";
 import { stockForCategory } from "@/lib/stockImages";
+import { imageProps } from "@/sanity/lib/image";
 import { getClient } from "@/sanity/lib/client";
 import { concernBySlugQuery, concernSlugsQuery } from "@/sanity/lib/queries";
 import type { Concern } from "@/sanity/lib/types";
@@ -96,7 +97,10 @@ export default async function ConcernPage({
       </section>
 
       <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
-        <EditorialImage fallback={stockForCategory(concern.category)} />
+        <EditorialImage
+          fallback={stockForCategory(concern.category)}
+          sanity={imageProps(concern.image)}
+        />
       </div>
 
       <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
