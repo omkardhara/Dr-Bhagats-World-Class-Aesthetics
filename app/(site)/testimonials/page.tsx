@@ -38,7 +38,7 @@ export default async function TestimonialsPage() {
 
       <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
         {testimonials.length === 0 ? (
-          <p className="text-sm font-light text-brand-gray-muted">
+          <p className="text-sm font-light text-brand-gray-text">
             No patient stories published yet.
           </p>
         ) : (
@@ -48,7 +48,7 @@ export default async function TestimonialsPage() {
                 key={testimonial._id}
                 className="border-t border-brand-gray-muted/30 pt-10"
               >
-                <blockquote className="text-base font-light leading-loose text-brand-gray-muted">
+                <blockquote className="text-base font-light leading-loose text-brand-gray-text">
                   {testimonial.quote}
                 </blockquote>
                 <p className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">

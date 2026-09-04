@@ -35,7 +35,7 @@ export default function ContactPage() {
           >
             <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
               <header className="lg:col-span-4">
-                <span className="block text-xs font-light tracking-widest text-brand-champagne">
+                <span className="block text-xs font-light tracking-widest text-brand-champagne-dark">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h2 className="mt-8 text-2xl font-light uppercase tracking-widest text-brand-black lg:text-3xl">
@@ -45,7 +45,7 @@ export default function ContactPage() {
               </header>
 
               <div className="lg:col-span-7 lg:col-start-6">
-                <address className="not-italic text-base font-light leading-loose text-brand-gray-muted">
+                <address className="not-italic text-base font-light leading-loose text-brand-gray-text">
                   {location.streetAddress}
                   <br />
                   {location.locality}
@@ -68,7 +68,7 @@ export default function ContactPage() {
                         </a>
                       ) : (
                         // TODO(client): supply the number for the new premises.
-                        <span className="text-brand-gray-muted">
+                        <span className="text-brand-gray-text">
                           To be confirmed
                         </span>
                       )}
@@ -79,7 +79,7 @@ export default function ContactPage() {
                     <dt className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
                       Opening hours
                     </dt>
-                    <dd className="mt-3 text-sm font-light text-brand-gray-muted">
+                    <dd className="mt-3 text-sm font-light text-brand-gray-text">
                       {location.openingHours
                         ? location.openingHours.join(", ")
                         : "To be confirmed"}
@@ -89,7 +89,7 @@ export default function ContactPage() {
 
                 <Link
                   href="/book"
-                  className="mt-12 inline-block bg-champagne-gradient px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
+                  className="mt-12 inline-block bg-champagne-gradient-deep px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
                 >
                   Book Consultation
                 </Link>

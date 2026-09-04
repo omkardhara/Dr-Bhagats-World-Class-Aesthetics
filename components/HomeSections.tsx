@@ -45,7 +45,7 @@ export function Stats() {
             <p className="text-3xl font-thin tracking-tight text-brand-black lg:text-4xl">
               {stat.value}
             </p>
-            <p className="mt-4 text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">
+            <p className="mt-4 text-[0.65rem] uppercase tracking-widest text-brand-gray-text">
               {stat.label}
             </p>
           </motion.div>
@@ -71,7 +71,7 @@ export function ServicesPreview({ services }: { services: CoreService[] }) {
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
           <header className="lg:col-span-4">
-            <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
+            <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
               What we do
             </p>
             <h2 className="mt-8 text-2xl font-light uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
@@ -95,7 +95,7 @@ export function ServicesPreview({ services }: { services: CoreService[] }) {
                   {service.title}
                 </h3>
                 {service.treatments && service.treatments.length > 0 ? (
-                  <p className="mt-4 text-sm font-light leading-loose text-brand-gray-muted">
+                  <p className="mt-4 text-sm font-light leading-loose text-brand-gray-text">
                     {service.treatments.map((t) => t.name).join(" · ")}
                   </p>
                 ) : null}

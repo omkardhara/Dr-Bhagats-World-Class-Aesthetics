@@ -38,7 +38,7 @@ export default function EditorialImage({
       {isPlaceholder ? (
         // Visible while stock stands in, so nobody mistakes it for the clinic's
         // own photography. Remove with the stock images.
-        <figcaption className="mt-4 text-[0.6rem] uppercase tracking-widest text-brand-gray-muted">
+        <figcaption className="mt-4 text-[0.6rem] uppercase tracking-widest text-brand-gray-text">
           Stock image — awaiting clinic photography
         </figcaption>
       ) : null}

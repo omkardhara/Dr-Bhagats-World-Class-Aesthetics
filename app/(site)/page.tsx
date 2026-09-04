@@ -53,7 +53,7 @@ export default async function Home() {
           <div className="mt-16 flex flex-wrap items-center gap-10">
             <Link
               href="/book"
-              className="bg-champagne-gradient px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
+              className="bg-champagne-gradient-deep px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
             >
               Book Consultation
             </Link>

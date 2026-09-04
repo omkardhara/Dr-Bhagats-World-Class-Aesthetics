@@ -44,7 +44,7 @@ export default async function ServicesPage() {
 
       {services.length === 0 ? (
         <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
-          <p className="text-sm font-light text-brand-gray-muted">
+          <p className="text-sm font-light text-brand-gray-text">
             No services published yet. Add them in the{" "}
             <Link className="text-brand-champagne-dark underline" href="/studio">
               Studio

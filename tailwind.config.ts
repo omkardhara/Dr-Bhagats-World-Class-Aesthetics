@@ -18,14 +18,25 @@ const config: Config = {
           // black to register at all.
           "gray-dark": "#1A1A1A",
           "gray-muted": "#9F9A96",
+          // Body copy on light backgrounds. brand-gray-muted is 2.79:1 on
+          // white, below WCAG AA; this is the same hue darkened to 4.54:1.
+          // gray-muted stays as specified and is still used on dark grounds,
+          // where it measures 7.54:1.
+          "gray-text": "#7B7571",
           "champagne-dark": "#7F6753",
           champagne: "#A08E7C",
           "champagne-light": "#C7B8AA",
         },
       },
       backgroundImage: {
+        // Brand gradient. Decorative use only - rules, accents, hairlines.
         "champagne-gradient":
           "linear-gradient(90deg, #7F6753 0%, #A08E7C 50%, #C7B8AA 100%)",
+        // Interactive use. The brand gradient reaches 1.93:1 against white
+        // text at its light end, well below WCAG AA, so buttons use this
+        // deeper range where every stop clears 4.5:1.
+        "champagne-gradient-deep":
+          "linear-gradient(90deg, #7F6753 0%, #867361 50%, #8B725B 100%)",
       },
       fontFamily: {
         sans: ["var(--font-neue-haas)", "system-ui", "sans-serif"],

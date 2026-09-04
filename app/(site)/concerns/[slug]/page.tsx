@@ -112,11 +112,11 @@ export default async function ConcernPage({
 
           <div className="lg:col-span-7 lg:col-start-6">
             {concern.description ? (
-              <p className="max-w-xl text-base font-light leading-loose text-brand-gray-muted">
+              <p className="max-w-xl text-base font-light leading-loose text-brand-gray-text">
                 {concern.description}
               </p>
             ) : (
-              <p className="max-w-xl text-base font-light leading-loose text-brand-gray-muted">
+              <p className="max-w-xl text-base font-light leading-loose text-brand-gray-text">
                 {/* PLACEHOLDER: needs clinical copy per concern. */}
                 Clinical detail for this concern has not been written yet.
               </p>
@@ -142,7 +142,7 @@ export default async function ConcernPage({
                       )}
                     </h3>
                     {treatment.description ? (
-                      <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+                      <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
                         {treatment.description}
                       </p>
                     ) : null}
@@ -165,7 +165,7 @@ export default async function ConcernPage({
 
             {faqs.length > 0 ? (
               <div className="mt-20">
-                <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
+                <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
                   Questions
                 </h2>
                 <dl className="mt-10">
@@ -177,7 +177,7 @@ export default async function ConcernPage({
                       <dt className="text-base font-light text-brand-black">
                         {faq.question}
                       </dt>
-                      <dd className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+                      <dd className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
                         {faq.answer}
                       </dd>
                     </div>
@@ -188,7 +188,7 @@ export default async function ConcernPage({
 
             <Link
               href="/book"
-              className="mt-16 inline-block bg-champagne-gradient px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
+              className="mt-16 inline-block bg-champagne-gradient-deep px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
             >
               Book Consultation
             </Link>

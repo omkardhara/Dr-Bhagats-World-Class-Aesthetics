@@ -123,7 +123,7 @@ export default function BookForm() {
         <div className="mt-6 flex flex-col gap-6">
           <button
             type="submit"
-            className="w-full bg-champagne-gradient px-8 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity duration-300 hover:opacity-90"
+            className="w-full bg-champagne-gradient-deep px-8 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity duration-300 hover:opacity-90"
           >
             Request Consultation
           </button>

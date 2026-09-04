@@ -32,7 +32,7 @@ export default function ServicesEditorial({
             {/* Service title - stays with the reader while treatments scroll */}
             <header className="lg:col-span-4">
               <div className="lg:sticky lg:top-32">
-                <span className="block text-xs font-light tracking-widest text-brand-champagne">
+                <span className="block text-xs font-light tracking-widest text-brand-champagne-dark">
                   {String(serviceIndex + 1).padStart(2, "0")}
                 </span>
                 <h2 className="mt-8 text-2xl font-light uppercase leading-snug tracking-widest text-brand-black lg:text-3xl">
@@ -69,7 +69,7 @@ export default function ServicesEditorial({
                       </h3>
 
                       {treatment.description ? (
-                        <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+                        <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
                           {treatment.description}
                         </p>
                       ) : null}

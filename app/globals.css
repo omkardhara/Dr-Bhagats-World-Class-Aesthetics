@@ -18,3 +18,39 @@ body {
   color: var(--foreground);
   font-family: var(--font-neue-haas), system-ui, sans-serif;
 }
+
+/* Keyboard focus.
+   Inputs set `outline-none` and signal focus with a border colour change,
+   which is invisible to anyone navigating by keyboard on the dark pages.
+   :focus-visible only fires for keyboard users, so pointer users keep the
+   clean look. champagne-dark is the one brand tone clearing 3:1 against both
+   grounds - 5.29:1 on white and 3.97:1 on black. The lighter champagne
+   measures 1.93:1 on white and would be invisible on the light pages. */
+:focus-visible {
+  outline: 2px solid #7F6753;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link: first tab stop, hidden until focused. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

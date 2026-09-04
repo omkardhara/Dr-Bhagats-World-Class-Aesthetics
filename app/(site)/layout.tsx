@@ -9,8 +9,11 @@ export default function SiteLayout({
 }) {
   return (
     <>
+      <a href="#main" className="skip-link bg-brand-black px-6 py-3 text-xs uppercase tracking-widest text-brand-cream">
+        Skip to content
+      </a>
       <Navbar />
-      {children}
+      <div id="main">{children}</div>
       <Footer />
     </>
   );

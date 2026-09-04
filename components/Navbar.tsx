@@ -51,7 +51,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             href="/book"
-            className="hidden rounded-full bg-champagne-gradient px-6 py-3 text-xs font-medium uppercase tracking-[0.15em] text-brand-white transition-opacity hover:opacity-90 md:inline-block"
+            className="hidden rounded-full bg-champagne-gradient-deep px-6 py-3 text-xs font-medium uppercase tracking-[0.15em] text-brand-white transition-opacity hover:opacity-90 md:inline-block"
           >
             Book Consultation
           </Link>
@@ -94,7 +94,7 @@ export default function Navbar() {
             <Link
               href="/book"
               onClick={() => setOpen(false)}
-              className="block rounded-full bg-champagne-gradient px-6 py-3 text-center text-xs font-medium uppercase tracking-[0.15em] text-brand-white"
+              className="block rounded-full bg-champagne-gradient-deep px-6 py-3 text-center text-xs font-medium uppercase tracking-[0.15em] text-brand-white"
             >
               Book Consultation
             </Link>

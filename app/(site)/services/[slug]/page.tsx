@@ -102,7 +102,7 @@ export default async function TreatmentPage({
                       {machine.name}
                     </h3>
                     {machine.description ? (
-                      <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-muted">
+                      <p className="mt-4 max-w-xl text-sm font-light leading-loose text-brand-gray-text">
                         {machine.description}
                       </p>
                     ) : null}
@@ -110,14 +110,14 @@ export default async function TreatmentPage({
                 ))}
               </ul>
             ) : (
-              <p className="text-sm font-light leading-loose text-brand-gray-muted">
+              <p className="text-sm font-light leading-loose text-brand-gray-text">
                 This treatment is delivered without a device platform.
               </p>
             )}
 
             {treatment.concerns && treatment.concerns.length > 0 ? (
               <div className="mt-20">
-                <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
+                <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
                   Addresses
                 </h2>
                 <ul className="mt-8 flex flex-wrap gap-x-3 gap-y-3">
@@ -137,7 +137,7 @@ export default async function TreatmentPage({
 
             <Link
               href="/book"
-              className="mt-16 inline-block bg-champagne-gradient px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
+              className="mt-16 inline-block bg-champagne-gradient-deep px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
             >
               Book Consultation
             </Link>

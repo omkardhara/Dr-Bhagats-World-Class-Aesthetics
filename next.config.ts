@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { ALL_REDIRECTS } from "./lib/redirects";
+
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
 /**
@@ -36,6 +38,16 @@ const nextConfig: NextConfig = {
         destination: `${canonical}/:path*`,
         permanent: true,
       },
+      // Retired finesseclinic.com structure. Matched on path, so these also
+      // catch stale inbound links; they carry the old site's search equity
+      // once that domain points here. Both slash forms are covered.
+      ...ALL_REDIRECTS.flatMap(({ from, to }) => [
+        { source: from, destination: to, permanent: true },
+        { source: `${from}/`, destination: to, permanent: true },
+      ]),
+      // Anything else under the old trees, rather than a 404.
+      { source: "/concern/:path*", destination: "/concerns", permanent: true },
+      { source: "/treatment/:path*", destination: "/services", permanent: true },
     ];
   },
 

@@ -80,7 +80,7 @@ export default async function ConcernsPage() {
                         </span>
                         <span
                           aria-hidden
-                          className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors group-hover:text-brand-champagne"
+                          className="text-[0.65rem] uppercase tracking-widest text-brand-gray-text transition-colors group-hover:text-brand-champagne"
                         >
                           View
                         </span>
