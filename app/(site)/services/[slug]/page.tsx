@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import EditorialImage from "@/components/EditorialImage";
+import { stockForSlug } from "@/lib/stockImages";
 import { getClient } from "@/sanity/lib/client";
 import { treatmentBySlugQuery, treatmentSlugsQuery } from "@/sanity/lib/queries";
 import type { TreatmentDetail } from "@/sanity/lib/types";
@@ -72,6 +74,10 @@ export default async function TreatmentPage({
           <span className="mt-16 block h-px w-full bg-champagne-gradient" />
         </div>
       </section>
+
+      <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
+        <EditorialImage fallback={stockForSlug(treatment.slug)} />
+      </div>
 
       <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">

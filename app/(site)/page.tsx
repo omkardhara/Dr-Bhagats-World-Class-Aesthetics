@@ -5,7 +5,9 @@ import {
   Stats,
   Testimonials,
 } from "@/components/HomeSections";
+import EditorialImage from "@/components/EditorialImage";
 import { BRAND } from "@/lib/site";
+import { STOCK } from "@/lib/stockImages";
 import { getClient } from "@/sanity/lib/client";
 import {
   coreServicesQuery,
@@ -66,6 +68,11 @@ export default async function Home() {
       </section>
 
       <Stats />
+
+      <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
+        <EditorialImage fallback={STOCK.clinicalRoom} />
+      </div>
+
       <ServicesPreview services={services} />
       <Testimonials items={testimonials} />
     </main>

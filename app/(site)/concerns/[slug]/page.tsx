@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import EditorialImage from "@/components/EditorialImage";
 import { SITE_URL } from "@/lib/site";
+import { stockForCategory } from "@/lib/stockImages";
 import { getClient } from "@/sanity/lib/client";
 import { concernBySlugQuery, concernSlugsQuery } from "@/sanity/lib/queries";
 import type { Concern } from "@/sanity/lib/types";
@@ -92,6 +94,10 @@ export default async function ConcernPage({
           <span className="mt-16 block h-px w-full bg-champagne-gradient" />
         </div>
       </section>
+
+      <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
+        <EditorialImage fallback={stockForCategory(concern.category)} />
+      </div>
 
       <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
