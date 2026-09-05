@@ -1,8 +1,36 @@
 import Link from "next/link";
 
+import { getClient } from "@/sanity/lib/client";
+import { concernsQuery } from "@/sanity/lib/queries";
+import type { Concern } from "@/sanity/lib/types";
+
 export const metadata = { title: "Page not found" };
 
-export default function NotFound() {
+/** Common entry points, for someone who landed here from a retired URL. */
+const SUGGESTED = [
+  "acne",
+  "hair-loss",
+  "melasma",
+  "acne-scars",
+  "aging",
+  "hyperpigmentation",
+];
+
+async function getSuggestions(): Promise<Concern[]> {
+  try {
+    const all = await getClient().fetch<Concern[]>(concernsQuery);
+    const bySlug = new Map(all.map((c) => [c.slug, c]));
+    return SUGGESTED.map((slug) => bySlug.get(slug)).filter(
+      (c): c is Concern => Boolean(c)
+    );
+  } catch {
+    return [];
+  }
+}
+
+export default async function NotFound() {
+  const suggestions = await getSuggestions();
+
   return (
     <main className="flex min-h-screen flex-1 items-center justify-center bg-brand-black px-6 py-32">
       <div className="w-full max-w-2xl">
@@ -30,6 +58,26 @@ export default function NotFound() {
             Browse concerns
           </Link>
         </div>
+
+        {suggestions.length > 0 ? (
+          <div className="mt-20 border-t border-brand-gray-muted/25 pt-10">
+            <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
+              Commonly looked for
+            </h2>
+            <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
+              {suggestions.map((concern) => (
+                <li key={concern._id}>
+                  <Link
+                    href={`/concerns/${concern.slug}`}
+                    className="border-b border-brand-gray-muted/40 pb-1 text-[0.95rem] font-normal text-brand-cream transition-colors hover:border-brand-champagne hover:text-brand-champagne-light"
+                  >
+                    {concern.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </main>
   );

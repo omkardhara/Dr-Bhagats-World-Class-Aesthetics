@@ -1,6 +1,8 @@
 import Link from "next/link";
 
+import EditorialImage from "@/components/EditorialImage";
 import TechnologyEditorial from "@/components/TechnologyEditorial";
+import { STOCK } from "@/lib/stockImages";
 import { getClient } from "@/sanity/lib/client";
 import { technologyPillarsQuery } from "@/sanity/lib/queries";
 import type { TechnologyPillar } from "@/sanity/lib/types";
@@ -43,6 +45,10 @@ export default async function TechnologyPage() {
           <span className="mt-16 block h-px w-full bg-champagne-gradient" />
         </div>
       </section>
+
+      <div className="pt-24 lg:pt-32">
+        <EditorialImage fallback={STOCK.clinicalRoom} fullBleed ratio="21/9" />
+      </div>
 
       {pillars.length === 0 ? (
         <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">

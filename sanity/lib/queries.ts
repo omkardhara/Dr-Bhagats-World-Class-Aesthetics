@@ -55,6 +55,14 @@ export const sitemapEntriesQuery = defineQuery(`{
   "latest": *[defined(_updatedAt)] | order(_updatedAt desc)[0]._updatedAt
 }`);
 
+/** Siblings in the same category, excluding the current page. */
+export const relatedConcernsQuery = defineQuery(`
+  *[_type == "concern" && category == $category && slug.current != $slug]
+    | order(title asc)[0...6] {
+      _id, title, category, summary, "slug": slug.current
+    }
+`);
+
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc) {
     _id, name, role, qualifications, bio, portrait,

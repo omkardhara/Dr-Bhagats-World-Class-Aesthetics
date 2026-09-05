@@ -8,7 +8,11 @@ import { SITE_URL } from "@/lib/site";
 import { stockForCategory } from "@/lib/stockImages";
 import { imageProps } from "@/sanity/lib/image";
 import { getClient } from "@/sanity/lib/client";
-import { concernBySlugQuery, concernSlugsQuery } from "@/sanity/lib/queries";
+import {
+  concernBySlugQuery,
+  concernSlugsQuery,
+  relatedConcernsQuery,
+} from "@/sanity/lib/queries";
 import type { Concern } from "@/sanity/lib/types";
 
 export const revalidate = 60;
@@ -19,6 +23,21 @@ async function getConcern(slug: string): Promise<Concern | null> {
   } catch (error) {
     console.error("[concern] Sanity fetch failed:", error);
     return null;
+  }
+}
+
+async function getRelated(
+  category: string,
+  slug: string
+): Promise<Concern[]> {
+  try {
+    return await getClient().fetch<Concern[]>(relatedConcernsQuery, {
+      category,
+      slug,
+    });
+  } catch (error) {
+    console.error("[concern] related fetch failed:", error);
+    return [];
   }
 }
 
@@ -56,6 +75,7 @@ export default async function ConcernPage({
   if (!concern) notFound();
 
   const faqs = concern.faqs ?? [];
+  const related = await getRelated(concern.category, concern.slug);
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -203,6 +223,41 @@ export default async function ConcernPage({
           </div>
         </div>
       </section>
+
+      {/* Lateral routes out. Without these a concern page dead-ends into the
+          booking form, which is a lot to ask of someone still diagnosing. */}
+      {related.length > 0 ? (
+        <section className="border-t border-brand-gray-muted/25">
+          <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
+            <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+              Other {concern.category} concerns
+            </h2>
+            <ul className="mt-12 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((item) => (
+                <li
+                  key={item._id}
+                  className="border-t border-brand-gray-muted/30"
+                >
+                  <Link
+                    href={`/concerns/${item.slug}`}
+                    className="group flex items-baseline justify-between gap-6 py-7"
+                  >
+                    <span className="text-[1.05rem] font-normal tracking-wide text-brand-black transition-colors group-hover:text-brand-champagne-dark">
+                      {item.title}
+                    </span>
+                    <span
+                      aria-hidden
+                      className="text-[0.65rem] uppercase tracking-widest text-brand-gray-text"
+                    >
+                      View
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
