@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import Breadcrumbs from "@/components/Breadcrumbs";
 import EditorialImage from "@/components/EditorialImage";
 import { SITE_URL } from "@/lib/site";
 import { stockForCategory } from "@/lib/stockImages";
@@ -78,12 +79,13 @@ export default async function ConcernPage({
 
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
-          <Link
-            href="/concerns"
-            className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light transition-colors hover:text-brand-cream"
-          >
-            {concern.category} concerns
-          </Link>
+          <Breadcrumbs
+            crumbs={[
+              { label: "Home", href: "/" },
+              { label: "Concerns", href: "/concerns" },
+              { label: concern.title, href: `/concerns/${concern.slug}` },
+            ]}
+          />
           <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             {concern.title}
           </h1>

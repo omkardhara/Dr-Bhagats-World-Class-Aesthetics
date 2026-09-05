@@ -1,6 +1,7 @@
 import AboutEditorial, {
   type DoctorWithPortrait,
 } from "@/components/AboutEditorial";
+import DoctorSchema from "@/components/DoctorSchema";
 import { getClient } from "@/sanity/lib/client";
 import { imageProps } from "@/sanity/lib/image";
 import { doctorsQuery } from "@/sanity/lib/queries";
@@ -36,6 +37,7 @@ export default async function AboutPage() {
 
   return (
     <main className="flex-1 bg-brand-black text-brand-cream">
+      <DoctorSchema doctors={doctors} />
       <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
         <div className="grid grid-cols-1 gap-20 lg:grid-cols-12 lg:gap-16">
           {/* Sticky rail — holds the reader while the profiles scroll past. */}

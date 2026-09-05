@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import Breadcrumbs from "@/components/Breadcrumbs";
 import EditorialImage from "@/components/EditorialImage";
 import { SITE_URL } from "@/lib/site";
 import { stockForSlug } from "@/lib/stockImages";
@@ -74,12 +75,13 @@ export default async function MachinePage({
 
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 pb-28 pt-40 lg:px-10 lg:pb-40 lg:pt-56">
-          <Link
-            href="/technology"
-            className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light transition-colors hover:text-brand-cream"
-          >
-            Technology
-          </Link>
+          <Breadcrumbs
+            crumbs={[
+              { label: "Home", href: "/" },
+              { label: "Technology", href: "/technology" },
+              { label: machine.name, href: `/technology/${machine.slug}` },
+            ]}
+          />
           <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             {machine.name}
           </h1>

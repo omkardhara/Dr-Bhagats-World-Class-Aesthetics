@@ -47,6 +47,14 @@ export const concernSlugsQuery = defineQuery(`
   *[_type == "concern" && defined(slug.current)].slug.current
 `);
 
+/** Slug plus last edit time, for sitemap lastModified. */
+export const sitemapEntriesQuery = defineQuery(`{
+  "concerns": *[_type == "concern" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
+  "treatments": *[_type == "treatment" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
+  "machines": *[_type == "machine" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
+  "latest": *[defined(_updatedAt)] | order(_updatedAt desc)[0]._updatedAt
+}`);
+
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc) {
     _id, name, role, qualifications, bio, portrait,

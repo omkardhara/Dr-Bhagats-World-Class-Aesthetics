@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import Breadcrumbs from "@/components/Breadcrumbs";
 import EditorialImage from "@/components/EditorialImage";
 import { stockForSlug } from "@/lib/stockImages";
 import { imageProps } from "@/sanity/lib/image";
@@ -58,12 +59,13 @@ export default async function TreatmentPage({
     <main className="flex-1 bg-brand-bone">
       <section className="bg-brand-black">
         <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
-          <Link
-            href="/services"
-            className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light transition-colors hover:text-brand-cream"
-          >
-            {treatment.service?.title ?? "Services"}
-          </Link>
+          <Breadcrumbs
+            crumbs={[
+              { label: "Home", href: "/" },
+              { label: "Services", href: "/services" },
+              { label: treatment.name, href: `/services/${treatment.slug}` },
+            ]}
+          />
           <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
             {treatment.name}
           </h1>
