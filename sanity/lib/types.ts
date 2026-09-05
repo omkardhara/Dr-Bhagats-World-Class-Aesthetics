@@ -4,6 +4,7 @@ export type Machine = {
   _id: string;
   name: string;
   description?: string;
+  slug?: string;
 };
 
 export type TechnologyPillar = {
@@ -63,4 +64,11 @@ export type TreatmentDetail = Treatment & {
   image?: SanityImage | null;
   service?: { _id: string; title: string; slug: string } | null;
   concerns?: { _id: string; title: string; category: ConcernCategory; slug: string }[];
+};
+
+export type MachineDetail = Machine & {
+  slug: string;
+  image?: SanityImage | null;
+  pillars?: { _id: string; title: string; slug: string }[];
+  treatments?: { _id: string; name: string; slug: string }[];
 };

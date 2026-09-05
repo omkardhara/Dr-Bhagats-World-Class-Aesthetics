@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 import {
   useEditorialMotion,
@@ -67,7 +68,16 @@ export default function TechnologyEditorial({
                       className="border-t border-brand-gray-muted/30 py-10"
                     >
                       <h3 className="text-[0.7rem] uppercase tracking-widest text-brand-champagne-dark">
-                        {machine.name}
+                        {machine.slug ? (
+                          <Link
+                            href={`/technology/${machine.slug}`}
+                            className="transition-colors hover:text-brand-black"
+                          >
+                            {machine.name}
+                          </Link>
+                        ) : (
+                          machine.name
+                        )}
                       </h3>
                       {machine.description ? (
                         <p className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">

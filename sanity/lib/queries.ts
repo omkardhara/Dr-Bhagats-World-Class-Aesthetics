@@ -5,7 +5,7 @@ export const technologyPillarsQuery = defineQuery(`
     _id,
     title,
     description,
-    "machines": machines[]->{ _id, name, description }
+    "machines": machines[]->{ _id, name, description, "slug": slug.current }
   }
 `);
 
@@ -82,4 +82,27 @@ export const treatmentBySlugQuery = defineQuery(`
 
 export const treatmentSlugsQuery = defineQuery(`
   *[_type == "treatment" && defined(slug.current)].slug.current
+`);
+
+export const machineBySlugQuery = defineQuery(`
+  *[_type == "machine" && slug.current == $slug][0] {
+    _id, name, description, image,
+    "slug": slug.current,
+    "pillars": *[_type == "technologyPillar" && references(^._id)] | order(title asc) {
+      _id, title, "slug": slug.current
+    },
+    "treatments": *[_type == "treatment" && references(^._id)] | order(name asc) {
+      _id, name, "slug": slug.current
+    }
+  }
+`);
+
+export const machineSlugsQuery = defineQuery(`
+  *[_type == "machine" && defined(slug.current)].slug.current
+`);
+
+export const machinesQuery = defineQuery(`
+  *[_type == "machine"] | order(name asc) {
+    _id, name, description, "slug": slug.current
+  }
 `);

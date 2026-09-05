@@ -4,6 +4,7 @@ import { SITE_URL } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import {
   concernSlugsQuery,
+  machineSlugsQuery,
   treatmentSlugsQuery,
 } from "@/sanity/lib/queries";
 
@@ -34,11 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let concernSlugs: string[] = [];
   let treatmentSlugs: string[] = [];
+  let machineSlugs: string[] = [];
   try {
     const client = getClient();
-    [concernSlugs, treatmentSlugs] = await Promise.all([
+    [concernSlugs, treatmentSlugs, machineSlugs] = await Promise.all([
       client.fetch<string[]>(concernSlugsQuery),
       client.fetch<string[]>(treatmentSlugsQuery),
+      client.fetch<string[]>(machineSlugsQuery),
     ]);
   } catch (error) {
     // A sitemap missing content pages is better than a failed build.
@@ -58,6 +61,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...machineSlugs.map((slug) => ({
+      url: `${SITE_URL}/technology/${slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }
