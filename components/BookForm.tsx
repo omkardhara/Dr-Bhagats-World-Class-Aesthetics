@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useState } from "react";
 
 import { EASE } from "@/components/editorialMotion";
@@ -19,7 +20,7 @@ const FIELDS: FieldDef[] = [
   { id: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
   {
     id: "message",
-    label: "What would you like to address?",
+    label: "What would you like to improve?",
     type: "text",
     multiline: true,
   },
@@ -86,7 +87,9 @@ function FloatingField({ field }: { field: FieldDef }) {
   );
 }
 
-export default function BookForm() {
+export type ConcernOption = { title: string; slug: string };
+
+export default function BookForm({ concerns }: { concerns: ConcernOption[] }) {
   const [notice, setNotice] = useState(false);
 
   return (
@@ -97,14 +100,14 @@ export default function BookForm() {
       className="w-full max-w-2xl"
     >
       <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
-        Consultation
+        Book a Consultation
       </p>
       <h1 className="mt-8 text-4xl font-normal leading-[1.15] tracking-[0.01em] text-brand-cream sm:text-5xl">
-        Book a consultation.
+        Begin with a consultation.
       </h1>
       <p className="mt-8 max-w-md text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
-        Tell us what you would like to address, and we will come back to you to
-        arrange a time.
+        Tell us what you would like to improve. Your doctor will assess your concern and discuss a
+        personalised plan with you.
       </p>
 
       <form
@@ -116,25 +119,62 @@ export default function BookForm() {
           setNotice(true);
         }}
       >
-        {FIELDS.map((field) => (
+        {FIELDS.slice(0, 3).map((field) => (
           <FloatingField key={field.id} field={field} />
         ))}
+
+        <div>
+          <label
+            htmlFor="concern"
+            className="block text-[0.65rem] uppercase tracking-widest text-brand-champagne"
+          >
+            Area of concern
+          </label>
+          <div className="relative">
+            <select
+              id="concern"
+              name="concern"
+              defaultValue=""
+              className="mt-4 w-full appearance-none border-b border-brand-gray-muted bg-transparent pb-3 pt-2 text-[1.05rem] text-brand-cream outline-none transition-colors focus:border-brand-champagne"
+            >
+              <option value="" className="bg-brand-black">
+                Choose a concern
+              </option>
+              {concerns.map((concern) => (
+                <option key={concern.slug} value={concern.slug} className="bg-brand-black">
+                  {concern.title}
+                </option>
+              ))}
+              <option value="not-sure" className="bg-brand-black">
+                Not sure yet
+              </option>
+            </select>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute bottom-4 right-0 h-2 w-2 rotate-45 border-b border-r border-brand-gray-muted"
+            />
+          </div>
+        </div>
+
+        <FloatingField field={FIELDS[3]} />
 
         <div className="mt-6 flex flex-col gap-6">
           <button
             type="submit"
             className="w-full bg-champagne-gradient-deep px-8 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity duration-300 hover:opacity-90"
           >
-            Request Consultation
+            Request a Consultation
           </button>
 
-          <p
-            aria-live="polite"
-            className="text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted"
-          >
+          <p aria-live="polite" className="text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted">
             {notice
-              ? "This form is not connected to a booking system yet, so nothing was sent. Please contact the clinic directly in the meantime."
-              : "This form is not connected to a booking system yet."}
+              ? "Online requests are not yet active, so this has not been sent. "
+              : "Online requests are not yet active. "}
+            To arrange your consultation, please{" "}
+            <Link href="/contact" className="text-brand-cream underline underline-offset-4">
+              contact the clinic
+            </Link>
+            .
           </p>
         </div>
       </form>

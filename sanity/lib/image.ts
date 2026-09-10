@@ -1,18 +1,18 @@
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import type { Image as SanityImageSource } from "sanity";
 
 import { dataset, projectId } from "../env";
 
-const builder = imageUrlBuilder({ projectId, dataset });
+const builder = createImageUrlBuilder({ projectId, dataset });
 
 export type SanityImage = SanityImageSource & { alt?: string };
 
 /**
  * Resolve a Sanity image to a CDN URL, or null when none is set.
  *
- * Returning null rather than a broken URL is what lets EditorialImage fall
- * back to the stock placeholder: pages work identically whether or not the
- * photography has been uploaded yet.
+ * Returning null rather than a broken URL is what lets SanityPicture render
+ * nothing at all: pages read as complete whether or not the clinic's own
+ * photography has been uploaded yet. There is deliberately no stock fallback.
  */
 export function imageProps(
   image: SanityImage | null | undefined,

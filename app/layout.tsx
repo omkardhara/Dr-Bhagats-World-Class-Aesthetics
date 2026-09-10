@@ -18,7 +18,7 @@ const neueHaasFallback = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${BRAND.name} | Skin, Hair and Laser Clinic`,
+    default: `${BRAND.name} | Expertise, Elevated.`,
     template: `%s | ${BRAND.name}`,
   },
   description: BRAND.description,
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: BRAND.name,
-    title: `${BRAND.name} | Skin, Hair and Laser Clinic`,
+    title: `${BRAND.name} | Expertise, Elevated.`,
     description: BRAND.description,
     url: SITE_URL,
     locale: "en_IN",

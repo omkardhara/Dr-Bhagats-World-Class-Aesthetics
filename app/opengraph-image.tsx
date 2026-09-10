@@ -58,7 +58,7 @@ export default function OpengraphImage() {
               maxWidth: 760,
             }}
           >
-            Medical aesthetics, dermatology and laser treatment.
+            Expertise, Elevated.
           </div>
         </div>
 

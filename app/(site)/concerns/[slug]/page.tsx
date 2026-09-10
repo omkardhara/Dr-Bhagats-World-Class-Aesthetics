@@ -2,17 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import Breadcrumbs from "@/components/Breadcrumbs";
-import EditorialImage from "@/components/EditorialImage";
+import JsonLd from "@/components/JsonLd";
+import Reveal from "@/components/Reveal";
+import SanityPicture from "@/components/SanityPicture";
+import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
 import { SITE_URL } from "@/lib/site";
-import { stockForCategory } from "@/lib/stockImages";
-import { imageProps } from "@/sanity/lib/image";
 import { getClient } from "@/sanity/lib/client";
-import {
-  concernBySlugQuery,
-  concernSlugsQuery,
-  relatedConcernsQuery,
-} from "@/sanity/lib/queries";
+import { concernBySlugQuery, concernSlugsQuery } from "@/sanity/lib/queries";
 import type { Concern } from "@/sanity/lib/types";
 
 export const revalidate = 60;
@@ -26,27 +22,11 @@ async function getConcern(slug: string): Promise<Concern | null> {
   }
 }
 
-async function getRelated(
-  category: string,
-  slug: string
-): Promise<Concern[]> {
-  try {
-    return await getClient().fetch<Concern[]>(relatedConcernsQuery, {
-      category,
-      slug,
-    });
-  } catch (error) {
-    console.error("[concern] related fetch failed:", error);
-    return [];
-  }
-}
-
 export async function generateStaticParams() {
   try {
     const slugs = await getClient().fetch<string[]>(concernSlugsQuery);
     return slugs.map((slug) => ({ slug }));
   } catch {
-    // Fall back to on-demand rendering rather than failing the build.
     return [];
   }
 }
@@ -56,208 +36,194 @@ export async function generateMetadata({
 }: PageProps<"/concerns/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const concern = await getConcern(slug);
-  if (!concern) return { title: "Concern" };
-
+  if (!concern) return { title: "Your Concerns" };
   return {
     title: concern.title,
-    description:
-      concern.summary ?? `Treatment options for ${concern.title.toLowerCase()}.`,
+    description: concern.summary,
     alternates: { canonical: `/concerns/${concern.slug}` },
   };
 }
 
-export default async function ConcernPage({
-  params,
-}: PageProps<"/concerns/[slug]">) {
+/**
+ * The page follows the patient journey literally: the concern is understood
+ * and assessed first, the approach is described next, and technology is the
+ * last thing introduced. Do not reorder these sections.
+ */
+export default async function ConcernPage({ params }: PageProps<"/concerns/[slug]">) {
   const { slug } = await params;
   const concern = await getConcern(slug);
-
   if (!concern) notFound();
 
+  const url = `${SITE_URL}/concerns/${concern.slug}`;
   const faqs = concern.faqs ?? [];
-  const related = await getRelated(concern.category, concern.slug);
 
   return (
     <main className="flex-1 bg-brand-bone">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "MedicalWebPage",
+          "@id": `${url}#page`,
+          url,
+          name: concern.title,
+          description: concern.summary,
+          about: { "@type": "MedicalCondition", name: concern.title },
+          publisher: { "@id": `${SITE_URL}/#organization` },
+        }}
+      />
       {faqs.length > 0 ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "@id": `${SITE_URL}/concerns/${concern.slug}#faq`,
-              mainEntity: faqs.map((faq) => ({
-                "@type": "Question",
-                name: faq.question,
-                acceptedAnswer: { "@type": "Answer", text: faq.answer },
-              })),
-            }),
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": `${url}#faq`,
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
           }}
         />
       ) : null}
 
-      <section className="bg-brand-black">
-        <div className="mx-auto w-full max-w-7xl px-6 py-28 lg:px-10 lg:py-40">
-          <Breadcrumbs
-            crumbs={[
-              { label: "Home", href: "/" },
-              { label: "Concerns", href: "/concerns" },
-              { label: concern.title, href: `/concerns/${concern.slug}` },
-            ]}
-          />
-          <h1 className="mt-10 max-w-3xl text-4xl font-normal leading-tight tracking-[0.01em] text-brand-white sm:text-5xl lg:text-6xl">
-            {concern.title}
-          </h1>
-          {concern.summary ? (
-            <p className="mt-8 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
-              {concern.summary}
-            </p>
-          ) : null}
-          <span className="mt-16 block h-px w-full bg-champagne-gradient" />
-        </div>
-      </section>
+      <PageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Your Concerns", href: "/concerns" },
+          { label: concern.title, href: `/concerns/${concern.slug}` },
+        ]}
+        title={concern.title}
+        lead={concern.summary}
+      />
 
-      <div className="pt-24 lg:pt-32">
-        <EditorialImage
-          fallback={stockForCategory(concern.category)}
-          sanity={imageProps(concern.image)}
-          fullBleed
-          ratio="21/9"
-        />
-      </div>
+      <SanityPicture image={concern.image} ratio="21/9" width={2400} priority sizes="100vw" />
 
-      <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
-          <header className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32">
-              <h2 className="text-2xl font-normal uppercase tracking-widest text-brand-black lg:text-3xl">
-                How we treat it
-              </h2>
-              <span className="mt-8 block h-px w-16 bg-champagne-gradient" />
-            </div>
-          </header>
-
-          <div className="lg:col-span-7 lg:col-start-6">
-            {concern.description ? (
-              <p className="max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text">
-                {concern.description}
-              </p>
-            ) : (
-              <p className="max-w-xl text-[1.05rem] font-normal leading-[1.7] text-brand-gray-text">
-                {/* PLACEHOLDER: needs clinical copy per concern. */}
-                Clinical detail for this concern has not been written yet.
-              </p>
-            )}
-
-            {concern.treatments && concern.treatments.length > 0 ? (
-              <ul className="mt-16">
-                {concern.treatments.map((treatment) => (
-                  <li
-                    key={treatment._id}
-                    className="border-t border-brand-gray-muted/30 py-10"
-                  >
-                    <h3 className="text-lg font-normal tracking-wide text-brand-black">
-                      {treatment.slug ? (
-                        <Link
-                          href={`/services/${treatment.slug}`}
-                          className="transition-colors hover:text-brand-champagne-dark"
-                        >
-                          {treatment.name}
-                        </Link>
-                      ) : (
-                        treatment.name
-                      )}
-                    </h3>
-                    {treatment.description ? (
-                      <p className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
-                        {treatment.description}
-                      </p>
-                    ) : null}
-                    {treatment.machines && treatment.machines.length > 0 ? (
-                      <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
-                        {treatment.machines.map((machine, index) => (
-                          <span key={machine._id} className="flex items-center gap-x-3">
-                            {index > 0 ? (
-                              <span aria-hidden className="h-3 w-px bg-brand-gray-muted/40" />
-                            ) : null}
-                            {machine.name}
-                          </span>
-                        ))}
-                      </p>
-                    ) : null}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-
-            {faqs.length > 0 ? (
-              <div className="mt-20">
-                <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
-                  Questions
-                </h2>
-                <dl className="mt-10">
-                  {faqs.map((faq) => (
-                    <div
-                      key={faq.question}
-                      className="border-t border-brand-gray-muted/30 py-8"
-                    >
-                      <dt className="text-[1.05rem] font-normal text-brand-black">
-                        {faq.question}
-                      </dt>
-                      <dd className="mt-4 max-w-xl text-[0.95rem] font-normal leading-[1.75] text-brand-gray-text">
-                        {faq.answer}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ) : null}
-
-            <Link
-              href="/book"
-              className="mt-16 inline-block bg-champagne-gradient-deep px-10 py-5 text-[0.7rem] font-medium uppercase tracking-widest text-brand-white transition-opacity hover:opacity-90"
-            >
-              Book Consultation
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Lateral routes out. Without these a concern page dead-ends into the
-          booking form, which is a lot to ask of someone still diagnosing. */}
-      {related.length > 0 ? (
-        <section className="border-t border-brand-gray-muted/25">
-          <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
-            <h2 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
-              Other {concern.category} concerns
-            </h2>
-            <ul className="mt-12 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((item) => (
-                <li
-                  key={item._id}
-                  className="border-t border-brand-gray-muted/30"
-                >
-                  <Link
-                    href={`/concerns/${item.slug}`}
-                    className="group flex items-baseline justify-between gap-6 py-7"
-                  >
-                    <span className="text-[1.05rem] font-normal tracking-wide text-brand-black transition-colors group-hover:text-brand-champagne-dark">
-                      {item.title}
-                    </span>
-                    <span
-                      aria-hidden
-                      className="text-[0.65rem] uppercase tracking-widest text-brand-gray-text"
-                    >
-                      View
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+      {concern.understanding ? (
+        <Rail ground="bone" index={1} title="Understanding the concern">
+          <Reveal>
+            <Prose>{concern.understanding}</Prose>
+          </Reveal>
+        </Rail>
       ) : null}
+
+      {concern.assessment ? (
+        <Rail ground="white" index={2} title="How we assess it">
+          <Reveal>
+            <Prose ground="white">{concern.assessment}</Prose>
+          </Reveal>
+        </Rail>
+      ) : null}
+
+      {concern.approach ? (
+        <Rail ground="bone" index={3} title="Our approach">
+          <Reveal>
+            <Prose>{concern.approach}</Prose>
+            <p className="mt-10 max-w-xl border-l border-brand-champagne-dark pl-6 text-[0.95rem] leading-[1.8] text-brand-black">
+              Every plan is personal. The programmes, approaches and technology below are options your
+              doctor may draw on, decided after your assessment.
+            </p>
+          </Reveal>
+        </Rail>
+      ) : null}
+
+      {concern.programmes?.length ? (
+        <Rail ground="black" title="Signature programmes">
+          <Rows
+            ground="black"
+            items={concern.programmes.map((programme) => ({
+              key: programme._id,
+              title: programme.title,
+              detail: programme.summary,
+              href: `/signature-programmes/${programme.slug}`,
+            }))}
+          />
+        </Rail>
+      ) : null}
+
+      {concern.approaches?.length ? (
+        <Rail ground="bone" title="Treatment approaches">
+          <Rows
+            items={concern.approaches.map((approach) => ({
+              key: approach._id,
+              title: approach.title,
+              detail: approach.summary,
+              href: `/treatment-approaches/${approach.slug}`,
+            }))}
+          />
+        </Rail>
+      ) : null}
+
+      {concern.technologies?.length ? (
+        <Rail ground="white" title="Technology that may be used">
+          <Reveal>
+            <Prose ground="white">
+              Technology is selected by your doctor after assessment. It supports the plan; it is never
+              the starting point.
+            </Prose>
+          </Reveal>
+          <div className="mt-10">
+            <Rows
+              ground="white"
+              items={concern.technologies.map((technology) => ({
+                key: technology._id,
+                title: technology.name,
+                detail: technology.purpose,
+                href: `/technology/${technology.slug}`,
+              }))}
+            />
+          </div>
+        </Rail>
+      ) : null}
+
+      {concern.relatedConditions?.length ? (
+        <Rail ground="bone" title="Conditions we see">
+          <ul className="grid grid-cols-1 gap-x-10 sm:grid-cols-2">
+            {concern.relatedConditions.map((condition) => (
+              <li
+                key={condition}
+                className="border-t border-brand-gray-muted/30 py-5 text-[1.05rem] leading-[1.6] text-brand-black"
+              >
+                {condition}
+              </li>
+            ))}
+          </ul>
+        </Rail>
+      ) : null}
+
+      {faqs.length > 0 ? (
+        <Rail ground="white" title="Questions">
+          <dl>
+            {faqs.map((faq) => (
+              <div key={faq.question} className="border-t border-brand-gray-muted/30 py-8 first:border-t-0 first:pt-0">
+                <dt className="text-[1.05rem] text-brand-black">{faq.question}</dt>
+                <dd className="mt-4 max-w-xl text-[0.95rem] leading-[1.8] text-brand-gray-text">
+                  {faq.answer}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Rail>
+      ) : null}
+
+      {concern.others?.length ? (
+        <Section ground="bone" className="border-t border-brand-gray-muted/20">
+          <Eyebrow>Other concerns</Eyebrow>
+          <ul className="mt-10 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-4">
+            {concern.others.map((other) => (
+              <li key={other._id} className="border-t border-brand-gray-muted/30">
+                <Link
+                  href={`/concerns/${other.slug}`}
+                  className="flex min-h-11 items-center py-5 text-[1rem] text-brand-black transition-colors hover:text-brand-champagne-dark"
+                >
+                  {other.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      <BeginConsultation />
     </main>
   );
 }

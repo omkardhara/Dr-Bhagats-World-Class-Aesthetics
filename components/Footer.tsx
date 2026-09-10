@@ -1,23 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { BRAND, formatPhone, LOCATIONS, SOCIALS } from "@/lib/site";
-
-const NAV = [
-  { label: "Concerns", href: "/concerns" },
-  { label: "Technology", href: "/technology" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Patient Stories", href: "/testimonials" },
-  { label: "Contact", href: "/contact" },
-  { label: "Book Consultation", href: "/book" },
-];
+import { FOOTER_NAV } from "@/lib/navigation";
+import { BRAND, formatPhone, LOCATIONS, SOCIALS, TAGLINE } from "@/lib/site";
 
 export default function Footer() {
   return (
     <footer className="border-t border-brand-gray-muted/25 bg-brand-black">
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-28">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
             <Image
               src="/brand/logo-vertical-light.svg"
@@ -26,54 +17,56 @@ export default function Footer() {
               height={95}
               className="h-20 w-auto"
             />
-            <p className="mt-8 max-w-xs text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted">
+            <p className="mt-10 text-xl font-normal tracking-[0.01em] text-brand-cream">{TAGLINE}</p>
+            <p className="mt-4 max-w-xs text-[0.8rem] leading-[1.7] text-brand-gray-muted">
               {BRAND.description}
             </p>
           </div>
 
-          {LOCATIONS.map((location) => (
-            <address
-              key={location.id}
-              className="not-italic lg:col-span-3"
-            >
-              <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
-                {location.name}
+          {FOOTER_NAV.map((group) => (
+            <nav key={group.title} aria-label={group.title} className="lg:col-span-2">
+              <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
+                {group.title}
               </p>
-              <p className="mt-6 text-[0.8rem] font-normal leading-[1.7] text-brand-gray-muted">
-                {location.streetAddress}
-                <br />
-                {location.locality}
-                <br />
-                {location.region} {location.postalCode}
-              </p>
-              {location.phone ? (
-                <a
-                  href={`tel:${location.phone}`}
-                  className="mt-4 inline-block text-xs font-normal text-brand-cream transition-colors hover:text-brand-champagne-light"
-                >
-                  {formatPhone(location.phone)}
-                </a>
-              ) : null}
-            </address>
+              <ul className="mt-5">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="inline-flex min-h-10 items-center text-[0.8rem] text-brand-gray-muted transition-colors hover:text-brand-cream"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           ))}
 
-          <nav className="lg:col-span-2" aria-label="Footer">
-            <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne">
-              Explore
-            </p>
-            <ul className="mt-6 flex flex-col gap-3">
-              {NAV.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-xs font-normal text-brand-gray-muted transition-colors hover:text-brand-cream"
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
+            {LOCATIONS.map((location) => (
+              <address key={location.id} className="not-italic">
+                <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
+                  {location.name}
+                </p>
+                <p className="mt-5 text-[0.8rem] leading-[1.7] text-brand-gray-muted">
+                  {location.streetAddress}
+                  <br />
+                  {location.locality}
+                  <br />
+                  {location.region} {location.postalCode}
+                </p>
+                {location.phone ? (
+                  <a
+                    href={`tel:${location.phone}`}
+                    className="mt-3 inline-flex min-h-10 items-center text-[0.8rem] text-brand-cream transition-colors hover:text-brand-champagne-light"
                   >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+                    {formatPhone(location.phone)}
+                  </a>
+                ) : null}
+              </address>
+            ))}
+          </div>
         </div>
 
         <div className="mt-20 flex flex-col gap-6 border-t border-brand-gray-muted/25 pt-10 sm:flex-row sm:items-center sm:justify-between">
@@ -87,7 +80,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-champagne-light"
+                  className="inline-flex min-h-10 items-center text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-champagne-light"
                 >
                   {name}
                 </a>

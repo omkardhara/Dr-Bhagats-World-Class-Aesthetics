@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-import { ALL_REDIRECTS } from "./lib/redirects";
+import { ALL_REDIRECTS, CATCH_ALL_REDIRECTS } from "./lib/redirects";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
@@ -51,9 +51,12 @@ const nextConfig: NextConfig = {
         { source: from, destination: to, permanent: true },
         { source: `${from}/`, destination: to, permanent: true },
       ]),
-      // Anything else under the old trees, rather than a 404.
-      { source: "/concern/:path*", destination: "/concerns", permanent: true },
-      { source: "/treatment/:path*", destination: "/services", permanent: true },
+      // Anything else under a retired tree, rather than a 404.
+      ...CATCH_ALL_REDIRECTS.map(({ from, to }) => ({
+        source: from,
+        destination: to,
+        permanent: true,
+      })),
     ];
   },
 

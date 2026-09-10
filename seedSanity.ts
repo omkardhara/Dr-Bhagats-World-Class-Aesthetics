@@ -1,18 +1,35 @@
 /**
- * Sanity dataset seed script.
+ * Sanity dataset seed and migration.
  *
  *   npx tsx seedSanity.ts
  *
  * Requires NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET and a
  * write-enabled SANITY_API_WRITE_TOKEN in .env.local.
  *
- * Every document uses a deterministic _id and is written with createOrReplace
- * inside a single transaction, so the script is safe to re-run.
+ * Safe to re-run. Every document is created if missing and then patched with
+ * its text fields only, so photography uploaded in the Studio - portraits,
+ * clinic spaces, site imagery - is never overwritten by a reseed.
+ *
+ * It also removes the documents from the previous, technology-led structure:
+ * technology pillars, core services, the 30 granular concerns and the old
+ * modality list. Those ids are listed explicitly rather than inferred, so a
+ * concern added in the Studio is never deleted by accident.
  */
-import { createClient } from "@sanity/client";
+import { createClient, type Transaction } from "@sanity/client";
 import { config as loadEnv } from "dotenv";
 
-import { CONCERNS, DOCTORS, TESTIMONIALS } from "./sanity/seed/content";
+import {
+  APPROACHES,
+  ARTICLES,
+  CLINIC_SPACES,
+  CONCERNS,
+  DOCTORS,
+  MACHINES,
+  MODALITIES,
+  PROGRAMMES,
+  slug,
+  TESTIMONIALS,
+} from "./sanity/seed/content";
 
 loadEnv({ path: ".env.local" });
 
@@ -32,361 +49,250 @@ const client = createClient({
 });
 
 /* ------------------------------------------------------------------ */
-/* Helpers                                                             */
+/* Ids and references                                                  */
 /* ------------------------------------------------------------------ */
 
-const slug = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+const concernSlug = new Map(CONCERNS.map((c) => [c.title, c.slug]));
+const programmeSlug = new Map(PROGRAMMES.map((p) => [p.title, p.slug]));
 
-/** A Sanity slug field value. */
-const slugField = (value: string) => ({ _type: "slug" as const, current: slug(value) });
+const ids = {
+  machine: (name: string) => `machine.${slug(name)}`,
+  modality: (name: string) => `treatment.${slug(name)}`,
+  concern: (title: string) => {
+    const s = concernSlug.get(title);
+    if (!s) throw new Error(`Unknown concern: ${title}`);
+    return `concern.${s}`;
+  },
+  approach: (title: string) => `treatmentApproach.${slug(title)}`,
+  programme: (title: string) => {
+    const s = programmeSlug.get(title);
+    if (!s) throw new Error(`Unknown programme: ${title}`);
+    return `signatureProgramme.${s}`;
+  },
+};
 
-/** A Sanity reference to a machine, keyed for array stability. */
-const machineRef = (name: string) => ({
-  _type: "reference" as const,
-  _key: slug(name),
-  _ref: `machine.${slug(name)}`,
-});
+const slugField = (value: string) => ({ _type: "slug" as const, current: value });
 
-const treatmentRef = (name: string) => ({
-  _type: "reference" as const,
-  _key: slug(name),
-  _ref: `treatment.${slug(name)}`,
-});
+/** A reference keyed by its target, so array keys stay stable across runs. */
+const ref = (id: string) => ({ _type: "reference" as const, _key: id.replace(/\./g, "-"), _ref: id });
 
-/* ------------------------------------------------------------------ */
-/* 1. Machines                                                         */
-/* ------------------------------------------------------------------ */
+/** Plain paragraphs to Portable Text blocks. */
+const blocks = (paragraphs: string[]) =>
+  paragraphs.map((text, index) => ({
+    _type: "block",
+    _key: `p${index}`,
+    style: "normal",
+    markDefs: [],
+    children: [{ _type: "span", _key: `p${index}s`, text, marks: [] }],
+  }));
 
-const MACHINES: { name: string; description: string }[] = [
-  {
-    name: "Fotona StarWalker",
-    description:
-      "Four-wavelength Q-switched and pico-boosted Nd:YAG platform for pigment clearance, tattoo removal and laser toning.",
-  },
-  {
-    name: "Hydrafacial",
-    description:
-      "Vortex-fusion device that cleanses, exfoliates, extracts and infuses serums in a single non-invasive pass.",
-  },
-  {
-    name: "Ultraformer MPT",
-    description:
-      "Micro-pulsed HIFU system delivering focused ultrasound to the SMAS layer for lifting and body contouring.",
-  },
-  {
-    name: "Gentle YAG",
-    description:
-      "Long-pulse 1064 nm Nd:YAG laser with cryogen cooling, suited to hair reduction and vascular work on darker skin types.",
-  },
-  {
-    name: "Sylfirm X",
-    description:
-      "Dual-wave RF microneedling platform targeting melasma, vascular lesions and skin remodelling.",
-  },
-  {
-    name: "Endolift X",
-    description:
-      "Minimally invasive endolaser using micro-optical fibres for subdermal tightening and localised fat reduction.",
-  },
-  {
-    name: "Dermapen 4",
-    description:
-      "Medical microneedling pen with adjustable depth for scar revision, stretch marks and collagen induction.",
-  },
-  {
-    name: "Skinpen",
-    description:
-      "FDA-cleared microneedling device for controlled collagen induction therapy with minimal downtime.",
-  },
-  {
-    name: "Plasmapen",
-    description:
-      "Plasma soft-surgery device for non-surgical blepharoplasty, skin tag removal and fibroblast tightening.",
-  },
-  {
-    name: "Cryopen",
-    description:
-      "Precision cryotherapy applicator for the removal of benign lesions, warts and pigmented spots.",
-  },
-  {
-    name: "Oxygeno",
-    description:
-      "Three-in-one oxygenation, exfoliation and infusion facial system for barrier repair and immediate radiance.",
-  },
-  {
-    name: "GFC",
-    description:
-      "Growth Factor Concentrate therapy - an autologous regenerative injectable for hair restoration and skin rejuvenation.",
-  },
-  {
-    name: "Thermage FLX",
-    description:
-      "Monopolar radiofrequency platform with AccuREP technology for single-session non-surgical tightening.",
-  },
-  {
-    name: "Fotona SP Dynamis Max",
-    description:
-      "Combined Nd:YAG and Er:YAG workstation covering resurfacing, hair reduction and gynaecological indications.",
-  },
-  {
-    name: "Venus Bliss Max",
-    description:
-      "Multi-modality body platform pairing diode laser lipolysis with pulsed electromagnetic muscle stimulation.",
-  },
-  {
-    name: "Fotona StarFormer",
-    description:
-      "Non-ablative Nd:YAG body and intimate wellness system for tightening, toning and muscle stimulation.",
-  },
-];
+/**
+ * Create the document if absent, then set only the given fields. Image fields
+ * are never included, so a reseed leaves uploaded photography intact.
+ */
+function upsert(
+  tx: Transaction,
+  id: string,
+  type: string,
+  fields: Record<string, unknown>,
+  unset: string[] = []
+) {
+  tx.createIfNotExists({ _id: id, _type: type });
+  tx.patch(id, (p) => {
+    let patch = p.set(fields);
+    if (unset.length) patch = patch.unset(unset);
+    return patch;
+  });
+}
 
 /* ------------------------------------------------------------------ */
-/* 2. Technology Pillars                                               */
+/* Legacy structure to remove                                          */
 /* ------------------------------------------------------------------ */
 
-const PILLARS: { title: string; description: string; machines: string[] }[] = [
-  {
-    title: "High-Intensity Body Design",
-    description:
-      "Energy-based body sculpting that pairs focused ultrasound, laser lipolysis and muscle stimulation to redefine contour without surgery.",
-    machines: [
-      "Ultraformer MPT",
-      "Venus Bliss Max",
-      "Endolift X",
-      "Fotona StarFormer",
-    ],
-  },
-  {
-    title: "Regenerative Medicine",
-    description:
-      "Autologous and micro-injury protocols that recruit the patient's own growth factors to rebuild collagen, elastin and hair density.",
-    machines: ["GFC", "Sylfirm X", "Dermapen 4", "Skinpen"],
-  },
-  {
-    title: "Precision Laser Resurfacing",
-    description:
-      "Wavelength-specific ablative and Q-switched lasers for pigment, texture and tattoo clearance with controlled thermal impact.",
-    machines: ["Fotona StarWalker", "Fotona SP Dynamis Max", "Gentle YAG"],
-  },
-  {
-    title: "Non-Surgical Lifting & Tightening",
-    description:
-      "Radiofrequency, HIFU and endolaser modalities that reach the SMAS and subdermal planes to lift without incisions.",
-    machines: [
-      "Thermage FLX",
-      "Ultraformer MPT",
-      "Endolift X",
-      "Fotona StarFormer",
-    ],
-  },
-  {
-    title: "Medical Skin Health & Barrier Repair",
-    description:
-      "Clinical-grade cleansing, oxygenation and lesion management that restore barrier function and long-term skin health.",
-    machines: ["Hydrafacial", "Oxygeno", "Plasmapen", "Cryopen"],
-  },
-];
-
-/* ------------------------------------------------------------------ */
-/* 3. Core Services and their treatments                               */
-/* ------------------------------------------------------------------ */
-
-type SeedTreatment = { name: string; description: string; machines: string[] };
-
-const SERVICES: { title: string; treatments: SeedTreatment[] }[] = [
-  {
-    title: "Advanced Laser & Skin Tech",
-    treatments: [
-      {
-        name: "Laser Skin Resurfacing",
-        description:
-          "Fractional ablative and non-ablative resurfacing to soften texture, fine lines and photodamage.",
-        machines: ["Fotona StarWalker", "Fotona SP Dynamis Max"],
-      },
-      {
-        name: "Laser Hair Reduction",
-        description:
-          "Long-pulse Nd:YAG hair reduction calibrated for darker Fitzpatrick skin types.",
-        machines: ["Gentle YAG", "Fotona SP Dynamis Max"],
-      },
-      {
-        name: "Pigmentation & Tattoo Clearance",
-        description:
-          "Q-switched and dual-wave RF protocols for melasma, sun spots and multi-colour tattoo removal.",
-        machines: ["Fotona StarWalker", "Sylfirm X"],
-      },
-      {
-        name: "Skin Tightening & Body Contouring",
-        description:
-          "Monopolar RF, HIFU and laser lipolysis combined into staged contouring programmes.",
-        machines: ["Thermage FLX", "Ultraformer MPT", "Venus Bliss Max"],
-      },
-    ],
-  },
-  {
-    title: "Artistry Injectables",
-    treatments: [
-      {
-        name: "Bio-Remodelling & Skin Boosters",
-        description:
-          "Injectable growth factors and RF microneedling layered for global skin quality rather than volume.",
-        machines: ["GFC", "Sylfirm X"],
-      },
-      {
-        name: "Thread & Subdermal Lifting",
-        description:
-          "Endolaser-assisted subdermal lifting for the lower face, jawline and submental region.",
-        machines: ["Endolift X", "Fotona StarFormer"],
-      },
-      {
-        name: "Volume & Contour Restoration",
-        description:
-          "Hyaluronic acid filler artistry for mid-face, temple and jawline restoration.",
-        machines: [],
-      },
-      {
-        name: "Muscle Relaxant Therapy",
-        description:
-          "Botulinum toxin placement for dynamic lines, masseter slimming and axillary hyperhidrosis.",
-        machines: [],
-      },
-    ],
-  },
-  {
-    title: "Medical Skin & Hair Health",
-    treatments: [
-      {
-        name: "Medical Facials & Deep Cleansing",
-        description:
-          "Protocol-driven facials that combine vortex extraction with oxygenation and active infusion.",
-        machines: ["Hydrafacial", "Oxygeno"],
-      },
-      {
-        name: "Acne & Scar Revision",
-        description:
-          "Staged microneedling and laser resurfacing programmes for active acne and atrophic scarring.",
-        machines: ["Dermapen 4", "Skinpen", "Fotona StarWalker"],
-      },
-      {
-        name: "Hair Restoration Therapy",
-        description:
-          "Growth factor concentrate injections supported by laser stimulation of the scalp.",
-        machines: ["GFC", "Fotona SP Dynamis Max"],
-      },
-      {
-        name: "Lesion & Blemish Removal",
-        description:
-          "Plasma and cryotherapy removal of skin tags, warts, moles and benign pigmented lesions.",
-        machines: ["Plasmapen", "Cryopen"],
-      },
-    ],
-  },
-];
+const LEGACY = {
+  pillars: [
+    "high-intensity-body-design",
+    "regenerative-medicine",
+    "precision-laser-resurfacing",
+    "non-surgical-lifting-and-tightening",
+    "medical-skin-health-and-barrier-repair",
+  ].map((s) => `technologyPillar.${s}`),
+  services: [
+    "advanced-laser-and-skin-tech",
+    "artistry-injectables",
+    "medical-skin-and-hair-health",
+  ].map((s) => `coreService.${s}`),
+  concerns: [
+    "acne-scars", "aging", "dry-skin", "psoriasis", "dermatitis", "vitiligo",
+    "eye-bags", "sun-damage", "warts", "eyebrow", "lips", "dark-circles",
+    "melasma", "hyperpigmentation", "hair-loss", "dandruff", "alopecia-areata",
+    "dry-hair", "greasy-hair", "over-damaged-hair", "limp-hair",
+    "full-body-contouring", "under-arm-fat", "chin-fat", "belly-fat",
+    "thigh-fat", "cellulite", "tattoo-removal",
+  ].map((s) => `concern.${s}`),
+  modalities: [
+    "acne-and-scar-revision", "medical-facials-and-deep-cleansing",
+    "skin-tightening-and-body-contouring", "bio-remodelling-and-skin-boosters",
+    "pigmentation-and-tattoo-clearance", "lesion-and-blemish-removal",
+    "volume-and-contour-restoration", "thread-and-subdermal-lifting",
+    "muscle-relaxant-therapy", "hair-restoration-therapy",
+  ].map((s) => `treatment.${s}`),
+};
 
 /* ------------------------------------------------------------------ */
 /* Seed                                                                */
 /* ------------------------------------------------------------------ */
 
 async function seed() {
-  const transaction = client.transaction();
+  const tx = client.transaction();
 
   for (const m of MACHINES) {
-    transaction.createOrReplace({
-      _id: `machine.${slug(m.name)}`,
-      _type: "machine",
+    upsert(tx, ids.machine(m.name), "machine", {
       name: m.name,
-      slug: slugField(m.name),
+      slug: slugField(slug(m.name)),
+      purpose: m.purpose,
       description: m.description,
+      category: m.category,
+      featured: m.featured,
     });
   }
 
-  for (const p of PILLARS) {
-    transaction.createOrReplace({
-      _id: `technologyPillar.${slug(p.title)}`,
-      _type: "technologyPillar",
+  for (const m of MODALITIES) {
+    upsert(
+      tx,
+      ids.modality(m.name),
+      "treatment",
+      {
+        name: m.name,
+        slug: slugField(slug(m.name)),
+        description: m.description,
+        machines: m.machines.map((name) => ref(ids.machine(name))),
+      },
+      ["image"]
+    );
+  }
+
+  CONCERNS.forEach((c, order) => {
+    upsert(
+      tx,
+      `concern.${c.slug}`,
+      "concern",
+      {
+        title: c.title,
+        slug: slugField(c.slug),
+        order,
+        summary: c.summary,
+        understanding: c.understanding,
+        assessment: c.assessment,
+        approach: c.approach,
+        relatedConditions: c.relatedConditions,
+        resultCategory: c.resultCategory,
+        programmes: c.programmes.map((t) => ref(ids.programme(t))),
+        approaches: c.approaches.map((t) => ref(ids.approach(t))),
+        technologies: c.technologies.map((name) => ref(ids.machine(name))),
+      },
+      // Fields from the previous concern shape.
+      ["category", "description", "treatments"]
+    );
+  });
+
+  APPROACHES.forEach((a, order) => {
+    upsert(tx, ids.approach(a.title), "treatmentApproach", {
+      title: a.title,
+      slug: slugField(slug(a.title)),
+      order,
+      summary: a.summary,
+      philosophy: a.philosophy,
+      considerations: a.considerations,
+      modalities: a.modalities.map((name) => ref(ids.modality(name))),
+      concerns: a.concerns.map((t) => ref(ids.concern(t))),
+      technologies: a.technologies.map((name) => ref(ids.machine(name))),
+    });
+  });
+
+  PROGRAMMES.forEach((p, order) => {
+    upsert(tx, `signatureProgramme.${p.slug}`, "signatureProgramme", {
       title: p.title,
-      slug: slugField(p.title),
-      description: p.description,
-      machines: p.machines.map(machineRef),
+      slug: slugField(p.slug),
+      order,
+      summary: p.summary,
+      forWhom: p.forWhom,
+      approach: p.approach,
+      stages: p.stages.map((stage, index) => ({ _key: `s${index}`, ...stage })),
+      concerns: p.concerns.map((t) => ref(ids.concern(t))),
+      approaches: p.approaches.map((t) => ref(ids.approach(t))),
     });
-  }
-
-  for (const s of SERVICES) {
-    for (const t of s.treatments) {
-      transaction.createOrReplace({
-        _id: `treatment.${slug(t.name)}`,
-        _type: "treatment",
-        name: t.name,
-        slug: slugField(t.name),
-        description: t.description,
-        machines: t.machines.map(machineRef),
-      });
-    }
-
-    transaction.createOrReplace({
-      _id: `coreService.${slug(s.title)}`,
-      _type: "coreService",
-      title: s.title,
-      slug: slugField(s.title),
-      treatments: s.treatments.map((t) => treatmentRef(t.name)),
-    });
-  }
-
-  for (const c of CONCERNS) {
-    transaction.createOrReplace({
-      _id: `concern.${slug(c.title)}`,
-      _type: "concern",
-      title: c.title,
-      slug: slugField(c.title),
-      category: c.category,
-      treatments: (c.treatments ?? []).map(treatmentRef),
-    });
-  }
+  });
 
   for (const d of DOCTORS) {
-    transaction.createOrReplace({
-      _id: `doctor.${slug(d.name)}`,
-      _type: "doctor",
-      name: d.name,
-      slug: slugField(d.name),
-      role: d.role,
-      qualifications: d.qualifications,
-      bio: d.bio,
-      order: d.order,
-    });
+    upsert(
+      tx,
+      `doctor.${slug(d.name)}`,
+      "doctor",
+      {
+        name: d.name,
+        slug: slugField(slug(d.name)),
+        role: d.role,
+        order: d.order,
+        shortBio: d.shortBio,
+        biography: d.biography,
+        qualifications: d.qualifications,
+      },
+      ["bio"]
+    );
   }
 
   for (const t of TESTIMONIALS) {
-    transaction.createOrReplace({
-      _id: `testimonial.${slug(t.author)}`,
-      _type: "testimonial",
-      author: t.author,
-      quote: t.quote,
-      source: "google",
-      date: t.date,
-      featured: t.featured ?? false,
+    upsert(
+      tx,
+      `testimonial.${slug(t.author)}`,
+      "testimonial",
+      {
+        author: t.author,
+        quote: t.quote,
+        source: "google",
+        featured: t.featured ?? false,
+        ...(t.category ? { category: t.category } : {}),
+      },
+      // Dates on the previous site were not reliable, so they are dropped.
+      t.category ? ["date"] : ["date", "category"]
+    );
+  }
+
+  CLINIC_SPACES.forEach((space, order) => {
+    upsert(tx, `clinicSpace.${slug(space.title)}`, "clinicSpace", {
+      title: space.title,
+      description: space.description,
+      order,
+      location: "both",
+    });
+  });
+
+  for (const a of ARTICLES) {
+    upsert(tx, `journalArticle.${slug(a.title)}`, "journalArticle", {
+      title: a.title,
+      slug: slugField(slug(a.title)),
+      excerpt: a.excerpt,
+      publishedAt: a.publishedAt,
+      body: blocks(a.paragraphs),
     });
   }
 
-  const treatmentCount = SERVICES.reduce(
-    (sum, s) => sum + s.treatments.length,
-    0
-  );
+  tx.createIfNotExists({ _id: "siteSettings", _type: "siteSettings" });
+
+  // Referrers go before the documents they point at.
+  for (const id of [...LEGACY.concerns, ...LEGACY.services, ...LEGACY.pillars]) tx.delete(id);
+  for (const id of LEGACY.modalities) tx.delete(id);
 
   console.log(
-    `Committing ${MACHINES.length} machines, ${PILLARS.length} pillars, ` +
-      `${treatmentCount} treatments, ${SERVICES.length} core services, ` +
-      `${CONCERNS.length} concerns, ${DOCTORS.length} doctors and ` +
-      `${TESTIMONIALS.length} testimonials to ${projectId}/${dataset}...`
+    `Seeding ${CONCERNS.length} concerns, ${APPROACHES.length} approaches, ` +
+      `${PROGRAMMES.length} programmes, ${MODALITIES.length} modalities, ` +
+      `${MACHINES.length} technologies, ${DOCTORS.length} doctors, ` +
+      `${TESTIMONIALS.length} testimonials, ${ARTICLES.length} articles and ` +
+      `${CLINIC_SPACES.length} clinic spaces into ${projectId}/${dataset}...`
   );
 
-  await transaction.commit();
-
+  await tx.commit();
   console.log("Seed complete.");
 }
 

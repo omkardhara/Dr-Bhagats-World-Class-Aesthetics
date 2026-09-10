@@ -19,8 +19,14 @@ export const BRAND = {
   /** Retired brand. Retained only for redirect mapping and schema history. */
   formerName: "Finesse Skin and Laser Clinic",
   description:
-    "Medical aesthetics, dermatology and laser treatment in Mumbai and Navi Mumbai.",
+    "A doctor-led aesthetic and dermatology practice in Mumbai and Navi Mumbai.",
 } as const;
+
+/** Primary brand line, chosen by the doctors. */
+export const TAGLINE = "Expertise, Elevated.";
+
+export const SUPPORTING_LINE =
+  "Where dermatological expertise meets the art of aesthetics.";
 
 export type Location = {
   id: string;

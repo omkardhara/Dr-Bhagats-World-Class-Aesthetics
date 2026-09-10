@@ -1,8 +1,13 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+/**
+ * A modality that a treatment plan may include. Modalities have no public
+ * page of their own: they appear inside a treatment approach, which is what
+ * keeps the site from reading as a menu of procedures.
+ */
 export const treatment = defineType({
   name: "treatment",
-  title: "Treatment",
+  title: "Modality",
   type: "document",
   fields: [
     defineField({
@@ -18,34 +23,13 @@ export const treatment = defineType({
       options: { source: "name", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "description",
-      title: "Description",
-      type: "text",
-      rows: 4,
-    }),
+    defineField({ name: "description", title: "Description", type: "text", rows: 3 }),
     defineField({
       name: "machines",
-      title: "Machines",
+      title: "Technology",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: [{ type: "machine" }] })],
     }),
-    defineField({
-      name: "image",
-      title: "Image",
-      type: "image",
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Alt text",
-          type: "string",
-          description: "Describe the image for screen readers.",
-        }),
-      ],
-    }),
   ],
-  preview: {
-    select: { title: "name", subtitle: "description" },
-  },
+  preview: { select: { title: "name", subtitle: "description" } },
 });

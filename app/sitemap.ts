@@ -4,37 +4,44 @@ import { SITE_URL } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import { sitemapEntriesQuery } from "@/sanity/lib/queries";
 
+/** Priority follows the patient journey: concerns first, technology last. */
 const STATIC_ROUTES = [
   { path: "/", priority: 1 },
-  { path: "/services", priority: 0.9 },
   { path: "/concerns", priority: 0.9 },
   { path: "/book", priority: 0.9 },
-  { path: "/technology", priority: 0.8 },
-  { path: "/contact", priority: 0.8 },
-  { path: "/about", priority: 0.7 },
-  { path: "/testimonials", priority: 0.6 },
+  { path: "/about", priority: 0.8 },
+  { path: "/treatment-approaches", priority: 0.8 },
+  { path: "/signature-programmes", priority: 0.7 },
+  { path: "/results", priority: 0.7 },
+  { path: "/the-clinic", priority: 0.7 },
+  { path: "/contact", priority: 0.7 },
+  { path: "/technology", priority: 0.6 },
+  { path: "/journal", priority: 0.6 },
 ] as const;
 
 export const revalidate = 3600;
 
 type Entry = { slug: string; _updatedAt: string };
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  let data: {
-    concerns: Entry[];
-    treatments: Entry[];
-    machines: Entry[];
-    latest: string | null;
-  } | null = null;
+type Data = {
+  concerns: Entry[];
+  approaches: Entry[];
+  programmes: Entry[];
+  machines: Entry[];
+  articles: Entry[];
+  latest: string | null;
+};
 
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  let data: Data | null = null;
   try {
-    data = await getClient().fetch(sitemapEntriesQuery);
+    data = await getClient().fetch<Data>(sitemapEntriesQuery);
   } catch (error) {
     // A sitemap missing content pages beats a failed build.
     console.error("[sitemap] Sanity fetch failed:", error);
   }
 
-  // Static pages have no per-page edit history, so they inherit the most
+  // Static pages have no edit history of their own, so they inherit the most
   // recent content change rather than claiming "now" on every crawl.
   const fallback = data?.latest ? new Date(data.latest) : new Date();
 
@@ -53,8 +60,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority,
     })),
-    ...section(data?.concerns, "/concerns", 0.7),
-    ...section(data?.treatments, "/services", 0.7),
-    ...section(data?.machines, "/technology", 0.6),
+    ...section(data?.concerns, "/concerns", 0.8),
+    ...section(data?.approaches, "/treatment-approaches", 0.7),
+    ...section(data?.programmes, "/signature-programmes", 0.7),
+    ...section(data?.articles, "/journal", 0.6),
+    ...section(data?.machines, "/technology", 0.5),
   ];
 }

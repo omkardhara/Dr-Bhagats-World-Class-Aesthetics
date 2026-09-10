@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { RESULT_CATEGORIES } from "../lib/categories";
+
 export const testimonial = defineType({
   name: "testimonial",
   title: "Testimonial",
@@ -14,9 +16,18 @@ export const testimonial = defineType({
     defineField({
       name: "quote",
       title: "Quote",
+      description:
+        "Use the patient's own words. Trim with an ellipsis rather than rewording.",
       type: "text",
       rows: 5,
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "category",
+      title: "Concern category",
+      description: "Leave empty for a general comment about the practice.",
+      type: "string",
+      options: { list: RESULT_CATEGORIES.map((c) => ({ title: c.label, value: c.value })) },
     }),
     defineField({
       name: "source",
@@ -30,22 +41,12 @@ export const testimonial = defineType({
       },
       initialValue: "google",
     }),
-    defineField({ name: "date", title: "Date", type: "date" }),
-    defineField({
-      name: "rating",
-      title: "Rating",
-      type: "number",
-      validation: (Rule) => Rule.min(1).max(5),
-    }),
     defineField({
       name: "featured",
       title: "Feature on the homepage",
       type: "boolean",
       initialValue: false,
     }),
-  ],
-  orderings: [
-    { title: "Newest", name: "date", by: [{ field: "date", direction: "desc" }] },
   ],
   preview: { select: { title: "author", subtitle: "quote" } },
 });

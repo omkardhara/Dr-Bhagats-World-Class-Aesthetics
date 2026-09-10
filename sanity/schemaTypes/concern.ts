@@ -1,9 +1,13 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { RESULT_CATEGORIES } from "../lib/categories";
+
 /**
- * A patient-facing problem ("acne", "hair loss"), as opposed to the
- * clinician-facing treatment that addresses it. This is how patients search,
- * so concerns are the primary entry point for organic traffic.
+ * A patient's concern: the primary way the site is organised.
+ *
+ * Field order mirrors the page, which mirrors the patient journey - the
+ * concern is understood and assessed before any approach is described, and
+ * technology is referenced last. Keep it that way when adding fields.
  */
 export const concern = defineType({
   name: "concern",
@@ -23,41 +27,56 @@ export const concern = defineType({
       options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
+    defineField({ name: "summary", title: "Summary", type: "text", rows: 2 }),
     defineField({
-      name: "category",
-      title: "Category",
-      type: "string",
-      options: {
-        list: [
-          { title: "Skin", value: "skin" },
-          { title: "Face", value: "face" },
-          { title: "Hair", value: "hair" },
-          { title: "Body", value: "body" },
-        ],
-      },
-      validation: (Rule) => Rule.required(),
+      name: "understanding",
+      title: "Understanding the concern",
+      type: "text",
+      rows: 5,
     }),
-    defineField({ name: "summary", title: "Summary", type: "text", rows: 3 }),
     defineField({
-      name: "image",
-      title: "Image",
-      type: "image",
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Alt text",
-          type: "string",
-          description: "Describe the image for screen readers.",
-        }),
-      ],
+      name: "assessment",
+      title: "How we assess it",
+      type: "text",
+      rows: 5,
     }),
-    defineField({ name: "description", title: "Description", type: "text", rows: 6 }),
     defineField({
-      name: "treatments",
-      title: "Treatments",
+      name: "approach",
+      title: "Our approach",
+      type: "text",
+      rows: 5,
+    }),
+    defineField({
+      name: "relatedConditions",
+      title: "Conditions we see",
       type: "array",
-      of: [defineArrayMember({ type: "reference", to: [{ type: "treatment" }] })],
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({
+      name: "resultCategory",
+      title: "Results category",
+      type: "string",
+      options: { list: RESULT_CATEGORIES.map((c) => ({ title: c.label, value: c.value })) },
+    }),
+    defineField({
+      name: "programmes",
+      title: "Signature programmes",
+      type: "array",
+      of: [defineArrayMember({ type: "reference", to: [{ type: "signatureProgramme" }] })],
+    }),
+    defineField({
+      name: "approaches",
+      title: "Treatment approaches",
+      type: "array",
+      of: [defineArrayMember({ type: "reference", to: [{ type: "treatmentApproach" }] })],
+    }),
+    defineField({
+      name: "technologies",
+      title: "Technology that may be used",
+      description: "Shown last on the page, after the clinical explanation.",
+      type: "array",
+      of: [defineArrayMember({ type: "reference", to: [{ type: "machine" }] })],
     }),
     defineField({
       name: "faqs",
@@ -75,6 +94,14 @@ export const concern = defineType({
         }),
       ],
     }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", title: "Alt text", type: "string" })],
+    }),
   ],
-  preview: { select: { title: "title", subtitle: "category" } },
+  orderings: [{ title: "Display order", name: "order", by: [{ field: "order", direction: "asc" }] }],
+  preview: { select: { title: "title", subtitle: "summary", media: "image" } },
 });
