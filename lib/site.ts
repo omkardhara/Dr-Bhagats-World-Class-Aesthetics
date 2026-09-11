@@ -9,8 +9,10 @@
  * rendered output rather than guessed. They must be supplied before launch.
  */
 
+// `||`, not `??`: a variable set to an empty string must fall back too, or
+// every absolute URL (metadataBase, canonicals, sitemap) becomes invalid.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.drbhagats.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.drbhagats.com";
 
 export const BRAND = {
   name: "Dr Bhagat's World Class Aesthetics",

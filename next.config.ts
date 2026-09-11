@@ -33,17 +33,25 @@ const nextConfig: NextConfig = {
   async redirects() {
     // The .vercel.app domain stays publicly reachable after a custom domain is
     // attached, so it competes with the canonical host in the index. Send it
-    // (and any other non-canonical host) to the real domain.
+    // to the real domain - but only when the canonical origin is configured.
+    //
+    // Only this host redirect depends on NEXT_PUBLIC_SITE_URL. The path
+    // redirects below must never be gated on it: when they were, a deployment
+    // without the variable silently dropped every retired URL to a 404.
     const canonical = process.env.NEXT_PUBLIC_SITE_URL;
-    if (!canonical) return [];
+    const hostRedirect = canonical
+      ? [
+          {
+            source: "/:path*",
+            has: [{ type: "host" as const, value: "(?<vercelHost>.*\.vercel\.app)" }],
+            destination: `${canonical}/:path*`,
+            permanent: true,
+          },
+        ]
+      : [];
 
     return [
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "(?<vercelHost>.*\.vercel\.app)" }],
-        destination: `${canonical}/:path*`,
-        permanent: true,
-      },
+      ...hostRedirect,
       // Retired finesseclinic.com structure. Matched on path, so these also
       // catch stale inbound links; they carry the old site's search equity
       // once that domain points here. Both slash forms are covered.
