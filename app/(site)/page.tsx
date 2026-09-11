@@ -12,11 +12,13 @@ import {
   Prose,
   Rows,
   Section,
+  Statement,
   TextLink,
 } from "@/components/ui";
 import { formatDate, pad } from "@/lib/format";
-import { LOCATIONS, SUPPORTING_LINE } from "@/lib/site";
-import { RESULT_CATEGORIES, resultCategoryLabel } from "@/sanity/lib/categories";
+import { programmeHref } from "@/lib/links";
+import { LOCATIONS, PHILOSOPHY_LINE, PHILOSOPHY_TEXT, SUPPORTING_LINE, TAGLINE } from "@/lib/site";
+import { RESULT_CATEGORIES, resultCategoryLabel, TECHNOLOGY_CATEGORIES } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { imageProps } from "@/sanity/lib/image";
 import { homeQuery } from "@/sanity/lib/queries";
@@ -36,10 +38,19 @@ type HomeData = {
   doctors: Doctor[];
   concerns: ConcernSummary[];
   programmes: ProgrammeSummary[];
-  featuredTechnology: string[];
   resultCategories: string[];
   testimonials: Testimonial[];
   articles: ArticleSummary[];
+};
+
+const EMPTY: HomeData = {
+  settings: null,
+  doctors: [],
+  concerns: [],
+  programmes: [],
+  resultCategories: [],
+  testimonials: [],
+  articles: [],
 };
 
 async function getHome(): Promise<HomeData> {
@@ -50,28 +61,23 @@ async function getHome(): Promise<HomeData> {
       doctors: data?.doctors ?? [],
       concerns: data?.concerns ?? [],
       programmes: data?.programmes ?? [],
-      featuredTechnology: data?.featuredTechnology ?? [],
       resultCategories: data?.resultCategories ?? [],
       testimonials: data?.testimonials ?? [],
       articles: data?.articles ?? [],
     };
   } catch (error) {
     console.error("[home] Sanity fetch failed:", error);
-    return {
-      settings: null,
-      doctors: [],
-      concerns: [],
-      programmes: [],
-      featuredTechnology: [],
-      resultCategories: [],
-      testimonials: [],
-      articles: [],
-    };
+    return EMPTY;
   }
 }
 
 const PRINCIPLES = ["The doctor decides.", "Technology supports.", "You receive a personalised plan."];
 
+/**
+ * The doctors' eleven-section homepage. A patient meets the practice, its
+ * philosophy and its doctors, and their own concern, long before any
+ * technology - which appears seventh, as supporting evidence.
+ */
 export default async function Home() {
   const home = await getHome();
   const hero = imageProps(home.settings?.heroImage, 2400);
@@ -80,7 +86,7 @@ export default async function Home() {
 
   return (
     <main className="flex-1 bg-brand-bone">
-      {/* 1 — Hero: the brand, not a list of services. */}
+      {/* 01 — Hero: the practice, not a list of services. */}
       <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-brand-black">
         {hero ? (
           <>
@@ -99,16 +105,16 @@ export default async function Home() {
           </div>
         )}
 
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 pt-44 lg:px-10 lg:pb-32">
-          <Eyebrow ground="black">Dr Bhagat&apos;s · World Class Aesthetics</Eyebrow>
-          <h1 className="mt-10 text-5xl font-normal leading-[1.02] tracking-[0.01em] text-brand-cream sm:text-7xl lg:text-8xl">
-            Expertise,
+        <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 pt-44 lg:px-10 lg:pb-32 xl:pt-56">
+          <h1 className="text-4xl font-normal leading-[1.04] tracking-[0.005em] text-brand-cream sm:text-5xl lg:text-7xl xl:text-[5.5rem]">
+            Dr Bhagat’s
             <br />
-            Elevated.
+            World Class Aesthetics
           </h1>
-          <p className="mt-10 max-w-xl text-[1.1rem] leading-[1.75] text-brand-cream/80">
-            {SUPPORTING_LINE}
+          <p className="mt-10 text-2xl font-normal tracking-[0.01em] text-brand-champagne-light sm:text-3xl">
+            {TAGLINE}
           </p>
+          <p className="mt-6 max-w-xl text-[1.1rem] leading-[1.75] text-brand-cream/80">{SUPPORTING_LINE}</p>
           <div className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6">
             <PrimaryLink href="/book">Book a Consultation</PrimaryLink>
             <TextLink href="/concerns" ground="black">
@@ -118,13 +124,13 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 2 — Philosophy */}
+      {/* 02 — Doctor-led philosophy */}
       <Section ground="bone">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
               <Eyebrow>Our philosophy</Eyebrow>
-              <Display className="mt-8">Every face is different. Every treatment plan should be too.</Display>
+              <Display className="mt-8">{PHILOSOPHY_LINE}</Display>
             </Reveal>
             <SanityPicture
               image={home.settings?.philosophyImage}
@@ -135,15 +141,11 @@ export default async function Home() {
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal index={1}>
-              <Prose>
-                Dr Bhagat&apos;s is a doctor-led practice. We don&apos;t offer a menu of machines or
-                procedures. Your doctor assesses what is happening with your skin, face or body, and
-                designs a personalised plan using whichever treatments and technology are clinically
-                right for you.
-              </Prose>
+              <Statement>{PHILOSOPHY_TEXT[0]}</Statement>
+              <Prose className="mt-8">{PHILOSOPHY_TEXT[1]}</Prose>
               <Prose className="mt-6">
-                That judgement — knowing what to use, when to combine, and when not to treat — is what
-                we believe every patient should expect.
+                Dr Bhagat&apos;s is a doctor-led practice. Every face is different. Every treatment plan
+                should be too.
               </Prose>
             </Reveal>
             <ul className="mt-14">
@@ -155,22 +157,20 @@ export default async function Home() {
                 </li>
               ))}
             </ul>
-            <Eyebrow className="mt-10">Considered treatment, not a menu.</Eyebrow>
           </div>
         </div>
       </Section>
 
-      {/* 3 — The doctors, introduced early */}
+      {/* 03 — The doctors */}
       {home.doctors.length > 0 ? (
         <Section ground="black">
           <Reveal>
-            <Eyebrow ground="black">Your doctors</Eyebrow>
+            <Eyebrow ground="black">The doctors</Eyebrow>
             <Display ground="black" className="mt-8 max-w-4xl">
               {home.doctors.map((doctor) => doctor.name).join(" & ")}
             </Display>
             <Prose ground="black" className="mt-8">
-              Dermatologists and aesthetic physicians, trained in Mumbai and the United States. At Dr
-              Bhagat&apos;s, the doctor decides.
+              Two doctors. One standard of care.
             </Prose>
           </Reveal>
           <div className="mt-20 grid grid-cols-1 gap-16 md:grid-cols-2">
@@ -191,6 +191,7 @@ export default async function Home() {
                   {doctor.role ? (
                     <Eyebrow ground="black" className="mt-4">
                       {doctor.role}
+                      {doctor.specialty ? ` · ${doctor.specialty}` : ""}
                     </Eyebrow>
                   ) : null}
                   {doctor.shortBio ? (
@@ -208,7 +209,7 @@ export default async function Home() {
         </Section>
       ) : null}
 
-      {/* 4 — What would you like to improve? */}
+      {/* 04 — Your concerns */}
       {home.concerns.length > 0 ? (
         <Section ground="bone">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -242,7 +243,7 @@ export default async function Home() {
         </Section>
       ) : null}
 
-      {/* 5 — The approach */}
+      {/* 05 — Our approach */}
       <Section ground="white">
         <Reveal>
           <Eyebrow ground="white">Our approach</Eyebrow>
@@ -250,7 +251,7 @@ export default async function Home() {
             A plan, not a procedure.
           </Display>
           <Prose ground="white" className="mt-8">
-            Every patient follows the same four steps. What happens within them is entirely personal.
+            Every patient follows the same five steps. What happens within them is entirely personal.
           </Prose>
         </Reveal>
         <JourneySteps ground="white" />
@@ -261,20 +262,23 @@ export default async function Home() {
         </div>
       </Section>
 
-      {/* 6 — Signature programmes */}
+      {/* 06 — The Dr Bhagat's Signature */}
       {home.programmes.length > 0 ? (
         <Section ground="black">
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <Reveal>
-                <Eyebrow ground="black">Signature programmes</Eyebrow>
+                <Eyebrow ground="black">The Dr Bhagat’s Signature</Eyebrow>
                 <Display ground="black" className="mt-8">
-                  The Dr Bhagat programmes.
+                  Personalised by expertise. Refined by experience.
                 </Display>
                 <Prose ground="black" className="mt-8">
-                  Treatment concepts that combine different modalities, planned and sequenced by the
-                  doctor for each patient.
+                  Our signature programmes are not fixed protocols. They are carefully considered
+                  treatment strategies, designed around the individual patient.
                 </Prose>
+                <TextLink href="/signature" ground="black" className="mt-10">
+                  The Signature Approach
+                </TextLink>
               </Reveal>
             </div>
             <div className="lg:col-span-7 lg:col-start-6">
@@ -283,9 +287,9 @@ export default async function Home() {
                 size="lg"
                 items={home.programmes.map((programme) => ({
                   key: programme._id,
-                  title: programme.title,
-                  detail: programme.summary,
-                  href: `/signature-programmes/${programme.slug}`,
+                  title: programme.shortTitle ?? programme.title,
+                  detail: programme.tagline,
+                  href: programmeHref(programme.slug),
                 }))}
               />
             </div>
@@ -293,7 +297,7 @@ export default async function Home() {
         </Section>
       ) : null}
 
-      {/* 7 — Technology, as supporting evidence */}
+      {/* 07 — Technology, as supporting evidence */}
       <Section ground="bone">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
@@ -305,24 +309,21 @@ export default async function Home() {
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal index={1}>
               <Prose>
-                Our technology portfolio is a genuine strength, but it is never the starting point.
-                Each platform is selected according to your anatomy, skin type, condition and goals,
-                and used only where it is clinically appropriate.
+                We don’t choose treatments because a technology is available. We select technology
+                according to the patient’s anatomy, skin condition, goals and clinical needs.
               </Prose>
-              {home.featuredTechnology.length > 0 ? (
-                <p className="mt-8 text-[0.65rem] uppercase leading-[2] tracking-widest text-brand-champagne-dark">
-                  Including {home.featuredTechnology.join(" · ")}
-                </p>
-              ) : null}
+              <p className="mt-8 text-[0.65rem] uppercase leading-[2] tracking-widest text-brand-champagne-dark">
+                {TECHNOLOGY_CATEGORIES.map((category) => category.label).join(" · ")}
+              </p>
               <div className="mt-10">
-                <TextLink href="/technology">Our technology</TextLink>
+                <TextLink href="/technology">Explore our technology</TextLink>
               </div>
             </Reveal>
           </div>
         </div>
       </Section>
 
-      {/* 8 — Results, organised by concern */}
+      {/* 08 — Results, organised by concern */}
       {resultCategories.length > 0 || home.testimonials.length > 0 ? (
         <Section ground="white">
           <Reveal>
@@ -370,18 +371,19 @@ export default async function Home() {
         </Section>
       ) : null}
 
-      {/* 9 — The Clinic */}
+      {/* 09 — The Clinic */}
       <Section ground="black">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className={hasClinicImage ? "lg:col-span-5" : "lg:col-span-8"}>
             <Reveal>
               <Eyebrow ground="black">The Clinic</Eyebrow>
               <Display ground="black" className="mt-8">
-                A private, calm and precise environment.
+                A luxury medical experience.
               </Display>
               <Prose ground="black" className="mt-8">
-                Two clinics, in Goregaon East, Mumbai and Vashi, Navi Mumbai, designed around privacy,
-                comfort and clinical precision.
+                Luxury in aesthetic medicine is not about having more. It is about choosing better —
+                being listened to, privacy, and attention to detail, in Goregaon East, Mumbai and
+                Vashi, Navi Mumbai.
               </Prose>
             </Reveal>
             <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
@@ -420,7 +422,7 @@ export default async function Home() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <Reveal>
               <Eyebrow>Journal</Eyebrow>
-              <Display className="mt-8">Considered perspectives.</Display>
+              <Display className="mt-8">Expert knowledge.</Display>
             </Reveal>
             <TextLink href="/journal">All articles</TextLink>
           </div>

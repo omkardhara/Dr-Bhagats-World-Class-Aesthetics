@@ -40,7 +40,7 @@ export default function Error({
             Try again
           </button>
           <a
-            href="/contact"
+            href="/book#clinic-details"
             className="border-b border-brand-champagne pb-2 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light transition-colors hover:text-brand-cream"
           >
             Contact the clinic

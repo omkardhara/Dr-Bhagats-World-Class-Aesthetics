@@ -18,13 +18,21 @@ export function resultCategoryLabel(value: string | null | undefined): string {
   return RESULT_CATEGORIES.find((c) => c.value === value)?.label ?? "";
 }
 
-/** Devices are grouped by clinical role, never by marketing theme. */
+/**
+ * The technology page's categories, in the order the doctors specified. A
+ * technology may belong to more than one - Thermage FLX is both energy-based
+ * and a lifting technology - so machines hold an array of these values.
+ */
 export const TECHNOLOGY_CATEGORIES = [
-  { value: "laser", label: "Laser platforms" },
-  { value: "tightening", label: "Energy-based lifting and contouring" },
-  { value: "regenerative", label: "Regenerative and remodelling" },
-  { value: "skin-health", label: "Skin health" },
-  { value: "dermatosurgery", label: "Precision dermatosurgery" },
+  { value: "energy-based", label: "Energy-based technology" },
+  { value: "lasers", label: "Lasers" },
+  { value: "lifting", label: "Lifting & tightening" },
+  { value: "rejuvenation", label: "Skin rejuvenation" },
+  { value: "regenerative", label: "Regenerative dermatology" },
 ] as const;
 
 export type TechnologyCategory = (typeof TECHNOLOGY_CATEGORIES)[number]["value"];
+
+export function technologyCategoryLabel(value: string): string {
+  return TECHNOLOGY_CATEGORIES.find((c) => c.value === value)?.label ?? "";
+}

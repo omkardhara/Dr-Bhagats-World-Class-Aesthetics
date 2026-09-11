@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import Reveal from "@/components/Reveal";
-import {
-  BeginConsultation,
-  Display,
-  Eyebrow,
-  PageHero,
-  Prose,
-  Rail,
-  Section,
-} from "@/components/ui";
+import { BeginConsultation, Display, PageHero, Prose, Rail, Section, type Ground } from "@/components/ui";
+import { technologyHref } from "@/lib/links";
 import { TECHNOLOGY_CATEGORIES } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { technologyQuery } from "@/sanity/lib/queries";
@@ -19,30 +11,11 @@ import type { TechnologyItem } from "@/sanity/lib/types";
 export const metadata: Metadata = {
   title: "Technology",
   description:
-    "Advanced technology, selected with purpose. Each platform is chosen according to the patient's anatomy, skin, condition and goals.",
+    "Technology, selected with purpose. We select technology according to the patient's anatomy, skin condition, goals and clinical needs.",
   alternates: { canonical: "/technology" },
 };
 
 export const revalidate = 60;
-
-const CRITERIA = [
-  {
-    title: "Your anatomy and skin type",
-    body: "Skin tone, thickness and structure determine which technologies are safe and effective for you.",
-  },
-  {
-    title: "The clinical problem",
-    body: "Different concerns, and different depths of the same concern, call for different tools.",
-  },
-  {
-    title: "Your goals and downtime",
-    body: "The plan reflects the result you want and the recovery you can accommodate.",
-  },
-  {
-    title: "Safety",
-    body: "Each platform is used within its established clinical role, at settings chosen for the individual.",
-  },
-];
 
 async function getTechnology(): Promise<TechnologyItem[]> {
   try {
@@ -53,110 +26,92 @@ async function getTechnology(): Promise<TechnologyItem[]> {
   }
 }
 
+/**
+ * Every technology is a small card of equal size. Only the few signature
+ * technologies with a dedicated page carry a link, so nothing competes for
+ * attention as a hero.
+ */
 export default async function TechnologyPage() {
   const items = await getTechnology();
-  const featured = items.filter((item) => item.featured);
   const groups = TECHNOLOGY_CATEGORIES.map((category) => ({
     ...category,
-    items: items.filter((item) => item.category === category.value),
+    items: items.filter((item) => item.categories?.includes(category.value)),
   })).filter((group) => group.items.length > 0);
+
+  // A technology can appear in more than one category. Only its first card
+  // carries the id that /technology#slug links point to.
+  const anchored = new Set<string>();
 
   return (
     <main className="flex-1 bg-brand-bone">
       <PageHero
         eyebrow="Technology"
-        title="Advanced technology, selected with purpose."
-        lead="Our technology is a genuine strength. It is never the starting point."
+        title="Technology, selected with purpose."
+        lead="We don’t choose treatments because a technology is available. We select technology according to the patient’s anatomy, skin condition, goals and clinical needs."
       />
 
-      <Rail ground="bone" index={1} title="How we select technology">
-        <Reveal>
-          <Prose>
-            We invest in technology so that we have the right tool for each patient, rather than
-            fitting each patient to a tool. The choice always follows the assessment.
-          </Prose>
-        </Reveal>
-        <ul className="mt-12">
-          {CRITERIA.map((criterion, index) => (
-            <li key={criterion.title} className="border-t border-brand-gray-muted/30 py-8">
-              <Reveal index={index}>
-                <h3 className="text-xl font-normal tracking-[0.01em] text-brand-black">{criterion.title}</h3>
-                <p className="mt-3 max-w-xl text-[0.95rem] leading-[1.8] text-brand-gray-text">
-                  {criterion.body}
-                </p>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      </Rail>
-
-      <Rail ground="white" index={2} title="Knowing when not to">
-        <Reveal>
-          <Prose ground="white">
-            Knowing when a technology will not help, or when a simpler approach will serve you better,
-            is as much a part of clinical judgement as knowing when it will.
-          </Prose>
-        </Reveal>
-      </Rail>
-
-      {featured.length > 0 ? (
-        <Section ground="black">
-          <Reveal>
-            <Eyebrow ground="black">Selected platforms</Eyebrow>
-            <Display ground="black" className="mt-8 max-w-3xl">
-              Tools in the hands of the doctor.
-            </Display>
-          </Reveal>
-          <ul className="mt-20 grid grid-cols-1 gap-x-16 md:grid-cols-2">
-            {featured.map((item, index) => (
-              <li key={item._id} className="border-t border-brand-gray-muted/25 py-10">
-                <Reveal index={index % 2}>
-                  <Link href={`/technology/${item.slug}`} className="group block">
-                    <span className="block text-2xl font-normal tracking-[0.01em] text-brand-cream transition-colors group-hover:text-brand-champagne-light">
-                      {item.name}
-                    </span>
-                    {item.purpose ? (
-                      <span className="mt-4 block text-[0.95rem] leading-[1.8] text-brand-gray-muted">
-                        {item.purpose}
-                      </span>
-                    ) : null}
-                  </Link>
-                  {item.concerns?.length ? (
-                    <p className="mt-6 text-[0.65rem] uppercase leading-[2] tracking-widest text-brand-champagne-light">
-                      Within plans for {item.concerns.map((concern) => concern.title).join(" · ")}
-                    </p>
-                  ) : null}
-                </Reveal>
+      {groups.length > 0 ? (
+        <nav aria-label="Technology categories" className="border-b border-brand-gray-muted/20 bg-brand-bone">
+          <ul className="mx-auto flex w-full max-w-7xl flex-wrap gap-x-8 px-6 py-4 lg:px-10">
+            {groups.map((group) => (
+              <li key={group.value}>
+                <a
+                  href={`#${group.value}`}
+                  className="inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark transition-colors hover:text-brand-black"
+                >
+                  {group.label}
+                </a>
               </li>
             ))}
           </ul>
-        </Section>
+        </nav>
       ) : null}
 
-      {groups.length > 0 ? (
-        <Rail ground="bone" title="The wider portfolio">
-          {groups.map((group) => (
-            <div
-              key={group.value}
-              className="border-t border-brand-gray-muted/30 py-8 first:border-t-0 first:pt-0"
-            >
-              <Eyebrow>{group.label}</Eyebrow>
-              <ul className="mt-4 flex flex-wrap gap-x-8">
-                {group.items.map((item) => (
-                  <li key={item._id}>
-                    <Link
-                      href={`/technology/${item.slug}`}
-                      className="inline-flex min-h-11 items-center text-[1.05rem] text-brand-black transition-colors hover:text-brand-champagne-dark"
-                    >
-                      {item.name}
-                    </Link>
+      {groups.map((group, index) => {
+        const ground: Ground = index % 2 === 0 ? "bone" : "white";
+        return (
+          <Rail key={group.value} id={group.value} ground={ground} title={group.label}>
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {group.items.map((item) => {
+                const id = anchored.has(item.slug) ? undefined : item.slug;
+                anchored.add(item.slug);
+                return (
+                  <li
+                    key={item._id}
+                    id={id}
+                    className={`flex scroll-mt-28 flex-col border p-6 xl:scroll-mt-40 ${
+                      item.dedicatedPage ? "border-brand-champagne-dark/60" : "border-brand-gray-muted/30"
+                    }`}
+                  >
+                    <h3 className="text-lg font-normal tracking-[0.01em] text-brand-black">{item.name}</h3>
+                    {item.purpose ? (
+                      <p className="mt-3 text-[0.9rem] leading-[1.7] text-brand-gray-text">{item.purpose}</p>
+                    ) : null}
+                    {item.dedicatedPage ? (
+                      <Link
+                        href={technologyHref(item)}
+                        className="mt-auto inline-flex min-h-11 items-end self-start border-b border-brand-champagne-dark pb-1.5 pt-6 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark transition-colors hover:text-brand-black"
+                      >
+                        Discover {item.name}
+                      </Link>
+                    ) : null}
                   </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </Rail>
-      ) : null}
+                );
+              })}
+            </ul>
+          </Rail>
+        );
+      })}
+
+      <Section ground={groups.length % 2 === 0 ? "bone" : "white"}>
+        <Display ground={groups.length % 2 === 0 ? "bone" : "white"} className="max-w-3xl">
+          The doctor decides. Technology supports.
+        </Display>
+        <Prose ground={groups.length % 2 === 0 ? "bone" : "white"} className="mt-8">
+          Knowing when a technology will not help is as much a part of clinical judgement as knowing
+          when it will.
+        </Prose>
+      </Section>
 
       <BeginConsultation />
     </main>

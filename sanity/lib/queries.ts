@@ -11,15 +11,14 @@ export const siteSettingsQuery = defineQuery(`
 export const homeQuery = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{ heroImage, philosophyImage, clinicImage },
   "doctors": *[_type == "doctor"] | order(order asc){
-    _id, name, role, shortBio, portrait, "slug": slug.current
+    _id, name, role, specialty, position, shortBio, portrait, "slug": slug.current
   },
   "concerns": *[_type == "concern"] | order(order asc){
     _id, title, summary, "slug": slug.current
   },
   "programmes": *[_type == "signatureProgramme"] | order(order asc){
-    _id, title, summary, "slug": slug.current
+    _id, title, shortTitle, tagline, "slug": slug.current
   },
-  "featuredTechnology": *[_type == "machine" && featured == true] | order(name asc)[0...4].name,
   "resultCategories": array::unique(
     *[_type == "result" && consentConfirmed == true].category +
     *[_type == "testimonial" && defined(category)].category
@@ -43,9 +42,9 @@ export const concernBySlugQuery = defineQuery(`
     _id, title, summary, understanding, assessment, approach,
     relatedConditions, resultCategory, image, faqs[]{ question, answer },
     "slug": slug.current,
-    "programmes": programmes[]->{ _id, title, summary, "slug": slug.current },
+    "programmes": programmes[]->{ _id, title, tagline, "slug": slug.current },
     "approaches": approaches[]->{ _id, title, summary, "slug": slug.current },
-    "technologies": technologies[]->{ _id, name, purpose, "slug": slug.current },
+    "technologies": technologies[]->{ _id, name, purpose, dedicatedPage, "slug": slug.current },
     "others": *[_type == "concern" && slug.current != $slug] | order(order asc){
       _id, title, "slug": slug.current
     }
@@ -64,7 +63,7 @@ export const approachesQuery = defineQuery(`{
     "concerns": concerns[]->{ _id, title, "slug": slug.current }
   },
   "programmes": *[_type == "signatureProgramme"] | order(order asc){
-    _id, title, summary, "slug": slug.current
+    _id, title, tagline, "slug": slug.current
   }
 }`);
 
@@ -74,9 +73,9 @@ export const approachBySlugQuery = defineQuery(`
     "slug": slug.current,
     "modalities": modalities[]->{ _id, name, description },
     "concerns": concerns[]->{ _id, title, summary, "slug": slug.current },
-    "technologies": technologies[]->{ _id, name, purpose, "slug": slug.current },
+    "technologies": technologies[]->{ _id, name, purpose, dedicatedPage, "slug": slug.current },
     "programmes": *[_type == "signatureProgramme" && references(^._id)] | order(order asc){
-      _id, title, summary, "slug": slug.current
+      _id, title, tagline, "slug": slug.current
     }
   }
 `);
@@ -85,45 +84,26 @@ export const approachSlugsQuery = defineQuery(`
   *[_type == "treatmentApproach" && defined(slug.current)].slug.current
 `);
 
-/* Signature programmes ------------------------------------------------ */
+/* The Dr Bhagat's Signature ------------------------------------------- */
 
 export const programmesQuery = defineQuery(`
   *[_type == "signatureProgramme"] | order(order asc){
-    _id, title, summary, forWhom, "slug": slug.current
+    _id, title, shortTitle, tagline, body, closing, image, "slug": slug.current
   }
-`);
-
-export const programmeBySlugQuery = defineQuery(`
-  *[_type == "signatureProgramme" && slug.current == $slug][0]{
-    _id, title, summary, forWhom, approach, image,
-    stages[]{ _key, title, description },
-    "slug": slug.current,
-    "concerns": concerns[]->{ _id, title, summary, "slug": slug.current },
-    "approaches": approaches[]->{ _id, title, "slug": slug.current },
-    "others": *[_type == "signatureProgramme" && slug.current != $slug] | order(order asc){
-      _id, title, "slug": slug.current
-    }
-  }
-`);
-
-export const programmeSlugsQuery = defineQuery(`
-  *[_type == "signatureProgramme" && defined(slug.current)].slug.current
 `);
 
 /* Technology ---------------------------------------------------------- */
 
+/** Uncategorised technologies are held back from the page until a category is chosen. */
 export const technologyQuery = defineQuery(`
-  *[_type == "machine"] | order(name asc){
-    _id, name, purpose, category, featured, "slug": slug.current,
-    "concerns": *[_type == "concern" && references(^._id)] | order(order asc){
-      _id, title, "slug": slug.current
-    }
+  *[_type == "machine" && count(categories) > 0] | order(name asc){
+    _id, name, purpose, categories, dedicatedPage, "slug": slug.current
   }
 `);
 
 export const machineBySlugQuery = defineQuery(`
   *[_type == "machine" && slug.current == $slug][0]{
-    _id, name, purpose, description, category, image,
+    _id, name, purpose, description, categories, dedicatedPage, image,
     "slug": slug.current,
     "concerns": *[_type == "concern" && references(^._id)] | order(order asc){
       _id, title, summary, "slug": slug.current
@@ -134,16 +114,19 @@ export const machineBySlugQuery = defineQuery(`
   }
 `);
 
+/** Only technologies with a dedicated page are prerendered or listed in the sitemap. */
 export const machineSlugsQuery = defineQuery(`
-  *[_type == "machine" && defined(slug.current)].slug.current
+  *[_type == "machine" && dedicatedPage == true && defined(slug.current)].slug.current
 `);
 
 /* Doctors, results, clinic, journal ----------------------------------- */
 
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc){
-    _id, name, role, shortBio, biography, qualifications, expertise,
-    memberships, achievements, portrait, "slug": slug.current
+    _id, name, role, specialty, position, shortBio, biography, quote, practisingSince,
+    qualifications, expertise, conferences, publications, achievements, memberships,
+    portrait, "slug": slug.current,
+    "technologies": technologies[]->{ _id, name, dedicatedPage, "slug": slug.current }
   }
 `);
 
@@ -164,10 +147,7 @@ export const clinicQuery = defineQuery(`{
   "spaces": *[_type == "clinicSpace" && count(images) > 0] | order(order asc){
     _id, title, description, location, images
   },
-  "team": *[_type == "teamMember"] | order(order asc){ _id, name, role, portrait },
-  "featuredTechnology": *[_type == "machine" && featured == true] | order(name asc){
-    _id, name, "slug": slug.current
-  }
+  "team": *[_type == "teamMember"] | order(order asc){ _id, name, role, portrait }
 }`);
 
 export const journalQuery = defineQuery(`
@@ -199,8 +179,7 @@ export const journalSlugsQuery = defineQuery(`
 export const sitemapEntriesQuery = defineQuery(`{
   "concerns": *[_type == "concern" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
   "approaches": *[_type == "treatmentApproach" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
-  "programmes": *[_type == "signatureProgramme" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
-  "machines": *[_type == "machine" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
+  "machines": *[_type == "machine" && dedicatedPage == true && defined(slug.current)]{ "slug": slug.current, _updatedAt },
   "articles": *[_type == "journalArticle" && defined(slug.current)]{ "slug": slug.current, _updatedAt },
   "latest": *[defined(_updatedAt) && !(_type match "system.*")] | order(_updatedAt desc)[0]._updatedAt
 }`);

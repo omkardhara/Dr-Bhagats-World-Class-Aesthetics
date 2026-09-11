@@ -10,11 +10,10 @@ const STATIC_ROUTES = [
   { path: "/concerns", priority: 0.9 },
   { path: "/book", priority: 0.9 },
   { path: "/about", priority: 0.8 },
+  { path: "/signature", priority: 0.8 },
   { path: "/treatment-approaches", priority: 0.8 },
-  { path: "/signature-programmes", priority: 0.7 },
   { path: "/results", priority: 0.7 },
   { path: "/the-clinic", priority: 0.7 },
-  { path: "/contact", priority: 0.7 },
   { path: "/technology", priority: 0.6 },
   { path: "/journal", priority: 0.6 },
 ] as const;
@@ -26,7 +25,6 @@ type Entry = { slug: string; _updatedAt: string };
 type Data = {
   concerns: Entry[];
   approaches: Entry[];
-  programmes: Entry[];
   machines: Entry[];
   articles: Entry[];
   latest: string | null;
@@ -62,8 +60,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...section(data?.concerns, "/concerns", 0.8),
     ...section(data?.approaches, "/treatment-approaches", 0.7),
-    ...section(data?.programmes, "/signature-programmes", 0.7),
     ...section(data?.articles, "/journal", 0.6),
+    // Only technologies with a dedicated page; the rest are cards on /technology.
     ...section(data?.machines, "/technology", 0.5),
   ];
 }

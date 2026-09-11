@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { BeginConsultation, PageHero, Prose, Rail, Rows } from "@/components/ui";
 import { SITE_URL } from "@/lib/site";
-import { TECHNOLOGY_CATEGORIES } from "@/sanity/lib/categories";
+import { technologyCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { machineBySlugQuery, machineSlugsQuery } from "@/sanity/lib/queries";
 import type { Machine } from "@/sanity/lib/types";
@@ -22,6 +22,7 @@ async function getMachine(slug: string): Promise<Machine | null> {
   }
 }
 
+/** Only signature technologies are prerendered; see `dedicatedPage` on the schema. */
 export async function generateStaticParams() {
   try {
     const slugs = await getClient().fetch<string[]>(machineSlugsQuery);
@@ -36,7 +37,7 @@ export async function generateMetadata({
 }: PageProps<"/technology/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const machine = await getMachine(slug);
-  if (!machine) return { title: "Technology" };
+  if (!machine?.dedicatedPage) return { title: "Technology" };
   return {
     title: machine.name,
     description: machine.purpose ?? machine.description,
@@ -45,16 +46,17 @@ export async function generateMetadata({
 }
 
 /**
- * Device pages exist because patients search device names. They are framed
- * around where the device fits in a doctor's plan - concerns first - so a
- * visitor landing here is steered back to the clinical journey.
+ * A dedicated page, reserved for the few signature technologies. Every other
+ * technology is a card on /technology, so its old page address redirects to
+ * that card rather than presenting it as a hero of its own.
  */
 export default async function MachinePage({ params }: PageProps<"/technology/[slug]">) {
   const { slug } = await params;
   const machine = await getMachine(slug);
   if (!machine) notFound();
+  if (!machine.dedicatedPage) permanentRedirect(`/technology#${machine.slug}`);
 
-  const category = TECHNOLOGY_CATEGORIES.find((c) => c.value === machine.category)?.label;
+  const categories = (machine.categories ?? []).map(technologyCategoryLabel).filter(Boolean);
   const hasApproaches = Boolean(machine.approaches?.length);
 
   return (
@@ -85,8 +87,8 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
       <Rail ground="bone" index={1} title="Where it fits in a plan">
         <Reveal>
           <Prose>
-            Like all our technology, {machine.name} is selected by the doctor as part of a personalised
-            plan, following assessment. It supports the treatment; it does not define it.
+            Like all our technology, {machine.name} is selected by the doctor after assessment, as one
+            part of a personalised plan. It supports the treatment; it does not define it.
           </Prose>
         </Reveal>
         {machine.concerns?.length ? (
@@ -103,29 +105,28 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
         ) : null}
       </Rail>
 
+      {machine.description ? (
+        <Rail ground="white" index={2} title="About the technology">
+          <Reveal>
+            <Prose ground="white">{machine.description}</Prose>
+            {categories.length > 0 ? (
+              <p className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                {categories.join(" · ")}
+              </p>
+            ) : null}
+          </Reveal>
+        </Rail>
+      ) : null}
+
       {hasApproaches ? (
-        <Rail ground="white" index={2} title="Treatment approaches">
+        <Rail ground="bone" title="Treatment approaches">
           <Rows
-            ground="white"
             items={(machine.approaches ?? []).map((approach) => ({
               key: approach._id,
               title: approach.title,
               href: `/treatment-approaches/${approach.slug}`,
             }))}
           />
-        </Rail>
-      ) : null}
-
-      {machine.description ? (
-        <Rail ground="bone" index={hasApproaches ? 3 : 2} title="About the technology">
-          <Reveal>
-            <Prose>{machine.description}</Prose>
-            {category ? (
-              <p className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
-                {category}
-              </p>
-            ) : null}
-          </Reveal>
         </Rail>
       ) : null}
 

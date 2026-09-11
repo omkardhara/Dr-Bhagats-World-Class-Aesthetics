@@ -14,6 +14,7 @@ import {
   Section,
 } from "@/components/ui";
 import { pad } from "@/lib/format";
+import { programmeHref } from "@/lib/links";
 import { getClient } from "@/sanity/lib/client";
 import { approachesQuery } from "@/sanity/lib/queries";
 import type { ApproachSummary, ProgrammeSummary } from "@/sanity/lib/types";
@@ -48,14 +49,14 @@ export default async function TreatmentApproachesPage() {
       <PageHero
         eyebrow="Treatment Approaches"
         title="Considered treatment, not a menu."
-        lead="We don’t organise care around procedures. Each approach describes how the doctors think about a family of concerns, and every plan within it is personal."
+        lead="We don’t believe in one treatment for everyone. Each approach describes how the doctors think about a family of concerns, and every plan within it is personal."
       />
 
       <Section ground="white">
         <Reveal>
-          <Eyebrow ground="white">The patient journey</Eyebrow>
+          <Eyebrow ground="white">Our approach</Eyebrow>
           <Display ground="white" className="mt-8 max-w-3xl">
-            Concern, assessment, plan, technology.
+            Assess. Diagnose. Personalise. Treat. Refine.
           </Display>
           <Prose ground="white" className="mt-8">
             Technology comes last, because it should. The doctor first understands the concern, then
@@ -100,14 +101,14 @@ export default async function TreatmentApproachesPage() {
       </Section>
 
       {programmes.length > 0 ? (
-        <Rail ground="black" title="Signature programmes">
+        <Rail ground="black" title="The Dr Bhagat’s Signature">
           <Rows
             ground="black"
             items={programmes.map((programme) => ({
               key: programme._id,
               title: programme.title,
-              detail: programme.summary,
-              href: `/signature-programmes/${programme.slug}`,
+              detail: programme.tagline,
+              href: programmeHref(programme.slug),
             }))}
           />
         </Rail>

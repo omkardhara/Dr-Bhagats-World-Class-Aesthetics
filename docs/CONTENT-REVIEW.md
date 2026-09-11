@@ -2,72 +2,91 @@
 
 What the doctors and the clinic need to supply or approve before launch. Nothing in this list can be completed from the code side without inventing information.
 
-## 1. Sign-off on structure first
+## 1. Sign-off on structure
 
-Dr Bhagat asked to approve the sitemap and homepage wireframe before detailed design. Both are in [`INFORMATION-ARCHITECTURE.md`](./INFORMATION-ARCHITECTURE.md), and the site as built follows that document exactly. Any change requested there is cheap to make now.
+The sitemap, navigation, homepage flow and page templates are in [`INFORMATION-ARCHITECTURE.md`](./INFORMATION-ARCHITECTURE.md), revised after the doctors' second round of feedback. The site as built follows that document.
 
-## 2. Clinical copy
+## 2. The doctors — the About page
 
-All clinical copy was drafted from the practice's existing material and the feedback. It deliberately makes no outcome claims, but it has not been reviewed by a clinician. It lives in Sanity, so each item below can be edited directly in the Studio at `/studio`.
+The doctors' own copy is used throughout. Any credential section without confirmed details is hidden, so these do not yet appear:
 
-| Where | What to review |
+| Field (Studio → Doctors → Credentials) | Dr Priyam Bhagat | Dr Kamlesh Bhagat |
+| --- | --- | --- |
+| In practice since (shown as years of experience) | needed | needed |
+| Conferences | needed | needed |
+| Publications | if applicable | if applicable |
+| Awards | needed | needed |
+| Technologies | needed | needed |
+| Memberships | optional | optional |
+| Large professional portrait (3:4) | needed | needed |
+
+Please also check:
+
+- **Qualifications and training** currently lists Seth GS Medical College & KEM Hospital, the American Academy of Aesthetic Medicine and the University of Miami, carried over from the previous site. Confirm or correct, and add degrees (for example MBBS, MD, DVL).
+- **Areas of expertise** were taken from each biography. Dr Kamlesh Bhagat's list (clinical dermatology, aesthetic dermatology, long-term patient care) is the thinner of the two.
+- **Position** is "Co-Founder" for both, from "Founded by Dr Priyam Bhagat and Dr Kamlesh Bhagat".
+
+## 3. Copy written on your behalf
+
+Everything else in the doctors' feedback is reproduced as written. These pieces were drafted to fill a gap and need approval:
+
+- **The five approach steps** — short descriptions under Assess, Diagnose, Personalise, Treat and Refine.
+- **Technology card lines** — one line for each technology.
+- **The 9 concerns and 7 treatment approaches** — understanding, assessment and approach text, written without outcome claims.
+- **Homepage Clinic section** — adapted from "The experience" on the About page.
+- **The 3 journal articles.**
+
+## 4. Technology
+
+| Item | Question |
 | --- | --- |
-| Your Concerns (9) | Summary, "Understanding the concern", "How we assess it", "Our approach", conditions listed, FAQs |
-| Treatment Approaches (7) | Summary, philosophy, what the doctor considers, which modalities are listed |
-| Signature Programmes (5) | Who it is for, the approach, the four stages of each programme |
-| Technology (16) | Purpose line and description for each device; which six are featured |
-| Journal (3) | The three opening articles |
-| Medical dermatology | Confirm psoriasis, vitiligo, dermatitis and warts is the right list |
+| Dedicated pages | Endolift X, Thermage FLX and Ultraformer MPT have their own page. Confirm, or name the signature technologies. Switch per technology in the Studio. |
+| GentleYAG, OxyGeneo, SkinPen | Renamed to the spellings in the feedback. Confirm each is in use. |
+| Exosomes | Added from the feedback. Please confirm the regulatory status of the exosome product used before it is promoted publicly. |
+| Cryopen | Fits none of the five categories, so it is not shown. Assign a category in the Studio to show it. |
+| Categories | Several technologies appear in two categories (for example Thermage FLX in Energy-based and Lifting & tightening). Confirm the placements. |
 
-## 3. The doctors
+## 5. Photography
 
-The About page no longer contains any placeholder text. Sections without content are hidden, so these fields currently do not appear:
-
-- **Expertise, memberships and achievements** for Dr Priyam Bhagat and Dr Kamlesh Bhagat. A current CV for each is the quickest route.
-- **Biographies**: the current versions only restate verified training (Seth GS Medical College & KEM Hospital, American Academy of Aesthetic Medicine, University of Miami). Please expand or correct.
-- **Portraits**: upload in Studio → Doctors. The page layout changes to a portrait layout automatically once they exist.
-
-## 4. Photography
-
-All stock imagery has been removed. Every image slot below is empty until the clinic's own photography is uploaded; pages are designed to read as complete without them.
+All stock imagery has been removed. Every image slot below is empty until the clinic's own photography is uploaded; pages read as complete without them.
 
 | Studio location | Slot | Suggested shot |
 | --- | --- | --- |
 | Site Settings | Hero image | Doctor with patient in consultation, or the reception |
-| Site Settings | Philosophy image | Detail of consultation, hands, skin assessment |
+| Site Settings | Philosophy image | Detail of consultation, skin assessment |
 | Site Settings | Clinic image | Wide interior |
-| Doctors | Portrait (×2) | Environmental portraits in clinic, 3:4 |
-| The Clinic spaces | Images | Reception, consultation rooms, treatment rooms, technology. A space only appears once it has at least one image |
-| Team members | Portrait | Optional; the team section appears once a member is added |
-| Concerns / Approaches / Programmes / Articles | Image | Optional per page |
-| Technology | Image | Optional. Show the device in use by a doctor, not as a product shot |
+| Doctors | Portrait (×2) | Large professional portraits in clinic, 3:4 |
+| The Clinic spaces | Images | Reception, consultation rooms, treatment rooms. A space appears once it has an image |
+| Signature Programmes | Image | Optional, per programme |
+| Technology | Image | Dedicated pages only. The technology in a doctor's hands, not a product shot |
 
-## 5. Results and testimonials — compliance
+## 6. Results and testimonials — compliance
 
-- The Results page shows **only** before-and-after cases where "Patient consent confirmed" is ticked. The Studio will not let a result be published without it.
-- Before publishing clinical photographs or patient testimonials, confirm the position under the **National Medical Commission's professional conduct and advertising regulations**. They restrict how registered medical practitioners may advertise; a short review by the practice's advisers is recommended.
-- The eight testimonials on the site are verbatim excerpts from existing public Google reviews. Please confirm the practice is comfortable featuring them.
+- The Results page shows only before-and-after cases where "Patient consent confirmed" is ticked. The Studio will not publish a result without it.
+- Before publishing clinical photographs or patient testimonials, confirm the position under the **National Medical Commission's professional conduct and advertising regulations**.
+- The eight testimonials are verbatim excerpts from existing public Google reviews.
 
-## 6. Contact details
+## 7. Contact details
 
-The following are unconfirmed and are therefore not shown anywhere on the site, nor in structured data sent to Google:
+Shown on the booking page and in the footer — but only once confirmed:
 
 - Goregaon East telephone number
 - Confirmation that the Vashi number (+91 22 4004 8149) is still correct
+- WhatsApp number(s)
 - Email address(es)
 - Opening hours for each clinic
 - Google Maps links
 
 These must match the Google Business Profile listings exactly.
 
-## 7. Booking
+## 8. Booking
 
-`/book` collects nothing. It displays an honest notice and directs visitors to the contact page. Before it can send requests, decide:
+`/book` collects nothing yet. It says so, and points visitors to the clinic details beside the form. Before it can send requests, decide:
 
-- where requests go (clinic email, WhatsApp Business, a practice-management system, or a booking service)
+- where requests go (clinic email, WhatsApp Business, a practice-management system or a booking service)
 - the privacy notice, since the form asks about health concerns (Digital Personal Data Protection Act, 2023)
 - who responds, and within what time
 
-## 8. Domains
+## 9. Domains
 
 Keep `finesseclinic.com` registered, and point it at this site so the redirects in `lib/redirects.ts` preserve existing search traffic.

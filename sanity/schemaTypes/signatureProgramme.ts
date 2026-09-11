@@ -1,9 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 /**
- * A Dr Bhagat programme: a staged combination of modalities decided by the
- * doctor. Deliberately has no device field of its own - a programme is
- * defined by its clinical logic, not by the machine it happens to use.
+ * A Dr Bhagat's signature programme: a considered treatment strategy, not a
+ * fixed protocol. Deliberately has no technology field - the doctors asked
+ * that technologies are never listed under a programme, only that they "may be
+ * selected according to individual assessment".
+ *
+ * All five render as sections of the single /signature page.
  */
 export const signatureProgramme = defineType({
   name: "signatureProgramme",
@@ -13,34 +16,44 @@ export const signatureProgramme = defineType({
     defineField({
       name: "title",
       title: "Title",
+      description: "For example: The Signature Lift",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "shortTitle",
+      title: "Short title",
+      description: "Used where space is limited, such as the homepage. For example: Signature Lift",
+      type: "string",
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
+      description: "Becomes the link to this programme’s section: /signature#slug",
       type: "slug",
       options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
-    defineField({ name: "summary", title: "Summary", type: "text", rows: 2 }),
-    defineField({ name: "forWhom", title: "Who it is for", type: "text", rows: 3 }),
-    defineField({ name: "approach", title: "The approach", type: "text", rows: 6 }),
     defineField({
-      name: "stages",
-      title: "Stages",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "object",
-          fields: [
-            defineField({ name: "title", title: "Title", type: "string" }),
-            defineField({ name: "description", title: "Description", type: "text", rows: 3 }),
-          ],
-          preview: { select: { title: "title", subtitle: "description" } },
-        }),
-      ],
+      name: "tagline",
+      title: "Tagline",
+      description: "For example: A refined approach to facial ageing and laxity.",
+      type: "string",
+    }),
+    defineField({
+      name: "body",
+      title: "Description",
+      description: "Separate paragraphs with a blank line.",
+      type: "text",
+      rows: 10,
+    }),
+    defineField({
+      name: "closing",
+      title: "Closing line",
+      description: "Set apart at the end of the section.",
+      type: "text",
+      rows: 2,
     }),
     defineField({
       name: "concerns",
@@ -63,5 +76,5 @@ export const signatureProgramme = defineType({
     }),
   ],
   orderings: [{ title: "Display order", name: "order", by: [{ field: "order", direction: "asc" }] }],
-  preview: { select: { title: "title", subtitle: "summary", media: "image" } },
+  preview: { select: { title: "title", subtitle: "tagline", media: "image" } },
 });

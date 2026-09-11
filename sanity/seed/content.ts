@@ -5,18 +5,18 @@
  * concern -> assessment -> personalised plan -> technology -> results.
  *
  * Sources:
- *  — Doctor training and the practice's origin story are from the retired
- *    finesseclinic.com site.
+ *  — The signature programme copy, the doctors' profiles and quotations, the
+ *    technology categories and the brand language are the doctors' own, from
+ *    their second round of feedback, and are reproduced as written.
+ *  — Doctor training is from the retired finesseclinic.com site.
  *  — Modalities are drawn from that site's real treatment list.
- *  — Brand language ("Expertise, Elevated.", "Considered treatment, not a
- *    menu.") is the doctors' own.
  *  — Testimonials are verbatim excerpts of the Google reviews the practice
  *    already published. They are trimmed with ellipses, never reworded.
  *
- * The clinical explanations for each concern, approach and programme are
- * written deliberately without outcome claims, session counts, prices or
- * guarantees. They still need the doctors' clinical sign-off before launch -
- * see docs/CONTENT-REVIEW.md.
+ * The clinical explanations for each concern and approach, and the one-line
+ * technology descriptions, are written deliberately without outcome claims,
+ * session counts, prices or guarantees. They still need the doctors' clinical
+ * sign-off before launch - see docs/CONTENT-REVIEW.md.
  */
 
 import type { ResultCategory, TechnologyCategory } from "../lib/categories";
@@ -34,8 +34,11 @@ export const slug = (value: string) =>
 
 export type SeedMachine = {
   name: string;
-  category: TechnologyCategory;
-  featured: boolean;
+  /** In the doctors' categories; a technology may sit in more than one. */
+  categories: TechnologyCategory[];
+  /** Signature technologies only. Everything else is a card on /technology. */
+  dedicatedPage: boolean;
+  /** The one line on its card. */
   purpose: string;
   description: string;
 };
@@ -43,145 +46,134 @@ export type SeedMachine = {
 export const MACHINES: SeedMachine[] = [
   {
     name: "Thermage FLX",
-    category: "tightening",
-    featured: true,
-    purpose:
-      "Monopolar radiofrequency, selected where skin tightening forms part of a facial rejuvenation or eye plan.",
+    categories: ["energy-based", "lifting"],
+    dedicatedPage: true,
+    purpose: "Monopolar radiofrequency for non-surgical skin tightening.",
     description:
       "Monopolar radiofrequency platform with AccuREP technology for non-surgical skin tightening.",
   },
   {
     name: "Fotona SP Dynamis Max",
-    category: "laser",
-    featured: true,
-    purpose:
-      "A versatile laser workstation, used across resurfacing, pigmentation and hair reduction plans.",
+    categories: ["energy-based", "lasers"],
+    dedicatedPage: false,
+    purpose: "A versatile laser workstation for resurfacing, pigmentation and hair reduction.",
     description:
       "Combined Nd:YAG and Er:YAG laser workstation for resurfacing, pigmentation and hair reduction.",
   },
   {
     name: "Fotona StarWalker",
-    category: "laser",
-    featured: true,
-    purpose:
-      "Used within plans for pigmentation, sun damage and unwanted tattoos, where precise, controlled laser energy is needed.",
+    categories: ["lasers"],
+    dedicatedPage: false,
+    purpose: "A Q-switched laser for pigmentation, laser toning and tattoo removal.",
     description:
       "Q-switched Nd:YAG laser platform for pigment clearance, tattoo removal and laser toning.",
   },
   {
     name: "Ultraformer MPT",
-    category: "tightening",
-    featured: true,
-    purpose:
-      "Focused ultrasound, chosen where tightening of the deeper supporting tissues supports a lifting or contouring plan.",
+    categories: ["energy-based", "lifting"],
+    dedicatedPage: true,
+    purpose: "Focused ultrasound for the deeper supporting layers of the face and body.",
     description:
       "Micro-pulsed HIFU system delivering focused ultrasound to the deeper supporting layers of the face and body.",
   },
   {
     name: "Sylfirm X",
-    category: "regenerative",
-    featured: true,
-    purpose:
-      "Radiofrequency microneedling, used in plans for melasma, scarring and skin remodelling.",
+    categories: ["energy-based", "rejuvenation"],
+    dedicatedPage: false,
+    purpose: "Radiofrequency microneedling for pigmentation, scarring and skin remodelling.",
     description:
       "Dual-wave radiofrequency microneedling platform for pigmentation, vascular concerns and skin remodelling.",
   },
   {
     name: "Endolift X",
-    category: "tightening",
-    featured: true,
-    purpose:
-      "A minimally invasive laser used for subdermal tightening and definition, particularly along the lower face and jawline.",
+    categories: ["lasers", "lifting"],
+    dedicatedPage: true,
+    purpose: "A fine laser fibre beneath the skin, for tightening and definition along the lower face.",
     description:
       "Minimally invasive endolaser using micro-optical fibres beneath the skin for tightening and localised fat reduction.",
   },
   {
-    name: "Gentle YAG",
-    category: "laser",
-    featured: false,
-    purpose:
-      "A long-pulse laser used for hair reduction, with settings chosen for the patient's skin type.",
+    name: "GentleYAG",
+    categories: ["lasers"],
+    dedicatedPage: false,
+    purpose: "A long-pulse laser for hair reduction, with settings chosen for the skin type.",
     description:
       "Long-pulse 1064 nm Nd:YAG laser with cryogen cooling, suited to hair reduction on darker skin types.",
   },
   {
     name: "Venus Bliss Max",
-    category: "tightening",
-    featured: false,
-    purpose:
-      "Used in body contouring plans that combine localised fat reduction with muscle toning.",
+    categories: ["energy-based"],
+    dedicatedPage: false,
+    purpose: "Body contouring, combining localised fat reduction with muscle toning.",
     description:
       "Body contouring platform pairing diode laser lipolysis with electromagnetic muscle stimulation.",
   },
   {
     name: "Fotona StarFormer",
-    category: "tightening",
-    featured: false,
-    purpose:
-      "Electromagnetic muscle stimulation, used within body contouring and toning plans.",
+    categories: ["energy-based"],
+    dedicatedPage: false,
+    purpose: "Electromagnetic muscle stimulation for body toning.",
     description: "Electromagnetic muscle stimulation platform for body toning.",
   },
   {
     name: "Dermapen 4",
-    category: "regenerative",
-    featured: false,
-    purpose:
-      "Medical microneedling, used to stimulate collagen within scar and skin quality plans.",
-    description:
-      "Medical microneedling device with adjustable depth for collagen induction.",
+    categories: ["rejuvenation"],
+    dedicatedPage: false,
+    purpose: "Medical microneedling to stimulate collagen.",
+    description: "Medical microneedling device with adjustable depth for collagen induction.",
   },
   {
-    name: "Skinpen",
-    category: "regenerative",
-    featured: false,
-    purpose:
-      "Microneedling for controlled collagen induction, used within scar and texture plans.",
+    name: "SkinPen",
+    categories: ["rejuvenation"],
+    dedicatedPage: false,
+    purpose: "Microneedling for texture and scarring.",
     description: "Microneedling device for controlled collagen induction.",
   },
   {
-    name: "GFC",
-    category: "regenerative",
-    featured: false,
-    purpose:
-      "Growth Factor Concentrate, prepared from the patient's own blood and used in hair and skin regeneration plans.",
-    description:
-      "Autologous growth factor concentrate for hair and skin regeneration.",
-  },
-  {
     name: "Hydrafacial",
-    category: "skin-health",
-    featured: false,
-    purpose:
-      "Used to cleanse, exfoliate and hydrate the skin within skin quality and acne plans.",
+    categories: ["rejuvenation"],
+    dedicatedPage: false,
+    purpose: "Cleansing, exfoliation, extraction and hydration in a single treatment.",
     description:
       "Vortex-fusion system that cleanses, exfoliates, extracts and hydrates in a single treatment.",
   },
   {
-    name: "Oxygeno",
-    category: "skin-health",
-    featured: false,
-    purpose:
-      "An oxygenation and infusion facial, used to support barrier repair and skin quality.",
-    description:
-      "Oxygenation, exfoliation and infusion facial system.",
+    name: "OxyGeneo",
+    categories: ["rejuvenation"],
+    dedicatedPage: false,
+    purpose: "An exfoliation, infusion and oxygenation facial.",
+    description: "Oxygenation, exfoliation and infusion facial system.",
+  },
+  {
+    name: "GFC",
+    categories: ["regenerative"],
+    dedicatedPage: false,
+    purpose: "Growth factor concentrate, prepared from your own blood, for hair and skin.",
+    description: "Autologous growth factor concentrate for hair and skin regeneration.",
+  },
+  {
+    // Added at the doctors' request. Regulatory position to be confirmed before launch.
+    name: "Exosomes",
+    categories: ["regenerative"],
+    dedicatedPage: false,
+    purpose: "A regenerative treatment, used alongside in-clinic procedures.",
+    description: "Exosome-based regenerative treatment for skin and hair.",
   },
   {
     name: "Plasmapen",
-    category: "dermatosurgery",
-    featured: false,
-    purpose:
-      "Plasma energy, used for precise treatment of small lesions and delicate areas such as the eyelids.",
+    categories: ["energy-based"],
+    dedicatedPage: false,
+    purpose: "Plasma energy for small lesions and delicate areas such as the eyelids.",
     description:
       "Plasma device for the treatment of small benign lesions and skin tightening in delicate areas.",
   },
   {
+    // Fits none of the doctors' five categories, so it is held back from the page.
     name: "Cryopen",
-    category: "dermatosurgery",
-    featured: false,
-    purpose:
-      "Precision cryotherapy for the removal of benign lesions such as warts and skin tags.",
-    description:
-      "Precision cryotherapy device for benign lesions.",
+    categories: [],
+    dedicatedPage: false,
+    purpose: "Precision cryotherapy for benign lesions such as warts and skin tags.",
+    description: "Precision cryotherapy device for benign lesions.",
   },
 ];
 
@@ -220,13 +212,13 @@ export const MODALITIES: SeedModality[] = [
   {
     name: "Hydrafacial & Medical Facials",
     description: "Medical-grade cleansing, exfoliation and hydration.",
-    machines: ["Hydrafacial", "Oxygeno"],
+    machines: ["Hydrafacial", "OxyGeneo"],
   },
   {
     name: "Microneedling & RF Microneedling",
     description:
       "Controlled micro-injury, with or without radiofrequency, to stimulate collagen and remodel scarring.",
-    machines: ["Dermapen 4", "Skinpen", "Sylfirm X"],
+    machines: ["Dermapen 4", "SkinPen", "Sylfirm X"],
   },
   {
     name: "Radiofrequency Skin Tightening",
@@ -262,7 +254,7 @@ export const MODALITIES: SeedModality[] = [
   {
     name: "Laser Hair Reduction",
     description: "Long-term reduction of unwanted hair, with settings selected for skin type.",
-    machines: ["Gentle YAG", "Fotona SP Dynamis Max"],
+    machines: ["GentleYAG", "Fotona SP Dynamis Max"],
   },
   {
     name: "Body Contouring",
@@ -315,7 +307,7 @@ export const CONCERNS: SeedConcern[] = [
       "Sun-related ageing",
     ],
     resultCategory: "ageing",
-    programmes: ["The Dr Bhagat Signature Lift", "The Dr Bhagat Skin Quality Programme"],
+    programmes: ["The Signature Lift", "The Signature Skin Quality Programme"],
     approaches: ["Facial Rejuvenation", "Skin Quality"],
     technologies: [
       "Thermage FLX",
@@ -345,7 +337,7 @@ export const CONCERNS: SeedConcern[] = [
       "Unwanted tattoos",
     ],
     resultCategory: "pigmentation",
-    programmes: ["The Dr Bhagat Pigmentation Programme"],
+    programmes: ["The Signature Pigmentation Programme"],
     approaches: ["Pigmentation", "Skin Quality"],
     technologies: ["Fotona StarWalker", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
@@ -368,9 +360,9 @@ export const CONCERNS: SeedConcern[] = [
       "Oily, congested skin",
     ],
     resultCategory: "acne-scars",
-    programmes: ["The Dr Bhagat Acne Scar Programme"],
+    programmes: ["The Signature Acne Scar Programme"],
     approaches: ["Acne & Scarring", "Pigmentation"],
-    technologies: ["Dermapen 4", "Skinpen", "Sylfirm X", "Fotona SP Dynamis Max", "Hydrafacial"],
+    technologies: ["Dermapen 4", "SkinPen", "Sylfirm X", "Fotona SP Dynamis Max", "Hydrafacial"],
   },
   {
     title: "Skin Quality, Texture & Pores",
@@ -391,9 +383,9 @@ export const CONCERNS: SeedConcern[] = [
       "Blemishes and skin tags",
     ],
     resultCategory: "skin-quality",
-    programmes: ["The Dr Bhagat Skin Quality Programme"],
+    programmes: ["The Signature Skin Quality Programme"],
     approaches: ["Skin Quality", "Facial Rejuvenation"],
-    technologies: ["Hydrafacial", "Oxygeno", "Dermapen 4", "Skinpen", "GFC"],
+    technologies: ["Hydrafacial", "OxyGeneo", "Dermapen 4", "SkinPen", "GFC"],
   },
   {
     title: "Eyes & Periorbital Ageing",
@@ -415,7 +407,7 @@ export const CONCERNS: SeedConcern[] = [
       "Brow position",
     ],
     resultCategory: "ageing",
-    programmes: ["The Dr Bhagat Signature Lift"],
+    programmes: ["The Signature Lift"],
     approaches: ["Facial Rejuvenation", "Skin Quality"],
     technologies: ["Thermage FLX", "Plasmapen", "Fotona SP Dynamis Max"],
   },
@@ -438,7 +430,7 @@ export const CONCERNS: SeedConcern[] = [
       "Masseter prominence",
     ],
     resultCategory: "ageing",
-    programmes: ["The Dr Bhagat Signature Lift"],
+    programmes: ["The Signature Lift"],
     approaches: ["Facial Contouring", "Facial Rejuvenation"],
     technologies: ["Endolift X", "Ultraformer MPT"],
   },
@@ -461,7 +453,7 @@ export const CONCERNS: SeedConcern[] = [
       "Damaged hair",
     ],
     resultCategory: "hair",
-    programmes: ["The Dr Bhagat Hair Restoration Programme"],
+    programmes: ["The Signature Hair & Scalp Programme"],
     approaches: ["Hair & Scalp"],
     technologies: ["GFC"],
   },
@@ -496,7 +488,7 @@ export const CONCERNS: SeedConcern[] = [
     resultCategory: "body",
     programmes: [],
     approaches: ["Body"],
-    technologies: ["Gentle YAG", "Fotona SP Dynamis Max"],
+    technologies: ["GentleYAG", "Fotona SP Dynamis Max"],
   },
 ];
 
@@ -585,7 +577,7 @@ export const APPROACHES: SeedApproach[] = [
       "Dermal Fillers",
     ],
     concerns: ["Acne & Acne Scars"],
-    technologies: ["Dermapen 4", "Skinpen", "Sylfirm X", "Fotona SP Dynamis Max", "Hydrafacial"],
+    technologies: ["Dermapen 4", "SkinPen", "Sylfirm X", "Fotona SP Dynamis Max", "Hydrafacial"],
   },
   {
     title: "Skin Quality",
@@ -608,7 +600,7 @@ export const APPROACHES: SeedApproach[] = [
       "Dermatosurgery",
     ],
     concerns: ["Skin Quality, Texture & Pores", "Facial Ageing & Skin Laxity"],
-    technologies: ["Hydrafacial", "Oxygeno", "Dermapen 4", "Skinpen", "GFC"],
+    technologies: ["Hydrafacial", "OxyGeneo", "Dermapen 4", "SkinPen", "GFC"],
   },
   {
     title: "Hair & Scalp",
@@ -661,147 +653,89 @@ export const APPROACHES: SeedApproach[] = [
     ],
     modalities: ["Body Contouring", "Radiofrequency Skin Tightening", "Laser Hair Reduction"],
     concerns: ["Body Contouring", "Hair Removal"],
-    technologies: ["Venus Bliss Max", "Ultraformer MPT", "Endolift X", "Fotona StarFormer", "Gentle YAG"],
+    technologies: ["Venus Bliss Max", "Ultraformer MPT", "Endolift X", "Fotona StarFormer", "GentleYAG"],
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Signature programmes                                                */
+/* The Dr Bhagat's Signature — the doctors' own copy                   */
 /* ------------------------------------------------------------------ */
 
 export type SeedProgramme = {
   title: string;
+  shortTitle: string;
   slug: string;
-  summary: string;
-  forWhom: string;
-  approach: string;
-  stages: { title: string; description: string }[];
+  tagline: string;
+  body: string[];
+  closing?: string;
   concerns: string[];
   approaches: string[];
 };
 
 export const PROGRAMMES: SeedProgramme[] = [
   {
-    title: "The Dr Bhagat Signature Lift",
+    title: "The Signature Lift",
+    shortTitle: "Signature Lift",
     slug: "signature-lift",
-    summary:
-      "A layered, non-surgical approach to lift, firmness and definition, planned around the individual face.",
-    forWhom:
-      "For those noticing a loss of firmness, a softening jawline or a tired appearance, who want a refreshed result that still looks entirely natural.",
-    approach:
-      "Rather than relying on one device or injectable, the Signature Lift combines treatment that acts at different depths: support for the deeper tissues, collagen stimulation within the skin and, where appropriate, precise restoration of lost volume. The combination and sequence are decided by the doctor after assessment, and adjusted as the face responds.",
-    stages: [
-      {
-        title: "Assessment",
-        description:
-          "A detailed facial assessment of skin quality, laxity, volume and proportion, and a conversation about your goals.",
-      },
-      {
-        title: "Structural support",
-        description: "Treatment that tightens and supports the deeper tissues, selected for your anatomy.",
-      },
-      {
-        title: "Skin and refinement",
-        description:
-          "Collagen stimulation and, where appropriate, subtle refinement of volume or muscle activity.",
-      },
-      {
-        title: "Review and maintenance",
-        description: "Follow-up to review progress, and a plan to maintain the result over time.",
-      },
+    tagline: "A refined approach to facial ageing and laxity.",
+    body: [
+      "Facial ageing is rarely caused by one thing. Our approach looks at skin quality, laxity, collagen, facial contours and the individual pattern of ageing before determining the appropriate treatment strategy.",
+      "Depending on the patient, this may involve lifting, tightening, collagen stimulation, skin-quality treatments or a combination of modalities.",
     ],
+    closing:
+      "The objective is not to change your face. It is to restore definition and freshness while keeping it recognisably yours.",
     concerns: ["Facial Ageing & Skin Laxity", "Eyes & Periorbital Ageing", "Facial Contouring"],
     approaches: ["Facial Rejuvenation", "Facial Contouring"],
   },
   {
-    title: "The Dr Bhagat Skin Quality Programme",
+    title: "The Signature Skin Quality Programme",
+    shortTitle: "Skin Quality",
     slug: "skin-quality-programme",
-    summary: "A structured programme to restore clarity, texture and radiance, and to keep it.",
-    forWhom:
-      "For dull, congested or tired-looking skin, enlarged pores or uneven texture, and for anyone wanting a strong foundation before or alongside other treatment.",
-    approach:
-      "The programme begins with the skin barrier and a considered skincare routine, then layers in-clinic treatment that renews the surface and stimulates collagen beneath it. Treatment is paced to what your skin tolerates, and the plan shifts towards maintenance as the skin improves.",
-    stages: [
-      { title: "Assessment", description: "An assessment of your skin, your routine and your lifestyle." },
-      {
-        title: "Barrier and skincare",
-        description: "A simplified, medical skincare routine to strengthen and prepare the skin.",
-      },
-      {
-        title: "Renewal",
-        description: "In-clinic treatment to refine texture and stimulate collagen, paced to your skin.",
-      },
-      { title: "Maintenance", description: "A long-term plan to keep the skin healthy." },
+    tagline: "Because beautiful skin is the foundation of every aesthetic result.",
+    body: [
+      "Texture, pores, pigmentation, hydration, firmness and collagen all contribute to the way skin looks and feels.",
+      "Our approach combines medical skincare and appropriate in-clinic treatments to improve the overall quality of the skin rather than chasing one isolated concern.",
     ],
+    closing: "Healthy-looking skin first. Aesthetic refinement follows.",
     concerns: ["Skin Quality, Texture & Pores", "Facial Ageing & Skin Laxity"],
     approaches: ["Skin Quality"],
   },
   {
-    title: "The Dr Bhagat Pigmentation Programme",
+    title: "The Signature Pigmentation Programme",
+    shortTitle: "Pigmentation",
     slug: "pigmentation-programme",
-    summary: "Measured, long-term control of pigmentation and melasma.",
-    forWhom:
-      "For melasma, sun damage, post-acne marks and uneven tone, particularly where previous treatment has given only temporary improvement.",
-    approach:
-      "Pigmentation is managed as a long-term condition. The programme combines medical skincare and consistent sun protection with carefully selected in-clinic treatment, introduced gradually to avoid provoking the skin into producing more pigment. Maintenance is built in from the start.",
-    stages: [
-      {
-        title: "Diagnosis",
-        description: "Identifying the type and depth of pigmentation and its triggers.",
-      },
-      {
-        title: "Stabilisation",
-        description: "Medical skincare and sun protection to calm the skin before treatment.",
-      },
-      {
-        title: "Gradual clearance",
-        description: "Carefully selected treatment, introduced at a pace the skin tolerates.",
-      },
-      { title: "Maintenance", description: "Ongoing care to keep pigmentation under control." },
+    tagline: "A long-term approach to clearer, more even skin.",
+    body: [
+      "Pigmentation is not always simply a problem of excess pigment.",
+      "Melasma, sun exposure, inflammation and individual skin behaviour can all play a role. Our approach begins by understanding the type and cause of pigmentation before selecting the appropriate combination of medical treatment, skincare and technology.",
     ],
+    closing:
+      "The aim is not simply to remove pigment. It is to manage the skin intelligently over time.",
     concerns: ["Pigmentation & Melasma"],
     approaches: ["Pigmentation", "Skin Quality"],
   },
   {
-    title: "The Dr Bhagat Acne Scar Programme",
+    title: "The Signature Acne Scar Programme",
+    shortTitle: "Acne Scars",
     slug: "acne-scar-programme",
-    summary: "A staged programme that brings acne under control, then remodels scarring.",
-    forWhom: "For active acne, post-acne marks, and textural or depressed scarring.",
-    approach:
-      "The programme treats in order: first stabilising active acne medically, then addressing marks and scarring in stages. Different scar types are matched to the treatment most likely to improve them, combined and spaced to balance progress with recovery.",
-    stages: [
-      { title: "Control", description: "Medical treatment to bring active acne under control." },
-      {
-        title: "Scar assessment",
-        description: "Mapping the type, depth and distribution of scarring.",
-      },
-      {
-        title: "Staged revision",
-        description: "Combined treatment to resurface, remodel and lift scar tissue.",
-      },
-      { title: "Review", description: "Reviewing progress and refining the plan." },
+    tagline: "Because every scar has a history—and a different structure.",
+    body: [
+      "Acne scars vary considerably in their depth, shape and underlying changes.",
+      "We assess the type of scarring, skin quality, pigmentation and any ongoing acne before creating a treatment strategy. Depending on the individual, different technologies and techniques may be combined or staged over time.",
     ],
+    closing:
+      "The goal is meaningful improvement in texture and confidence—not unrealistic perfection.",
     concerns: ["Acne & Acne Scars"],
     approaches: ["Acne & Scarring"],
   },
   {
-    title: "The Dr Bhagat Hair Restoration Programme",
-    slug: "hair-restoration-programme",
-    summary: "A medically led programme for thinning hair, built on diagnosis and tracked over time.",
-    forWhom: "For hair thinning, increased hair fall, and patterned or patchy hair loss.",
-    approach:
-      "The programme starts by establishing the cause of hair loss, including investigations where appropriate. Medical treatment is then combined with regenerative in-clinic therapy, and progress is reviewed at intervals so the plan can be refined as the hair responds.",
-    stages: [
-      {
-        title: "Diagnosis",
-        description: "Assessment of the scalp, the pattern of loss and your medical history.",
-      },
-      {
-        title: "Medical foundation",
-        description: "Treatment directed at the underlying cause.",
-      },
-      { title: "Regenerative therapy", description: "In-clinic therapy to support hair growth." },
-      { title: "Progress review", description: "Tracking response and refining the plan." },
+    title: "The Signature Hair & Scalp Programme",
+    shortTitle: "Hair",
+    slug: "hair-and-scalp-programme",
+    tagline: "A personalised approach to healthier hair.",
+    body: [
+      "Hair loss and thinning have many possible causes. A meaningful treatment plan begins with understanding what is driving the problem rather than simply treating the symptom.",
+      "Our approach combines medical assessment with appropriate treatments and long-term scalp and hair care according to individual needs.",
     ],
     concerns: ["Hair & Scalp"],
     approaches: ["Hair & Scalp"],
@@ -809,16 +743,20 @@ export const PROGRAMMES: SeedProgramme[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/* Doctors                                                             */
+/* Doctors — the doctors' own copy                                     */
 /* ------------------------------------------------------------------ */
 
 export type SeedDoctor = {
   name: string;
+  position: string;
   role: string;
+  specialty: string;
   order: number;
   shortBio: string;
-  biography: string;
+  biography: string[];
+  quote: string;
   qualifications: string[];
+  expertise: string[];
 };
 
 const TRAINING = [
@@ -830,29 +768,46 @@ const TRAINING = [
 export const DOCTORS: SeedDoctor[] = [
   {
     name: "Dr Priyam Bhagat",
-    role: "Dermatologist & Aesthetic Physician",
+    position: "Co-Founder",
+    role: "Consultant Dermatologist",
+    specialty: "Aesthetic & Cosmetic Dermatology",
     order: 0,
     shortBio:
-      "Dermatologist and aesthetic physician, trained in Mumbai and the United States, whose practice brings together medical dermatology and aesthetic care.",
-    biography:
-      "Dr Priyam Bhagat leads Dr Bhagat's World Class Aesthetics alongside Dr Kamlesh Bhagat. Dr Priyam trained at Seth GS Medical College and King Edward Memorial Hospital, Mumbai, and continued with further training through the American Academy of Aesthetic Medicine and the University of Miami.\n\nDr Priyam's practice brings together medical dermatology and aesthetic care. Patients arrive with concerns ranging from hair loss and pigmentation to skin quality and ageing, and every plan begins the same way: with a careful diagnosis, an unhurried conversation, and a treatment strategy designed for the individual rather than chosen from a list.",
+      "Dr Priyam Bhagat has developed her practice around the intersection of dermatology and aesthetic medicine, with a particular interest in skin ageing, pigmentation, lasers and advanced non-surgical rejuvenation.",
+    biography: [
+      "Dr Priyam Bhagat has developed her practice around the intersection of dermatology and aesthetic medicine, with a particular interest in skin ageing, pigmentation, lasers and advanced non-surgical rejuvenation.",
+      "Her approach has been shaped by years of seeing patients with the same concern but very different underlying needs.",
+      "A request for “lifting”, for example, may actually be about skin quality, laxity, changing contours or a combination of factors. Pigmentation may have several contributing causes. And sometimes what a patient thinks they need is not what they actually need.",
+      "This is why she places considerable importance on the consultation.",
+      "For Dr Bhagat, aesthetic medicine is not about following trends or performing the most treatments possible. It is about understanding the individual face and making thoughtful decisions about what will genuinely improve it.",
+      "Her aesthetic philosophy is centred on refinement rather than transformation—preserving individuality while helping patients look healthier, fresher and more confident.",
+    ],
+    quote: "I believe the best results are the ones that enhance a person without changing who they are.",
     qualifications: TRAINING,
+    expertise: ["Skin ageing", "Pigmentation", "Lasers", "Advanced non-surgical rejuvenation"],
   },
   {
     name: "Dr Kamlesh Bhagat",
-    role: "Dermatologist & Aesthetic Physician",
+    position: "Co-Founder",
+    role: "Consultant Dermatologist",
+    specialty: "Clinical & Aesthetic Dermatology",
     order: 1,
     shortBio:
-      "Dermatologist and aesthetic physician, trained in Mumbai and the United States, who leads the practice's clinical approach alongside Dr Priyam Bhagat.",
-    biography:
-      "Dr Kamlesh Bhagat leads Dr Bhagat's World Class Aesthetics alongside Dr Priyam Bhagat. Dr Kamlesh trained at Seth GS Medical College and King Edward Memorial Hospital, Mumbai, and continued with further training through the American Academy of Aesthetic Medicine and the University of Miami.\n\nPatients describe consultations with Dr Kamlesh as unhurried and attentive. That reflects the principle the practice is built on: that the right treatment follows a proper understanding of the patient, and that clinical judgement — knowing what to recommend, what to combine and what to avoid — matters more than any single procedure.",
+      "Dr Kamlesh Bhagat brings extensive experience in dermatology and aesthetic medicine, with an approach grounded in careful assessment and long-term patient care.",
+    biography: [
+      "Dr Kamlesh Bhagat brings extensive experience in dermatology and aesthetic medicine, with an approach grounded in careful assessment and long-term patient care.",
+      "His philosophy is straightforward: before deciding how to treat a concern, understand why it is there.",
+      "Whether the patient is seeking help with ageing, pigmentation, acne, hair concerns or skin health, he believes that treatment should be guided by the individual’s clinical needs rather than by a particular procedure or technology.",
+      "He combines the principles of dermatology with the possibilities offered by modern aesthetic medicine, while maintaining a strong emphasis on appropriate treatment and realistic expectations.",
+      "For Dr Bhagat, good aesthetic medicine is as much about judgement as intervention.",
+      "Knowing what will help is important.",
+      "Knowing when something is unnecessary is equally important.",
+    ],
+    quote: "A good treatment plan should have a reason behind every decision.",
     qualifications: TRAINING,
+    expertise: ["Clinical dermatology", "Aesthetic dermatology", "Long-term patient care"],
   },
 ];
-
-/** Adapted from the practice's own account on its previous site. */
-export const PRACTICE_ORIGIN =
-  "Dr Priyam Bhagat and Dr Kamlesh Bhagat's interest in dermatology grew from seeing people around them struggle with skin concerns during their formative years, and from witnessing the effect those concerns had on confidence and wellbeing. That experience shaped a practice built on listening first, and on finding the right solution for each person.";
 
 /* ------------------------------------------------------------------ */
 /* Testimonials — verbatim excerpts                                    */
@@ -975,7 +930,7 @@ export const ARTICLES: SeedArticle[] = [
       "An assessment looks beyond the feature a patient is concerned about. With ageing, for instance, we consider skin quality, laxity, volume and proportion together, because treating one in isolation can make another more noticeable. With pigmentation, identifying the type and its triggers matters more than the strength of the treatment.",
       "We also want to understand the person: their medical history, what they have tried before, the downtime they can accommodate, and how they would like to look. A plan that suits someone's skin but not their life is unlikely to succeed.",
       "From there, we build a personalised plan, explain the reasoning behind it, and agree how progress will be reviewed. Treatment follows, and so does follow-up, because most concerns are best managed over time rather than in a single visit.",
-      "Assessment, a personalised plan, treatment and follow-up. It is a simple sequence, and every part of it matters.",
+      "Assess, diagnose, personalise, treat, refine. It is a simple sequence, and every part of it matters.",
     ],
   },
   {

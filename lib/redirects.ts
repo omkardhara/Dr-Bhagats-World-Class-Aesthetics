@@ -156,8 +156,33 @@ export const LEGACY_SITE_REDIRECTS: Redirect[] = [
   { from: "/testimonials", to: "/results" },
 ];
 
+/**
+ * The individual programme pages became sections of the one Signature page.
+ * The hair programme was renamed from Hair Restoration to Hair & Scalp.
+ */
+export const SIGNATURE_REDIRECTS: Redirect[] = [
+  { from: "/signature-programmes", to: "/signature" },
+  { from: "/signature-programmes/signature-lift", to: "/signature#signature-lift" },
+  { from: "/signature-programmes/skin-quality-programme", to: "/signature#skin-quality-programme" },
+  { from: "/signature-programmes/pigmentation-programme", to: "/signature#pigmentation-programme" },
+  { from: "/signature-programmes/acne-scar-programme", to: "/signature#acne-scar-programme" },
+  { from: "/signature-programmes/hair-restoration-programme", to: "/signature#hair-and-scalp-programme" },
+];
+
+/**
+ * Technologies renamed to their brands' own spelling. Pages for the others
+ * without a dedicated page redirect to their card from the page itself, since
+ * that depends on content rather than on a fixed list.
+ */
+export const TECHNOLOGY_REDIRECTS: Redirect[] = [
+  { from: "/technology/gentle-yag", to: "/technology#gentleyag" },
+  { from: "/technology/oxygeno", to: "/technology#oxygeneo" },
+];
+
+/** Contact details now sit on the booking page and in the footer. */
 export const PAGE_REDIRECTS: Redirect[] = [
-  { from: "/contactus", to: "/contact" },
+  { from: "/contact", to: "/book" },
+  { from: "/contactus", to: "/book" },
   { from: "/about-us", to: "/about" },
 ];
 
@@ -166,12 +191,48 @@ export const ALL_REDIRECTS: Redirect[] = [
   ...LEGACY_CONCERN_REDIRECTS,
   ...FINESSE_TREATMENT_REDIRECTS,
   ...LEGACY_SITE_REDIRECTS,
+  ...SIGNATURE_REDIRECTS,
+  ...TECHNOLOGY_REDIRECTS,
   ...PAGE_REDIRECTS,
 ];
+
+/**
+ * A 308 for every technology without a dedicated page, pointing at its card.
+ *
+ * The technology page also redirects these itself, but a redirect thrown while
+ * a page is streaming can only be sent as a 200 with a meta refresh. Resolving
+ * them here, when the config loads, gives a real permanent redirect. It reads
+ * the CMS at build time, so switching a technology's dedicated page on or off
+ * takes effect at the next deploy; until then the page-level redirect covers it.
+ *
+ * A failed request returns no redirects rather than failing the build.
+ */
+export async function fetchTechnologyCardRedirects(): Promise<Redirect[]> {
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+  const token = process.env.SANITY_API_READ_TOKEN;
+  if (!projectId) return [];
+
+  const query = encodeURIComponent(
+    `*[_type == "machine" && dedicatedPage != true && defined(slug.current)].slug.current`
+  );
+  try {
+    const response = await fetch(
+      `https://${projectId}.api.sanity.io/v2024-10-01/data/query/${dataset}?query=${query}`,
+      { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+    );
+    if (!response.ok) return [];
+    const { result } = (await response.json()) as { result?: string[] };
+    return (result ?? []).map((slug) => ({ from: `/technology/${slug}`, to: `/technology#${slug}` }));
+  } catch {
+    return [];
+  }
+}
 
 /** Catch-alls for anything else under the retired trees. */
 export const CATCH_ALL_REDIRECTS: Redirect[] = [
   { from: "/concern/:path*", to: "/concerns" },
   { from: "/treatment/:path*", to: "/treatment-approaches" },
   { from: "/services/:path*", to: "/treatment-approaches" },
+  { from: "/signature-programmes/:path*", to: "/signature" },
 ];

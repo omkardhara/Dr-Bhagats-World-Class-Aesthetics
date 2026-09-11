@@ -5,6 +5,7 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { BeginConsultation, PageHero, Prose, Rail, Rows } from "@/components/ui";
+import { programmeHref, technologyHref } from "@/lib/links";
 import { SITE_URL } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import { approachBySlugQuery, approachSlugsQuery } from "@/sanity/lib/queries";
@@ -117,14 +118,14 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
       ) : null}
 
       {approach.programmes?.length ? (
-        <Rail ground="black" title="Signature programmes">
+        <Rail ground="black" title="The Dr Bhagat’s Signature">
           <Rows
             ground="black"
             items={approach.programmes.map((programme) => ({
               key: programme._id,
               title: programme.title,
-              detail: programme.summary,
-              href: `/signature-programmes/${programme.slug}`,
+              detail: programme.tagline,
+              href: programmeHref(programme.slug),
             }))}
           />
         </Rail>
@@ -158,7 +159,7 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
                 key: technology._id,
                 title: technology.name,
                 detail: technology.purpose,
-                href: `/technology/${technology.slug}`,
+                href: technologyHref(technology),
               }))}
             />
           </div>

@@ -27,6 +27,7 @@ export default function DoctorSchema({ doctors }: { doctors: Doctor[] }) {
           };
           if (doctor.role) node.jobTitle = doctor.role;
           if (doctor.shortBio) node.description = doctor.shortBio;
+          if (doctor.expertise?.length) node.knowsAbout = doctor.expertise;
           if (doctor.qualifications?.length) {
             node.alumniOf = doctor.qualifications.map((name) => ({
               "@type": "EducationalOrganization",

@@ -2,8 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FOOTER_NAV } from "@/lib/navigation";
-import { BRAND, formatPhone, LOCATIONS, SOCIALS, TAGLINE } from "@/lib/site";
+import {
+  BRAND,
+  formatPhone,
+  LOCATIONS,
+  PHILOSOPHY_LINE,
+  SOCIALS,
+  TAGLINE,
+  whatsappHref,
+} from "@/lib/site";
 
+const DETAIL_LINK =
+  "inline-flex min-h-10 items-center text-[0.8rem] text-brand-cream transition-colors hover:text-brand-champagne-light";
+
+/**
+ * Contact details live here and on the booking page rather than in the main
+ * navigation. Only confirmed details render; see lib/site.ts.
+ */
 export default function Footer() {
   return (
     <footer className="border-t border-brand-gray-muted/25 bg-brand-black">
@@ -18,9 +33,18 @@ export default function Footer() {
               className="h-20 w-auto"
             />
             <p className="mt-10 text-xl font-normal tracking-[0.01em] text-brand-cream">{TAGLINE}</p>
-            <p className="mt-4 max-w-xs text-[0.8rem] leading-[1.7] text-brand-gray-muted">
+            <p className="mt-3 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
+              {PHILOSOPHY_LINE}
+            </p>
+            <p className="mt-6 max-w-xs text-[0.8rem] leading-[1.7] text-brand-gray-muted">
               {BRAND.description}
             </p>
+            <Link
+              href="/book"
+              className="mt-8 inline-flex min-h-11 items-end border-b border-brand-champagne pb-1.5 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light transition-colors hover:text-brand-cream"
+            >
+              Book a Consultation
+            </Link>
           </div>
 
           {FOOTER_NAV.map((group) => (
@@ -56,14 +80,33 @@ export default function Footer() {
                   <br />
                   {location.region} {location.postalCode}
                 </p>
-                {location.phone ? (
-                  <a
-                    href={`tel:${location.phone}`}
-                    className="mt-3 inline-flex min-h-10 items-center text-[0.8rem] text-brand-cream transition-colors hover:text-brand-champagne-light"
-                  >
-                    {formatPhone(location.phone)}
-                  </a>
+                {location.openingHours ? (
+                  <p className="mt-3 text-[0.8rem] leading-[1.7] text-brand-gray-muted">
+                    {location.openingHours.join(", ")}
+                  </p>
                 ) : null}
+                <div className="mt-2 flex flex-wrap gap-x-6">
+                  {location.phone ? (
+                    <a href={`tel:${location.phone}`} className={DETAIL_LINK}>
+                      {formatPhone(location.phone)}
+                    </a>
+                  ) : null}
+                  {location.whatsapp ? (
+                    <a href={whatsappHref(location.whatsapp)} className={DETAIL_LINK}>
+                      WhatsApp
+                    </a>
+                  ) : null}
+                  {location.email ? (
+                    <a href={`mailto:${location.email}`} className={DETAIL_LINK}>
+                      {location.email}
+                    </a>
+                  ) : null}
+                  {location.mapsUrl ? (
+                    <a href={location.mapsUrl} className={DETAIL_LINK}>
+                      Directions
+                    </a>
+                  ) : null}
+                </div>
               </address>
             ))}
           </div>

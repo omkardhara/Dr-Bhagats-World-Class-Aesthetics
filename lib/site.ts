@@ -1,7 +1,7 @@
 /**
  * Single source of truth for business identity, locations and contact details.
  *
- * These values feed the footer, the contact page and the LocalBusiness
+ * These values feed the footer, the booking page and the LocalBusiness
  * structured data. Google cross-checks structured data against the Google
  * Business Profile listing, so anything here must match GBP exactly.
  *
@@ -30,6 +30,14 @@ export const TAGLINE = "Expertise, Elevated.";
 export const SUPPORTING_LINE =
   "Where dermatological expertise meets the art of aesthetics.";
 
+/** The signature brand philosophy. The doctors asked for it to recur across the site. */
+export const PHILOSOPHY_LINE = "Considered treatment, not a menu.";
+
+export const PHILOSOPHY_TEXT = [
+  "We don’t believe in one treatment for everyone.",
+  "We believe in understanding the individual, identifying what needs to change, and choosing the right combination of treatments to achieve refined, natural results.",
+] as const;
+
 export type Location = {
   id: string;
   name: string;
@@ -40,6 +48,8 @@ export type Location = {
   country: string;
   /** TODO(client): confirm. The Goregaon premises have moved. */
   phone: string | null;
+  /** TODO(client): WhatsApp Business number, in international format. */
+  whatsapp: string | null;
   email: string | null;
   mapsUrl: string | null;
   /** TODO(client): opening hours, in schema.org format e.g. "Mo-Sa 10:00-19:00". */
@@ -59,6 +69,7 @@ export const LOCATIONS: Location[] = [
     country: "IN",
     // Premises have changed; the previous number is not carried over.
     phone: null,
+    whatsapp: null,
     email: null,
     mapsUrl: null,
     openingHours: null,
@@ -75,6 +86,7 @@ export const LOCATIONS: Location[] = [
     country: "IN",
     // TODO(client): confirm this survived the rebrand.
     phone: "+912240048149",
+    whatsapp: null,
     email: null,
     mapsUrl: null,
     openingHours: null,
@@ -93,4 +105,9 @@ export function formatPhone(phone: string): string {
   return match
     ? `+${match[1]} ${match[2]} ${match[3]} ${match[4]}`
     : phone;
+}
+
+/** A wa.me link needs digits only. */
+export function whatsappHref(number: string): string {
+  return `https://wa.me/${number.replace(/\D/g, "")}`;
 }

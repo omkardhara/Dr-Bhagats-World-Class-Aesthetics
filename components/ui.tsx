@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Breadcrumbs, { type Crumb } from "@/components/Breadcrumbs";
 import Reveal from "@/components/Reveal";
 import { pad } from "@/lib/format";
+import { PHILOSOPHY_LINE } from "@/lib/site";
 
 /**
  * Shared editorial building blocks.
@@ -40,6 +41,10 @@ export function palette(ground: Ground) {
       };
 }
 
+/**
+ * Anchored sections clear the fixed header: one row below xl, two rows (logo
+ * and navigation) from xl up.
+ */
 export function Section({
   ground = "bone",
   id,
@@ -52,7 +57,7 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={`scroll-mt-20 ${GROUND[ground]} ${className}`}>
+    <section id={id} className={`scroll-mt-24 xl:scroll-mt-36 ${GROUND[ground]} ${className}`}>
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">{children}</div>
     </section>
   );
@@ -106,6 +111,25 @@ export function Prose({
 }) {
   return (
     <p className={`max-w-2xl text-[1.05rem] font-normal leading-[1.8] ${palette(ground).body} ${className}`}>
+      {children}
+    </p>
+  );
+}
+
+/** A paragraph given weight: the lines in the doctors' copy that carry the argument. */
+export function Statement({
+  ground = "bone",
+  className = "",
+  children,
+}: {
+  ground?: Ground;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <p
+      className={`max-w-2xl text-2xl font-normal leading-[1.35] tracking-[0.005em] lg:text-[1.75rem] ${palette(ground).heading} ${className}`}
+    >
       {children}
     </p>
   );
@@ -211,7 +235,7 @@ export function Rail({
     <Section ground={ground} id={id}>
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
         <header className="lg:col-span-4">
-          <div className="lg:sticky lg:top-32">
+          <div className="lg:sticky lg:top-32 xl:top-40">
             {index !== undefined ? (
               <span className={`block text-xs tracking-widest ${p.eyebrow}`}>{pad(index)}</span>
             ) : null}
@@ -301,32 +325,37 @@ export function Rows({
   );
 }
 
+/** The doctors' five-step approach. */
 export const JOURNEY = [
   {
-    title: "Assessment",
+    title: "Assess",
     description:
-      "An unhurried consultation with your doctor to understand your concern, your skin and your goals.",
+      "An unhurried consultation to understand your concern, your skin, your anatomy and your goals.",
   },
   {
-    title: "Personalised plan",
+    title: "Diagnose",
     description:
-      "A treatment strategy designed for you, explaining what we recommend, why, and in what order.",
+      "Identifying what is actually causing the concern, rather than treating only what can be seen.",
   },
   {
-    title: "Treatment",
-    description:
-      "Delivered with precision, using the treatments and technology your plan calls for.",
+    title: "Personalise",
+    description: "A treatment strategy designed for you: what we recommend, why, and in what order.",
   },
   {
-    title: "Follow-up",
-    description: "Progress is reviewed and the plan refined, with long-term results in mind.",
+    title: "Treat",
+    description:
+      "Delivered with precision, using only the treatments and technology your plan calls for.",
+  },
+  {
+    title: "Refine",
+    description: "Progress is reviewed and the plan adjusted, with refined, natural results in mind.",
   },
 ];
 
 export function JourneySteps({ ground = "white" }: { ground?: Ground }) {
   const p = palette(ground);
   return (
-    <ol className="mt-20 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+    <ol className="mt-20 grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-8">
       {JOURNEY.map((step, index) => (
         <li key={step.title}>
           <Reveal index={index}>
@@ -341,10 +370,13 @@ export function JourneySteps({ ground = "white" }: { ground?: Ground }) {
   );
 }
 
+/** The closing invitation on most pages, led by the recurring brand line. */
 export function BeginConsultation({
+  eyebrow = PHILOSOPHY_LINE,
   title = "Begin with a consultation.",
-  lead = "Every plan starts with understanding. Book a consultation with Dr Priyam Bhagat or Dr Kamlesh Bhagat.",
+  lead = "Tell us what you’d like to improve. Our team will help you schedule a consultation with the appropriate dermatologist.",
 }: {
+  eyebrow?: string;
   title?: string;
   lead?: string;
 }) {
@@ -352,7 +384,7 @@ export function BeginConsultation({
     <Section ground="black" className="border-t border-brand-gray-muted/20">
       <Reveal>
         <div className="max-w-3xl">
-          <Eyebrow ground="black">Book a Consultation</Eyebrow>
+          <Eyebrow ground="black">{eyebrow}</Eyebrow>
           <Display ground="black" className="mt-8">
             {title}
           </Display>
@@ -361,8 +393,8 @@ export function BeginConsultation({
           </Prose>
           <div className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6">
             <PrimaryLink href="/book">Book a Consultation</PrimaryLink>
-            <TextLink href="/contact" ground="black">
-              Contact the clinic
+            <TextLink href="/concerns" ground="black">
+              Explore your concerns
             </TextLink>
           </div>
         </div>

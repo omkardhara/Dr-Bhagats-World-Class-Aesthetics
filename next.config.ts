@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-import { ALL_REDIRECTS, CATCH_ALL_REDIRECTS } from "./lib/redirects";
+import { ALL_REDIRECTS, CATCH_ALL_REDIRECTS, fetchTechnologyCardRedirects } from "./lib/redirects";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
@@ -50,12 +50,16 @@ const nextConfig: NextConfig = {
         ]
       : [];
 
+    // Technologies without a dedicated page are cards on /technology.
+    const technologyCards = await fetchTechnologyCardRedirects();
+
     return [
       ...hostRedirect,
-      // Retired finesseclinic.com structure. Matched on path, so these also
-      // catch stale inbound links; they carry the old site's search equity
-      // once that domain points here. Both slash forms are covered.
-      ...ALL_REDIRECTS.flatMap(({ from, to }) => [
+      // Retired URLs from finesseclinic.com and earlier versions of this site.
+      // Matched on path, so these also catch stale inbound links; they carry
+      // the old site's search equity once that domain points here. Both slash
+      // forms are covered.
+      ...[...ALL_REDIRECTS, ...technologyCards].flatMap(({ from, to }) => [
         { source: from, destination: to, permanent: true },
         { source: `${from}/`, destination: to, permanent: true },
       ]),

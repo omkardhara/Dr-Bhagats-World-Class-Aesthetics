@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from "react";
 
 import { EASE } from "@/components/editorialMotion";
@@ -99,19 +98,9 @@ export default function BookForm({ concerns }: { concerns: ConcernOption[] }) {
       transition={{ duration: 1.2, ease: EASE }}
       className="w-full max-w-2xl"
     >
-      <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
-        Book a Consultation
-      </p>
-      <h1 className="mt-8 text-4xl font-normal leading-[1.15] tracking-[0.01em] text-brand-cream sm:text-5xl">
-        Begin with a consultation.
-      </h1>
-      <p className="mt-8 max-w-md text-[0.95rem] font-normal leading-[1.75] text-brand-gray-muted">
-        Tell us what you would like to improve. Your doctor will assess your concern and discuss a
-        personalised plan with you.
-      </p>
-
       <form
-        className="mt-20 flex flex-col gap-14"
+        aria-labelledby="book-consultation"
+        className="flex flex-col gap-14"
         onSubmit={(event) => {
           // No destination is configured yet, so this deliberately does not
           // pretend to have sent anything.
@@ -119,6 +108,13 @@ export default function BookForm({ concerns }: { concerns: ConcernOption[] }) {
           setNotice(true);
         }}
       >
+        <h2
+          id="book-consultation"
+          className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light"
+        >
+          Book Consultation
+        </h2>
+
         {FIELDS.slice(0, 3).map((field) => (
           <FloatingField key={field.id} field={field} />
         ))}
@@ -171,9 +167,9 @@ export default function BookForm({ concerns }: { concerns: ConcernOption[] }) {
               ? "Online requests are not yet active, so this has not been sent. "
               : "Online requests are not yet active. "}
             To arrange your consultation, please{" "}
-            <Link href="/contact" className="text-brand-cream underline underline-offset-4">
-              contact the clinic
-            </Link>
+            <a href="#clinic-details" className="text-brand-cream underline underline-offset-4">
+              contact the clinic directly
+            </a>
             .
           </p>
         </div>

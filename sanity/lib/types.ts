@@ -5,6 +5,16 @@ export type PortableTextBlock = { _type: string; _key: string; [field: string]: 
 
 type Ref = { _id: string; title: string; slug: string };
 
+export type TechnologyRef = {
+  _id: string;
+  name: string;
+  slug: string;
+  purpose?: string;
+  dedicatedPage?: boolean | null;
+};
+
+export type ProgrammeRef = Ref & { tagline?: string };
+
 export type ConcernSummary = Ref & {
   summary?: string;
   relatedConditions?: string[];
@@ -17,9 +27,9 @@ export type Concern = ConcernSummary & {
   resultCategory?: string;
   image?: SanityImage | null;
   faqs?: { question: string; answer: string }[];
-  programmes?: (Ref & { summary?: string })[];
+  programmes?: ProgrammeRef[];
   approaches?: (Ref & { summary?: string })[];
-  technologies?: { _id: string; name: string; purpose?: string; slug: string }[];
+  technologies?: TechnologyRef[];
   others?: Ref[];
 };
 
@@ -35,32 +45,23 @@ export type Approach = Ref & {
   image?: SanityImage | null;
   modalities?: { _id: string; name: string; description?: string }[];
   concerns?: (Ref & { summary?: string })[];
-  technologies?: { _id: string; name: string; purpose?: string; slug: string }[];
-  programmes?: (Ref & { summary?: string })[];
+  technologies?: TechnologyRef[];
+  programmes?: ProgrammeRef[];
 };
 
-export type ProgrammeSummary = Ref & { summary?: string; forWhom?: string };
+export type ProgrammeSummary = ProgrammeRef & { shortTitle?: string };
 
 export type Programme = ProgrammeSummary & {
-  approach?: string;
+  body?: string;
+  closing?: string;
   image?: SanityImage | null;
-  stages?: { _key: string; title: string; description?: string }[];
-  concerns?: (Ref & { summary?: string })[];
-  approaches?: Ref[];
-  others?: Ref[];
 };
 
-export type TechnologyItem = {
-  _id: string;
-  name: string;
-  slug: string;
-  purpose?: string;
-  category?: string;
-  featured?: boolean;
-  concerns?: Ref[];
+export type TechnologyItem = TechnologyRef & {
+  categories?: string[];
 };
 
-export type Machine = Omit<TechnologyItem, "concerns"> & {
+export type Machine = TechnologyItem & {
   description?: string;
   image?: SanityImage | null;
   approaches?: Ref[];
@@ -71,13 +72,20 @@ export type Doctor = {
   _id: string;
   name: string;
   slug: string;
+  position?: string;
   role?: string;
+  specialty?: string;
   shortBio?: string;
   biography?: string;
+  quote?: string;
+  practisingSince?: number;
   qualifications?: string[];
   expertise?: string[];
-  memberships?: string[];
+  conferences?: string[];
+  publications?: string[];
   achievements?: string[];
+  memberships?: string[];
+  technologies?: TechnologyRef[];
   portrait?: SanityImage | null;
 };
 
