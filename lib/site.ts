@@ -30,8 +30,11 @@ export const TAGLINE = "Expertise, Elevated.";
 export const SUPPORTING_LINE =
   "Where dermatological expertise meets the art of aesthetics.";
 
-/** The signature brand philosophy. The doctors asked for it to recur across the site. */
-export const PHILOSOPHY_LINE = "Considered treatment, not a menu.";
+/**
+ * The guiding principle, recurring across the site. Revised by the doctors from
+ * "Considered treatment, not a menu."
+ */
+export const PHILOSOPHY_LINE = "Considered care. Never a menu.";
 
 export const PHILOSOPHY_TEXT = [
   "We don’t believe in one treatment for everyone.",

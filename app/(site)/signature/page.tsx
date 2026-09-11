@@ -75,11 +75,11 @@ export default async function SignaturePage() {
         <section
           key={programme._id}
           id={programme.slug}
-          className="scroll-mt-24 border-t border-brand-gray-muted/30 bg-brand-bone xl:scroll-mt-36"
+          className="scroll-mt-24 border-t border-brand-gray-muted/30 bg-brand-bone"
         >
           <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-12 lg:px-10 lg:py-32">
             <header className="lg:col-span-4">
-              <div className="lg:sticky lg:top-32 xl:top-40">
+              <div className="lg:sticky lg:top-32">
                 <span className="block text-xs tracking-widest text-brand-champagne-dark">{pad(index + 1)}</span>
                 <h2 className="mt-6 text-2xl font-normal uppercase leading-snug tracking-widest text-brand-black lg:text-[1.65rem]">
                   {programme.title}

@@ -10,10 +10,10 @@ const STATIC_ROUTES = [
   { path: "/concerns", priority: 0.9 },
   { path: "/book", priority: 0.9 },
   { path: "/about", priority: 0.8 },
-  { path: "/signature", priority: 0.8 },
   { path: "/treatment-approaches", priority: 0.8 },
+  { path: "/signature", priority: 0.8 },
+  { path: "/contact", priority: 0.7 },
   { path: "/results", priority: 0.7 },
-  { path: "/the-clinic", priority: 0.7 },
   { path: "/technology", priority: 0.6 },
   { path: "/journal", priority: 0.6 },
 ] as const;

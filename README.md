@@ -2,7 +2,7 @@
 
 Marketing site and content studio. Next.js (App Router) + TypeScript + Tailwind, with Sanity as the CMS and an embedded Studio at `/studio`.
 
-**Expertise, Elevated.** The site is organised around the doctors' principle: *the doctor decides, technology supports, the patient receives a personalised plan.* Every page follows the patient journey — concern → assessment → personalised strategy → technology → results — and never leads with a machine. The recurring brand line is **Considered treatment, not a menu.** See [`docs/INFORMATION-ARCHITECTURE.md`](docs/INFORMATION-ARCHITECTURE.md) before changing navigation or page order.
+**Expertise, Elevated.** The site is organised around the doctors' principle: *the doctor decides, technology supports, the patient receives a personalised plan.* Every page follows the patient journey — concern → assessment → personalised strategy → technology → results — and never leads with a machine. The recurring guiding principle is **Considered care. Never a menu.** See [`docs/INFORMATION-ARCHITECTURE.md`](docs/INFORMATION-ARCHITECTURE.md) before changing navigation or page order.
 
 What the client still needs to supply or approve is tracked in [`docs/CONTENT-REVIEW.md`](docs/CONTENT-REVIEW.md).
 
@@ -54,14 +54,14 @@ Document types are in `sanity/schemaTypes/`; the Studio sidebar is arranged in `
 | `result` | Results | `/results`. Only rendered when `consentConfirmed` is true |
 | `testimonial` | Testimonials | `/results` and the homepage. Quotes are verbatim |
 | `doctor` | Doctors | `/about` and the homepage. Empty credential sections are hidden |
-| `clinicSpace` | The Clinic | `/the-clinic`. A space only appears once it has an image |
-| `teamMember` | Team | `/the-clinic` |
+| `clinicSpace` | The Clinic | `/about#the-clinic`. A space only appears once it has an image |
+| `teamMember` | Team | `/about#the-clinic` |
 | `journalArticle` | Journal | `/journal/[slug]` |
 | `siteSettings` | Site Settings (singleton) | Hero, philosophy and clinic imagery |
 
 Category lists shared by schemas and pages are in `sanity/lib/categories.ts`. Where a technology or programme links to is decided in one place, `lib/links.ts`.
 
-There is no Contact page: `/book` carries the contact details, and `/contact` redirects there. Contact details live in `lib/site.ts`; any value left `null` is not rendered anywhere.
+The navigation is deliberately short: About · Concerns · Treatments · Technology · Journal · Contact, plus the Consult button ("Book a Consultation" where it fits). The Clinic is part of `/about` (`/the-clinic` redirects to `/about#the-clinic`), and the Signature programmes are introduced from Treatments. `/contact` and `/book` share `components/ClinicDetails.tsx`. Contact details live in `lib/site.ts`; any value left `null` is not rendered anywhere.
 
 ### Imagery
 

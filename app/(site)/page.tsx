@@ -402,7 +402,7 @@ export default async function Home() {
               ))}
             </div>
             <div className="mt-12">
-              <TextLink href="/the-clinic" ground="black">
+              <TextLink href="/about#the-clinic" ground="black">
                 The Clinic
               </TextLink>
             </div>

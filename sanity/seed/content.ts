@@ -78,7 +78,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Sylfirm X",
-    categories: ["energy-based", "rejuvenation"],
+    categories: ["energy-based", "lifting", "rejuvenation"],
     dedicatedPage: false,
     purpose: "Radiofrequency microneedling for pigmentation, scarring and skin remodelling.",
     description:
@@ -912,12 +912,15 @@ export type SeedArticle = {
   excerpt: string;
   publishedAt: string;
   paragraphs: string[];
+  /** Keeps an article's address stable if its title changes. */
+  slug?: string;
 };
 
 /** Written in the practice's voice from the doctors' own stated philosophy; no clinical claims. */
 export const ARTICLES: SeedArticle[] = [
   {
-    title: "Considered treatment, not a menu",
+    title: "Considered care. Never a menu",
+    slug: "considered-treatment-not-a-menu",
     excerpt: "Why we begin with the person in front of us, not with a list of procedures.",
     publishedAt: "2026-09-10T09:00:00.000Z",
     paragraphs: [

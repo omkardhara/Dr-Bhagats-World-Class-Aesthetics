@@ -1,29 +1,31 @@
 export type NavLink = { label: string; href: string };
 
 /**
- * Order specified by the doctors. Contact is deliberately absent: contact
- * details live in the footer and on the booking page, so the one persistent
- * call to action is Book a Consultation.
+ * The doctors' curated navigation: "About | Concerns | Treatments | Technology |
+ * Journal | Contact | Consult". The logo is home, and Consult is the header's
+ * call to action rather than a link in this list.
+ *
+ * Deliberately short. Doctors, philosophy and the clinic sit within About; the
+ * Signature programmes within Treatments; Results is reached from the homepage.
+ * No treatment, technology or category is exposed here - the site should feel
+ * curated, never like a catalogue.
  */
 export const PRIMARY_NAV: NavLink[] = [
-  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Your Concerns", href: "/concerns" },
-  { label: "The Dr Bhagat’s Signature", href: "/signature" },
-  { label: "Treatment Approaches", href: "/treatment-approaches" },
+  { label: "Concerns", href: "/concerns" },
+  { label: "Treatments", href: "/treatment-approaches" },
   { label: "Technology", href: "/technology" },
-  { label: "Results", href: "/results" },
-  { label: "The Clinic", href: "/the-clinic" },
   { label: "Journal", href: "/journal" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const FOOTER_NAV: { title: string; links: NavLink[] }[] = [
   {
     title: "Explore",
     links: [
-      { label: "Your Concerns", href: "/concerns" },
+      { label: "Concerns", href: "/concerns" },
+      { label: "Treatments", href: "/treatment-approaches" },
       { label: "The Dr Bhagat’s Signature", href: "/signature" },
-      { label: "Treatment Approaches", href: "/treatment-approaches" },
       { label: "Technology", href: "/technology" },
       { label: "Results", href: "/results" },
     ],
@@ -32,8 +34,8 @@ export const FOOTER_NAV: { title: string; links: NavLink[] }[] = [
     title: "The practice",
     links: [
       { label: "About", href: "/about" },
-      { label: "The Clinic", href: "/the-clinic" },
       { label: "Journal", href: "/journal" },
+      { label: "Contact", href: "/contact" },
       { label: "Book a Consultation", href: "/book" },
     ],
   },

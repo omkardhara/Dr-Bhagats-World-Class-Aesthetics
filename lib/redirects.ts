@@ -179,10 +179,10 @@ export const TECHNOLOGY_REDIRECTS: Redirect[] = [
   { from: "/technology/oxygeno", to: "/technology#oxygeneo" },
 ];
 
-/** Contact details now sit on the booking page and in the footer. */
+/** The Clinic now sits within About, as the doctors asked. */
 export const PAGE_REDIRECTS: Redirect[] = [
-  { from: "/contact", to: "/book" },
-  { from: "/contactus", to: "/book" },
+  { from: "/the-clinic", to: "/about#the-clinic" },
+  { from: "/contactus", to: "/contact" },
   { from: "/about-us", to: "/about" },
 ];
 

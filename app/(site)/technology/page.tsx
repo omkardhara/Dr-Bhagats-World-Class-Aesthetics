@@ -79,7 +79,7 @@ export default async function TechnologyPage() {
                   <li
                     key={item._id}
                     id={id}
-                    className={`flex scroll-mt-28 flex-col border p-6 xl:scroll-mt-40 ${
+                    className={`flex scroll-mt-28 flex-col border p-6 ${
                       item.dedicatedPage ? "border-brand-champagne-dark/60" : "border-brand-gray-muted/30"
                     }`}
                   >

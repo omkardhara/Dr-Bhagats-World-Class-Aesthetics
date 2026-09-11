@@ -9,7 +9,6 @@ import { PRIMARY_NAV } from "@/lib/navigation";
 import { BRAND, LOCATIONS } from "@/lib/site";
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -49,7 +48,10 @@ export default function Navbar() {
         scrolled || open ? "bg-brand-black" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-10 xl:h-[4.5rem]">
+      <nav
+        aria-label="Primary"
+        className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-10"
+      >
         <Link
           href="/"
           onClick={close}
@@ -66,15 +68,38 @@ export default function Navbar() {
           />
         </Link>
 
+        <ul className="hidden items-center gap-9 xl:flex">
+          {PRIMARY_NAV.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`inline-flex min-h-11 items-center whitespace-nowrap text-[0.68rem] uppercase tracking-[0.16em] transition-colors hover:text-brand-champagne-light ${
+                    active ? "text-brand-champagne-light" : "text-brand-gray-light"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
         <div className="flex shrink-0 items-center gap-3">
-          {/* The one persistent call to action, and the most prominent control in the header. */}
+          {/*
+           * The one persistent call to action. "Consult" on small screens: the
+           * doctors felt "Book" reads as a hotel or salon rather than a medical
+           * practice. The full label wherever it fits.
+           */}
           <Link
             href="/book"
             onClick={close}
             aria-label="Book a Consultation"
             className="flex min-h-12 items-center rounded-full bg-champagne-gradient-deep px-6 text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brand-white ring-1 ring-brand-champagne-light/30 transition-opacity hover:opacity-90 sm:px-8"
           >
-            <span className="sm:hidden">Book</span>
+            <span className="sm:hidden">Consult</span>
             <span className="hidden sm:inline">Book a Consultation</span>
           </Link>
 
@@ -98,28 +123,6 @@ export default function Navbar() {
             />
           </button>
         </div>
-      </div>
-
-      {/* Nine destinations read in full only on their own row, so wide screens get a second line. */}
-      <nav aria-label="Primary" className="hidden border-t border-brand-white/10 xl:block">
-        <ul className="mx-auto flex h-12 w-full max-w-7xl items-center justify-between px-10">
-          {PRIMARY_NAV.map((link) => {
-            const active = isActive(pathname, link.href);
-            return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center whitespace-nowrap text-[0.65rem] uppercase tracking-[0.16em] transition-colors hover:text-brand-champagne-light ${
-                    active ? "text-brand-champagne-light" : "text-brand-gray-light"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
       </nav>
 
       <div

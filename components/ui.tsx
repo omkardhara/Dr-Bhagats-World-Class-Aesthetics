@@ -41,10 +41,7 @@ export function palette(ground: Ground) {
       };
 }
 
-/**
- * Anchored sections clear the fixed header: one row below xl, two rows (logo
- * and navigation) from xl up.
- */
+/** Anchored sections clear the fixed header. */
 export function Section({
   ground = "bone",
   id,
@@ -57,7 +54,7 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={`scroll-mt-24 xl:scroll-mt-36 ${GROUND[ground]} ${className}`}>
+    <section id={id} className={`scroll-mt-24 ${GROUND[ground]} ${className}`}>
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">{children}</div>
     </section>
   );
@@ -235,7 +232,7 @@ export function Rail({
     <Section ground={ground} id={id}>
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
         <header className="lg:col-span-4">
-          <div className="lg:sticky lg:top-32 xl:top-40">
+          <div className="lg:sticky lg:top-32">
             {index !== undefined ? (
               <span className={`block text-xs tracking-widest ${p.eyebrow}`}>{pad(index)}</span>
             ) : null}

@@ -36,7 +36,7 @@ export async function generateMetadata({
 }: PageProps<"/treatment-approaches/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const approach = await getApproach(slug);
-  if (!approach) return { title: "Treatment Approaches" };
+  if (!approach) return { title: "Treatments" };
   return {
     title: approach.title,
     description: approach.summary,
@@ -68,7 +68,7 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
       <PageHero
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Treatment Approaches", href: "/treatment-approaches" },
+          { label: "Treatments", href: "/treatment-approaches" },
           { label: approach.title, href: `/treatment-approaches/${approach.slug}` },
         ]}
         title={approach.title}

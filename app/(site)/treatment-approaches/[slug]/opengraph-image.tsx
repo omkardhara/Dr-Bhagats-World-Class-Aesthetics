@@ -17,7 +17,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   }
   return ogCard({
     eyebrow: "Treatment approach",
-    title: approach?.title ?? "Treatment Approaches",
+    title: approach?.title ?? "Treatments",
     subtitle: approach?.summary,
   });
 }

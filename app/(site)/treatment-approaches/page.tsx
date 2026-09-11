@@ -12,17 +12,19 @@ import {
   Rail,
   Rows,
   Section,
+  TextLink,
 } from "@/components/ui";
 import { pad } from "@/lib/format";
 import { programmeHref } from "@/lib/links";
+import { PHILOSOPHY_LINE } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import { approachesQuery } from "@/sanity/lib/queries";
 import type { ApproachSummary, ProgrammeSummary } from "@/sanity/lib/types";
 
 export const metadata: Metadata = {
-  title: "Treatment Approaches",
+  title: "Treatments",
   description:
-    "Considered treatment, not a menu. How the doctors approach each family of concerns, with every plan designed for the individual.",
+    "Considered care. Never a menu. How the doctors approach each family of concerns, and the Dr Bhagat's Signature programmes, with every plan designed for the individual.",
   alternates: { canonical: "/treatment-approaches" },
 };
 
@@ -41,14 +43,18 @@ async function getData(): Promise<{ approaches: ApproachSummary[]; programmes: P
   }
 }
 
+/**
+ * The "Treatments" tab. It carries both the treatment approaches and the
+ * Signature programmes, since the doctors kept the navigation to a curated few.
+ */
 export default async function TreatmentApproachesPage() {
   const { approaches, programmes } = await getData();
 
   return (
     <main className="flex-1 bg-brand-bone">
       <PageHero
-        eyebrow="Treatment Approaches"
-        title="Considered treatment, not a menu."
+        eyebrow="Treatments"
+        title={PHILOSOPHY_LINE}
         lead="We don’t believe in one treatment for everyone. Each approach describes how the doctors think about a family of concerns, and every plan within it is personal."
       />
 
@@ -101,7 +107,7 @@ export default async function TreatmentApproachesPage() {
       </Section>
 
       {programmes.length > 0 ? (
-        <Rail ground="black" title="The Dr Bhagat’s Signature">
+        <Rail ground="black" id="signature" title="The Dr Bhagat’s Signature">
           <Rows
             ground="black"
             items={programmes.map((programme) => ({
@@ -111,6 +117,11 @@ export default async function TreatmentApproachesPage() {
               href: programmeHref(programme.slug),
             }))}
           />
+          <div className="mt-10">
+            <TextLink href="/signature" ground="black">
+              The Signature Approach
+            </TextLink>
+          </div>
         </Rail>
       ) : null}
 

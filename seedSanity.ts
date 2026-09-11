@@ -307,9 +307,9 @@ async function seed() {
   });
 
   for (const a of ARTICLES) {
-    upsert(tx, `journalArticle.${slug(a.title)}`, "journalArticle", {
+    upsert(tx, `journalArticle.${a.slug ?? slug(a.title)}`, "journalArticle", {
       title: a.title,
-      slug: slugField(slug(a.title)),
+      slug: slugField(a.slug ?? slug(a.title)),
       excerpt: a.excerpt,
       publishedAt: a.publishedAt,
       body: blocks(a.paragraphs),

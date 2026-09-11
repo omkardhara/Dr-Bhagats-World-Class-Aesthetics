@@ -18,15 +18,15 @@ import {
 } from "@/components/ui";
 import { paragraphs } from "@/lib/format";
 import { technologyHref } from "@/lib/links";
-import { PHILOSOPHY_LINE, PHILOSOPHY_TEXT, TAGLINE } from "@/lib/site";
+import { directionsHref, LOCATIONS, PHILOSOPHY_LINE, PHILOSOPHY_TEXT, TAGLINE } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
-import { doctorsQuery } from "@/sanity/lib/queries";
-import type { Doctor } from "@/sanity/lib/types";
+import { clinicQuery, doctorsQuery } from "@/sanity/lib/queries";
+import type { ClinicSpace, Doctor, TeamMember } from "@/sanity/lib/types";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "A legacy of dermatology. A future of aesthetics. Dr Priyam Bhagat and Dr Kamlesh Bhagat, and the philosophy behind Dr Bhagat's World Class Aesthetics.",
+    "A legacy of dermatology. A future of aesthetics. Dr Priyam Bhagat and Dr Kamlesh Bhagat, their philosophy, and the clinics of Dr Bhagat's World Class Aesthetics.",
   alternates: { canonical: "/about" },
 };
 
@@ -35,6 +35,10 @@ export const revalidate = 60;
 /*
  * Page copy is the doctors' own, reproduced as written. A line marked `lead`
  * carries the argument and is set larger.
+ *
+ * The doctors asked that doctors, philosophy and the clinic all sit within
+ * About rather than as separate tabs, so The Clinic is the final part of this
+ * page (/the-clinic redirects to #the-clinic).
  */
 type Line = { text: string; lead?: boolean };
 
@@ -99,6 +103,12 @@ const EXPERIENCE: Line[] = [
   { text: "It is about choosing better.", lead: true },
 ];
 
+const LOCATION_LABEL: Record<string, string> = {
+  goregaon: "Goregaon East",
+  vashi: "Vashi, Navi Mumbai",
+  both: "Both clinics",
+};
+
 function Lines({ lines, ground = "bone" }: { lines: Line[]; ground?: Ground }) {
   return (
     <div>
@@ -123,6 +133,19 @@ async function getDoctors(): Promise<Doctor[]> {
   } catch (error) {
     console.error("[about] Sanity fetch failed:", error);
     return [];
+  }
+}
+
+async function getClinic(): Promise<{ spaces: ClinicSpace[]; team: TeamMember[] }> {
+  try {
+    const data = await getClient().fetch<{
+      spaces?: ClinicSpace[] | null;
+      team?: TeamMember[] | null;
+    } | null>(clinicQuery);
+    return { spaces: data?.spaces ?? [], team: data?.team ?? [] };
+  } catch (error) {
+    console.error("[about] Clinic fetch failed:", error);
+    return { spaces: [], team: [] };
   }
 }
 
@@ -172,7 +195,7 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
   );
 
   return (
-    <section id={doctor.slug} className="scroll-mt-24 border-t border-brand-gray-muted/20 xl:scroll-mt-36">
+    <section id={doctor.slug} className="scroll-mt-24 border-t border-brand-gray-muted/20">
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-36">
         {hasPortrait ? (
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:items-end">
@@ -260,7 +283,7 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
 }
 
 export default async function AboutPage() {
-  const doctors = await getDoctors();
+  const [doctors, clinic] = await Promise.all([getDoctors(), getClinic()]);
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -271,7 +294,7 @@ export default async function AboutPage() {
       <Section ground="bone">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32 xl:top-40">
+            <div className="lg:sticky lg:top-32">
               <Eyebrow>About Dr Bhagat’s</Eyebrow>
               <Display className="mt-8">{TAGLINE}</Display>
             </div>
@@ -285,7 +308,7 @@ export default async function AboutPage() {
       </Section>
 
       {doctors.length > 0 ? (
-        <div className="bg-brand-black">
+        <div id="doctors" className="scroll-mt-24 bg-brand-black">
           <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
             <Eyebrow ground="black">The doctors</Eyebrow>
           </div>
@@ -332,7 +355,7 @@ export default async function AboutPage() {
         </div>
       </Section>
 
-      <Section ground="black">
+      <Section ground="black" id="philosophy">
         <Reveal>
           <Eyebrow ground="black">Our philosophy</Eyebrow>
           <h2 className="mt-10 max-w-5xl text-4xl font-normal leading-[1.08] tracking-[0.01em] text-brand-cream sm:text-6xl lg:text-7xl">
@@ -352,7 +375,7 @@ export default async function AboutPage() {
       <Section ground="bone">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32 xl:top-40">
+            <div className="lg:sticky lg:top-32">
               <Eyebrow>The approach</Eyebrow>
               <Display className="mt-8">The Dr Bhagat’s Approach</Display>
             </div>
@@ -380,25 +403,108 @@ export default async function AboutPage() {
         </div>
       </Section>
 
-      <Section ground="white">
+      {/* The Clinic */}
+      <Section ground="white" id="the-clinic">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32 xl:top-40">
-              <Display ground="white">The experience</Display>
+            <div className="lg:sticky lg:top-32">
+              <Eyebrow ground="white">The Clinic</Eyebrow>
+              <Display ground="white" className="mt-8">
+                The experience
+              </Display>
             </div>
           </div>
           <div className="lg:col-span-7 lg:col-start-6">
             <Reveal>
               <Lines lines={EXPERIENCE} ground="white" />
-              <div className="mt-12">
-                <TextLink href="/the-clinic" ground="white">
-                  The Clinic
-                </TextLink>
-              </div>
             </Reveal>
+            <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2">
+              {LOCATIONS.map((location) => (
+                <address key={location.id} className="border-t border-brand-gray-muted/30 pt-6 not-italic">
+                  <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                    {location.name}
+                  </p>
+                  <p className="mt-3 text-[0.9rem] leading-[1.7] text-brand-gray-text">
+                    {location.streetAddress}, {location.locality} {location.postalCode}
+                  </p>
+                  <a
+                    href={directionsHref(location)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark transition-colors hover:text-brand-black"
+                  >
+                    Directions
+                  </a>
+                </address>
+              ))}
+            </div>
+            <div className="mt-10">
+              <TextLink href="/contact" ground="white">
+                Contact the clinic
+              </TextLink>
+            </div>
           </div>
         </div>
       </Section>
+
+      {/* Spaces and team appear only once photographed; the query filters out spaces without images. */}
+      {clinic.spaces.length > 0 || clinic.team.length > 0 ? (
+        <Section ground="bone">
+          {clinic.spaces.map((space) => (
+            <div
+              key={space._id}
+              className="grid grid-cols-1 gap-12 border-t border-brand-gray-muted/30 py-16 first:border-t-0 first:pt-0 lg:grid-cols-12"
+            >
+              <div className="lg:col-span-4">
+                <Reveal>
+                  {space.location ? <Eyebrow>{LOCATION_LABEL[space.location]}</Eyebrow> : null}
+                  <h3 className="mt-6 text-2xl font-normal uppercase tracking-widest text-brand-black">
+                    {space.title}
+                  </h3>
+                  {space.description ? (
+                    <p className="mt-6 text-[1rem] leading-[1.8] text-brand-gray-text">{space.description}</p>
+                  ) : null}
+                </Reveal>
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
+                {space.images.map((image, imageIndex) => (
+                  <SanityPicture
+                    key={`${space._id}-${imageIndex}`}
+                    image={image}
+                    ratio="4/3"
+                    sizes="(min-width: 1024px) 35vw, 100vw"
+                    className={imageIndex === 0 ? "sm:col-span-2" : ""}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {clinic.team.length > 0 ? (
+            <div className={clinic.spaces.length > 0 ? "border-t border-brand-gray-muted/30 pt-16" : ""}>
+              <Eyebrow>The team</Eyebrow>
+              <ul className="mt-12 grid grid-cols-2 gap-10 md:grid-cols-4">
+                {clinic.team.map((member) => (
+                  <li key={member._id}>
+                    <SanityPicture
+                      image={member.portrait}
+                      ratio="3/4"
+                      width={800}
+                      sizes="(min-width: 768px) 25vw, 50vw"
+                    />
+                    <p className="mt-5 text-[1rem] text-brand-black">{member.name}</p>
+                    {member.role ? (
+                      <p className="mt-1 text-[0.65rem] uppercase tracking-widest text-brand-gray-text">
+                        {member.role}
+                      </p>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </Section>
+      ) : null}
 
       <Section ground="bone" className="border-t border-brand-gray-muted/20">
         <Reveal>
