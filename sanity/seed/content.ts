@@ -877,6 +877,10 @@ export const TESTIMONIALS: SeedTestimonial[] = [
 /** Spaces render on the site only once photographed, so these can be prepared now. */
 export const CLINIC_SPACES = [
   {
+    title: "Architecture",
+    description: "A contemporary, discreet setting, designed for calm from the moment you arrive.",
+  },
+  {
     title: "Reception",
     description: "A calm, private welcome, and a considered start to every visit.",
   },
@@ -887,6 +891,10 @@ export const CLINIC_SPACES = [
   {
     title: "Treatment rooms",
     description: "Clinical spaces prepared for precision, comfort and privacy.",
+  },
+  {
+    title: "Details",
+    description: "The small, considered details of a private medical environment.",
   },
   {
     title: "Technology",

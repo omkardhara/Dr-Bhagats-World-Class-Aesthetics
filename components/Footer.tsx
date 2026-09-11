@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FOOTER_NAV } from "@/lib/navigation";
 import {
   BRAND,
+  directionsHref,
   formatPhone,
   LOCATIONS,
   PHILOSOPHY_LINE,
@@ -101,11 +102,14 @@ export default function Footer() {
                       {location.email}
                     </a>
                   ) : null}
-                  {location.mapsUrl ? (
-                    <a href={location.mapsUrl} className={DETAIL_LINK}>
-                      Directions
-                    </a>
-                  ) : null}
+                  <a
+                    href={directionsHref(location)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={DETAIL_LINK}
+                  >
+                    Directions
+                  </a>
                 </div>
               </address>
             ))}
@@ -123,7 +127,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-champagne-light"
+                  className="inline-flex min-h-10 items-center text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-cream"
                 >
                   {name}
                 </a>

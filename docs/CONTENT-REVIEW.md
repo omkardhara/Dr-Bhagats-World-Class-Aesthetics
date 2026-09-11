@@ -35,6 +35,14 @@ Everything else in the doctors' feedback is reproduced as written. These pieces 
 - **The 9 concerns and 7 treatment approaches** — understanding, assessment and approach text, written without outcome claims.
 - **Homepage Clinic section** — adapted from "The experience" on the About page.
 - **The 3 journal articles.**
+- **Homepage philosophy line** — "Our real difference is clinical judgement and experience…", adapted from the first round of feedback.
+- **Clinic space descriptions** — Architecture, Reception, Consultation rooms, Treatment rooms, Details and Technology. Each appears only once photographed.
+- **Directions links** — currently a Google Maps search for each confirmed street address. Replace with each clinic's Google Business Profile link once available.
+
+Open questions from the feedback:
+
+- **"RF technologies" under Lifting & tightening** — Thermage FLX is listed there. Should Sylfirm X (RF microneedling) also appear under Lifting & tightening, or stay in Energy-based and Skin rejuvenation?
+- **Results** — categories appear only once they have a consented case or a patient review, so Ageing and Body are not yet shown.
 
 ## 4. Technology
 

@@ -68,7 +68,7 @@ export default async function ResultsPage() {
     <main className="flex-1 bg-brand-bone">
       <PageHero
         eyebrow="Results"
-        title="Results, understood by concern."
+        title="Results, organised by concern."
         lead="Every result begins with an assessment and a plan designed for one person."
       />
 

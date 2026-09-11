@@ -111,6 +111,21 @@ export default async function TechnologyPage() {
           Knowing when a technology will not help is as much a part of clinical judgement as knowing
           when it will.
         </Prose>
+        {/* The doctors' own statement of the site's strategic heart. */}
+        <ul className="mt-14 max-w-3xl">
+          {[
+            "Machines are our tools.",
+            "Clinical expertise is our product.",
+            "The Dr Bhagat’s experience is our brand.",
+          ].map((line) => (
+            <li
+              key={line}
+              className="border-t border-brand-gray-muted/30 py-5 text-2xl font-normal tracking-[0.01em] text-brand-black"
+            >
+              {line}
+            </li>
+          ))}
+        </ul>
       </Section>
 
       <BeginConsultation />

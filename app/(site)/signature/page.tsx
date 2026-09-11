@@ -119,10 +119,7 @@ export default async function SignaturePage() {
       ))}
 
       <div className="border-t border-brand-gray-muted/30 bg-brand-bone">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-16 sm:flex-row sm:items-center sm:justify-between lg:px-10">
-          <p className="max-w-xl text-[0.95rem] leading-[1.7] text-brand-gray-text">
-            Every technology we use is chosen by the doctor, for a reason, after assessment.
-          </p>
+        <div className="mx-auto w-full max-w-7xl px-6 py-16 lg:px-10">
           <TextLink href="/technology">Explore our technology →</TextLink>
         </div>
       </div>

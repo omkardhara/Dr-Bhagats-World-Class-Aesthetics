@@ -107,6 +107,16 @@ export function formatPhone(phone: string): string {
     : phone;
 }
 
+/**
+ * Directions to a clinic. Uses the Google Business Profile link once supplied;
+ * until then, a Maps search for the confirmed street address.
+ */
+export function directionsHref(location: Location): string {
+  if (location.mapsUrl) return location.mapsUrl;
+  const address = `${location.streetAddress}, ${location.locality}, ${location.region} ${location.postalCode}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
 /** A wa.me link needs digits only. */
 export function whatsappHref(number: string): string {
   return `https://wa.me/${number.replace(/\D/g, "")}`;

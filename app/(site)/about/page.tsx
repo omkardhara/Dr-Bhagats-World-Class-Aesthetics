@@ -384,10 +384,7 @@ export default async function AboutPage() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32 xl:top-40">
-              <Eyebrow ground="white">The experience</Eyebrow>
-              <Display ground="white" className="mt-8">
-                Choosing better.
-              </Display>
+              <Display ground="white">The experience</Display>
             </div>
           </div>
           <div className="lg:col-span-7 lg:col-start-6">

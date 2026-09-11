@@ -129,7 +129,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
-              <Eyebrow>Our philosophy</Eyebrow>
+              <Eyebrow>A doctor-led philosophy</Eyebrow>
               <Display className="mt-8">{PHILOSOPHY_LINE}</Display>
             </Reveal>
             <SanityPicture
@@ -143,9 +143,12 @@ export default async function Home() {
             <Reveal index={1}>
               <Statement>{PHILOSOPHY_TEXT[0]}</Statement>
               <Prose className="mt-8">{PHILOSOPHY_TEXT[1]}</Prose>
+              {/* The differentiator the doctors asked the site to communicate most strongly. */}
               <Prose className="mt-6">
-                Dr Bhagat&apos;s is a doctor-led practice. Every face is different. Every treatment plan
-                should be too.
+                Our real difference is clinical judgement and experience: knowing which treatment to
+                use, when to combine technologies, when not to use something at all, and how to build a
+                long-term plan for each patient. Every face is different. Every treatment plan should be
+                too.
               </Prose>
             </Reveal>
             <ul className="mt-14">
@@ -329,7 +332,7 @@ export default async function Home() {
           <Reveal>
             <Eyebrow ground="white">Results</Eyebrow>
             <Display ground="white" className="mt-8 max-w-3xl">
-              Results, understood by concern.
+              Results, organised by concern.
             </Display>
             <Prose ground="white" className="mt-8">
               Every result begins with an assessment and a plan designed for one person.

@@ -33,7 +33,7 @@ export default async function JournalPage() {
     <main className="flex-1 bg-brand-bone">
       <PageHero
         eyebrow="Journal"
-        title="Considered perspectives."
+        title="Expert knowledge."
         lead="Insight on skin, ageing and treatment from Dr Bhagat’s."
       />
 

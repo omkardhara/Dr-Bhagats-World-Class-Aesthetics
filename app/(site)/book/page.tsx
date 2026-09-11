@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import BookForm, { type ConcernOption } from "@/components/BookForm";
-import { formatPhone, LOCATIONS, PHILOSOPHY_LINE, whatsappHref } from "@/lib/site";
+import { directionsHref, formatPhone, LOCATIONS, PHILOSOPHY_LINE, whatsappHref } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import { concernsQuery } from "@/sanity/lib/queries";
 
@@ -80,7 +80,6 @@ export default async function BookPage() {
                 location.openingHours
                   ? { label: "Opening hours", value: location.openingHours.join(", ") }
                   : null,
-                location.mapsUrl ? { label: "Directions", value: "Open in Google Maps", href: location.mapsUrl } : null,
               ].filter((row): row is { label: string; value: string; href?: string } => row !== null);
 
               return (
@@ -91,6 +90,16 @@ export default async function BookPage() {
                       <dt className="text-[0.6rem] uppercase tracking-widest text-brand-gray-muted">Location</dt>
                       <dd className="mt-2 text-[0.9rem] leading-[1.7] text-brand-cream/85">
                         {location.streetAddress}, {location.locality}, {location.region} {location.postalCode}
+                      </dd>
+                      <dd className="mt-3 text-[0.8rem]">
+                        <a
+                          href={directionsHref(location)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${DETAIL_LINK} underline underline-offset-4`}
+                        >
+                          Directions
+                        </a>
                       </dd>
                     </div>
                     {rows.map((row) => (
