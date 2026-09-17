@@ -179,6 +179,13 @@ export const TECHNOLOGY_REDIRECTS: Redirect[] = [
   { from: "/technology/oxygeno", to: "/technology#oxygeneo" },
 ];
 
+/** Drafts replaced by the doctors' own Journal articles. */
+export const JOURNAL_REDIRECTS: Redirect[] = [
+  { from: "/journal/considered-treatment-not-a-menu", to: "/journal" },
+  { from: "/journal/why-every-plan-begins-with-a-consultation", to: "/journal" },
+  { from: "/journal/technology-selected-with-purpose", to: "/journal" },
+];
+
 /** The Clinic now sits within About, as the doctors asked. */
 export const PAGE_REDIRECTS: Redirect[] = [
   { from: "/the-clinic", to: "/about#the-clinic" },
@@ -193,6 +200,7 @@ export const ALL_REDIRECTS: Redirect[] = [
   ...LEGACY_SITE_REDIRECTS,
   ...SIGNATURE_REDIRECTS,
   ...TECHNOLOGY_REDIRECTS,
+  ...JOURNAL_REDIRECTS,
   ...PAGE_REDIRECTS,
 ];
 

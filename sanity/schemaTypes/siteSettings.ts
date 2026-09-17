@@ -21,7 +21,12 @@ export const siteSettings = defineType({
   fields: [
     imageField("heroImage", "Homepage hero", "Full-bleed image behind the homepage hero."),
     imageField("philosophyImage", "Philosophy", "Shown beside the philosophy statement on the homepage."),
-    imageField("clinicImage", "The Clinic", "Used for The Clinic on the homepage and at the top of its page."),
+    imageField(
+      "doctorsImage",
+      "The doctors, together",
+      "A large photograph of both doctors, opening The Doctors on the About page."
+    ),
+    imageField("clinicImage", "The Clinic", "Used for The Clinic on the homepage and within About."),
     imageField("consultationImage", "Consultation", "Shown on the booking page."),
   ],
   preview: { prepare: () => ({ title: "Site Settings" }) },

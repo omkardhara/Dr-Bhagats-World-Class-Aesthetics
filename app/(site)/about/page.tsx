@@ -21,12 +21,12 @@ import { technologyHref } from "@/lib/links";
 import { directionsHref, LOCATIONS, PHILOSOPHY_LINE, PHILOSOPHY_TEXT, TAGLINE } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import { clinicQuery, doctorsQuery } from "@/sanity/lib/queries";
-import type { ClinicSpace, Doctor, TeamMember } from "@/sanity/lib/types";
+import type { ClinicSpace, Doctor, SiteSettings, TeamMember } from "@/sanity/lib/types";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "A legacy of dermatology. A future of aesthetics. Dr Priyam Bhagat and Dr Kamlesh Bhagat, their philosophy, and the clinics of Dr Bhagat's World Class Aesthetics.",
+    "Dermatology, grounded in medicine. Aesthetic medicine, refined through experience. Dr Priyam Bhagat and Dr Kamlesh V. Bhagat, both MD Dermatology from Seth GS Medical College & KEM Hospital, Mumbai.",
   alternates: { canonical: "/about" },
 };
 
@@ -36,9 +36,9 @@ export const revalidate = 60;
  * Page copy is the doctors' own, reproduced as written. A line marked `lead`
  * carries the argument and is set larger.
  *
- * The doctors asked that doctors, philosophy and the clinic all sit within
- * About rather than as separate tabs, so The Clinic is the final part of this
- * page (/the-clinic redirects to #the-clinic).
+ * The doctors asked that the credentials themselves create the authority: no
+ * "leading", "renowned" or "world-class" anywhere on this page. Every
+ * credential comes from the doctors and is theirs to verify against their CVs.
  */
 type Line = { text: string; lead?: boolean };
 
@@ -64,21 +64,44 @@ const INTRODUCTION: Line[] = [
   { text: "It is to help each patient look fresh, balanced, confident and unmistakably themselves." },
 ];
 
-const INDIVIDUAL = [
-  "Your skin is individual.",
-  "Your anatomy is individual.",
-  "Your ageing process is individual.",
-  "Your expectations are individual.",
-];
-
-const APPROACH: Line[] = [
-  { text: "Modern aesthetic medicine gives us an extraordinary range of possibilities." },
-  { text: "Our responsibility is to use those possibilities thoughtfully.", lead: true },
+const DOCTORS_INTRO: Line[] = [
+  { text: "At Dr Bhagat’s, aesthetic medicine is built on a foundation of specialist dermatology." },
   {
-    text: "We select treatments according to the patient—not according to what happens to be available on a treatment menu.",
+    text: "Dr Priyam Bhagat and Dr Kamlesh Bhagat bring complementary expertise across clinical dermatology, aesthetic medicine, dermatosurgery, laser medicine, skin health and the management of facial ageing.",
   },
   {
-    text: "We may use advanced lasers, energy-based technologies, regenerative approaches or other aesthetic treatments, but each has a purpose within the overall plan.",
+    text: "Their practice has evolved with dermatology itself — from a strong foundation in medical and surgical dermatology to advanced laser, energy-based and aesthetic medicine.",
+  },
+  { text: "The technology may be sophisticated. The thinking behind it must be even more so.", lead: true },
+];
+
+const SHARED: Line[] = [
+  {
+    text: "Although Dr Priyam and Dr Kamlesh Bhagat have complementary areas of expertise, their approach to patient care is shared.",
+  },
+];
+
+const DIAGNOSIS = [
+  "A concern that appears cosmetic may have a deeper dermatological cause.",
+  "Pigmentation may have several different origins.",
+  "Hair loss requires diagnosis before treatment.",
+  "Acne scars reflect the history and structure of the underlying acne.",
+  "Facial ageing involves more than the skin alone.",
+];
+
+const DIFFERENCE: Line[] = [
+  {
+    text: "Aesthetic medicine is no longer simply about treating a wrinkle, a pigment spot or a change in contour.",
+  },
+  {
+    text: "The more sophisticated the technology becomes, the more important the clinical decision behind it becomes.",
+    lead: true,
+  },
+  {
+    text: "Treatment begins by understanding the patient — not by selecting a procedure. We consider the skin, anatomy, history, concerns, expectations and the changes that have occurred over time.",
+  },
+  {
+    text: "Because expertise is not measured by how many treatments can be performed. It is reflected in knowing which treatment matters, why it matters, and when it is better left alone.",
   },
 ];
 
@@ -136,16 +159,15 @@ async function getDoctors(): Promise<Doctor[]> {
   }
 }
 
-async function getClinic(): Promise<{ spaces: ClinicSpace[]; team: TeamMember[] }> {
+type Clinic = { settings: SiteSettings | null; spaces: ClinicSpace[]; team: TeamMember[] };
+
+async function getClinic(): Promise<Clinic> {
   try {
-    const data = await getClient().fetch<{
-      spaces?: ClinicSpace[] | null;
-      team?: TeamMember[] | null;
-    } | null>(clinicQuery);
-    return { spaces: data?.spaces ?? [], team: data?.team ?? [] };
+    const data = await getClient().fetch<Partial<Clinic> | null>(clinicQuery);
+    return { settings: data?.settings ?? null, spaces: data?.spaces ?? [], team: data?.team ?? [] };
   } catch (error) {
     console.error("[about] Clinic fetch failed:", error);
-    return { spaces: [], team: [] };
+    return { settings: null, spaces: [], team: [] };
   }
 }
 
@@ -174,22 +196,40 @@ function CredentialList({ title, items }: { title: string; items?: string[] }) {
   );
 }
 
-function DoctorProfile({ doctor }: { doctor: Doctor }) {
+/**
+ * Both doctors get the same layout and the same space; only the side the
+ * portrait sits on alternates, so neither profile reads as the senior one.
+ */
+function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
   const hasPortrait = Boolean(doctor.portrait?.asset);
   const years = doctor.practisingSince ? new Date().getFullYear() - doctor.practisingSince : null;
 
   const header = (
     <div>
       {doctor.position ? <Eyebrow ground="black">{doctor.position}</Eyebrow> : null}
-      <h2 className="mt-8 text-5xl font-normal leading-[1.02] tracking-[0.005em] text-brand-cream sm:text-6xl lg:text-7xl">
+      <h2 className="mt-8 text-4xl font-normal leading-[1.04] tracking-[0.005em] text-brand-cream sm:text-5xl lg:text-6xl">
         {doctor.name}
       </h2>
+      {/* The qualification sits directly beneath the name, as the doctors asked. */}
+      {doctor.degree ? (
+        <p className="mt-8 text-xl font-normal tracking-[0.02em] text-brand-cream lg:text-2xl">
+          {doctor.degree}
+        </p>
+      ) : null}
+      {doctor.institution ? (
+        <p className="mt-3 text-[1rem] leading-[1.6] text-brand-gray-muted">{doctor.institution}</p>
+      ) : null}
+      {doctor.credential ? (
+        <p className="mt-3 text-[0.95rem] tracking-[0.02em] text-brand-champagne-light">
+          {doctor.credential}
+        </p>
+      ) : null}
       <span aria-hidden className="mt-10 block h-px w-16 bg-champagne-gradient" />
       {doctor.role ? (
-        <p className="mt-10 text-xl font-normal tracking-[0.01em] text-brand-cream">{doctor.role}</p>
+        <p className="mt-10 text-[1.05rem] tracking-[0.01em] text-brand-cream">{doctor.role}</p>
       ) : null}
       {doctor.specialty ? (
-        <p className="mt-3 text-[0.95rem] text-brand-gray-muted">{doctor.specialty}</p>
+        <p className="mt-2 text-[0.95rem] leading-[1.6] text-brand-gray-muted">{doctor.specialty}</p>
       ) : null}
     </div>
   );
@@ -199,7 +239,7 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
       <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-36">
         {hasPortrait ? (
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-6">
+            <div className={`lg:col-span-6 ${flip ? "lg:order-2 lg:col-start-7" : ""}`}>
               <Reveal>
                 <SanityPicture
                   image={doctor.portrait}
@@ -210,7 +250,7 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
                 />
               </Reveal>
             </div>
-            <div className="lg:col-span-5 lg:col-start-8">
+            <div className={`lg:col-span-5 ${flip ? "lg:order-1" : "lg:col-start-8"}`}>
               <Reveal index={1}>{header}</Reveal>
             </div>
           </div>
@@ -232,15 +272,13 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
             </Reveal>
           </div>
 
-          {/* In the order the doctors specified. Any section without confirmed details is omitted. */}
           <div className="lg:col-span-4 lg:col-start-9">
-            <CredentialList title="Qualifications and training" items={doctor.qualifications} />
+            <CredentialList title="Areas of expertise" items={doctor.expertise} />
             {years && years > 0 ? (
               <Credential title="Experience">
                 <p className="text-[0.95rem] text-brand-cream/85">{years} years in practice</p>
               </Credential>
             ) : null}
-            <CredentialList title="Areas of expertise" items={doctor.expertise} />
             <CredentialList title="Conferences" items={doctor.conferences} />
             <CredentialList title="Publications" items={doctor.publications} />
             <CredentialList title="Awards" items={doctor.achievements} />
@@ -260,7 +298,6 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
                 </ul>
               </Credential>
             ) : null}
-            <CredentialList title="Memberships" items={doctor.memberships} />
           </div>
         </div>
 
@@ -268,7 +305,7 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
           <Reveal>
             <figure className="mt-24 border-t border-brand-gray-muted/25 pt-16">
               <Eyebrow ground="black">Philosophy</Eyebrow>
-              <blockquote className="mt-10 max-w-4xl text-3xl font-normal leading-[1.3] tracking-[0.005em] text-brand-cream lg:text-[2.6rem]">
+              <blockquote className="mt-10 max-w-4xl text-2xl font-normal leading-[1.35] tracking-[0.005em] text-brand-cream lg:text-[2.4rem] lg:leading-[1.25]">
                 &ldquo;{doctor.quote}&rdquo;
               </blockquote>
               <figcaption className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">
@@ -284,6 +321,7 @@ function DoctorProfile({ doctor }: { doctor: Doctor }) {
 
 export default async function AboutPage() {
   const [doctors, clinic] = await Promise.all([getDoctors(), getClinic()]);
+  const withFoundations = doctors.filter((doctor) => doctor.foundations?.length);
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -310,10 +348,31 @@ export default async function AboutPage() {
       {doctors.length > 0 ? (
         <div id="doctors" className="scroll-mt-24 bg-brand-black">
           <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
-            <Eyebrow ground="black">The doctors</Eyebrow>
+            <Reveal>
+              <Eyebrow ground="black">The doctors</Eyebrow>
+              <h2 className="mt-10 max-w-4xl text-3xl font-normal leading-[1.15] tracking-[0.005em] text-brand-cream sm:text-4xl lg:text-5xl">
+                Dermatology, grounded in medicine. Aesthetic medicine, refined through experience.
+              </h2>
+              <p className="mt-10 text-[1.05rem] tracking-[0.01em] text-brand-champagne-light">
+                Two dermatologists. Complementary expertise. One uncompromising standard of care.
+              </p>
+            </Reveal>
+            <SanityPicture
+              image={clinic.settings?.doctorsImage}
+              ratio="21/9"
+              width={2400}
+              sizes="(min-width: 1024px) 80rem, 100vw"
+              className="mt-16"
+            />
+            <div className="mt-16 max-w-3xl pb-8">
+              <Reveal index={1}>
+                <Lines lines={DOCTORS_INTRO} ground="black" />
+              </Reveal>
+            </div>
           </div>
-          {doctors.map((doctor) => (
-            <DoctorProfile key={doctor._id} doctor={doctor} />
+
+          {doctors.map((doctor, index) => (
+            <DoctorProfile key={doctor._id} doctor={doctor} flip={index % 2 === 1} />
           ))}
         </div>
       ) : null}
@@ -322,38 +381,74 @@ export default async function AboutPage() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
-              <Display ground="white">Two doctors. One standard of care.</Display>
+              <Display ground="white">Two perspectives. One standard of care.</Display>
             </Reveal>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal index={1}>
-              <Prose ground="white">
-                Although each doctor brings their own experience and perspective to the practice, our
-                philosophy is shared.
-              </Prose>
+              <Lines lines={SHARED} ground="white" />
               <Statement ground="white" className="mt-10">
                 Listen. Assess. Understand. Then treat.
               </Statement>
-              <Prose ground="white" className="mt-10">
-                We believe that aesthetic medicine should be personal.
-              </Prose>
-              <ul className="mt-10">
-                {INDIVIDUAL.map((line) => (
+              <ul className="mt-12">
+                {DIAGNOSIS.map((line) => (
                   <li
                     key={line}
-                    className="border-t border-brand-gray-muted/30 py-5 text-xl font-normal tracking-[0.01em] text-brand-black"
+                    className="border-t border-brand-gray-muted/30 py-5 text-[1.05rem] leading-[1.6] text-brand-black"
                   >
                     {line}
                   </li>
                 ))}
               </ul>
-              <Statement ground="white" className="mt-10">
-                Your treatment should be too.
-              </Statement>
+              <Prose ground="white" className="mt-12">
+                This is why the strength of the practice lies not simply in the range of treatments
+                available, but in the dermatological expertise used to determine when and how those
+                treatments should be used.
+              </Prose>
+              <Prose ground="white" className="mt-6">
+                Modern aesthetic medicine gives us extraordinary possibilities. Clinical judgement
+                determines which of those possibilities belong in your plan.
+              </Prose>
             </Reveal>
           </div>
         </div>
       </Section>
+
+      {/* The academic record, set as a record rather than another paragraph. */}
+      {withFoundations.length > 0 ? (
+        <Section ground="bone" id="foundations">
+          <Reveal>
+            <Eyebrow>Academic &amp; professional foundations</Eyebrow>
+            <Display className="mt-8 max-w-3xl">A foundation built on dermatology.</Display>
+          </Reveal>
+          <div className="mt-20 grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
+            {withFoundations.map((doctor) => (
+              <div key={doctor._id}>
+                <h3 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                  {doctor.name}
+                </h3>
+                <dl className="mt-8">
+                  {(doctor.foundations ?? []).map((entry) => (
+                    <div
+                      key={entry._key ?? entry.title}
+                      className="border-t border-brand-gray-muted/30 py-6"
+                    >
+                      <dt className="text-[1.15rem] font-normal leading-[1.4] tracking-[0.01em] text-brand-black">
+                        {entry.title}
+                      </dt>
+                      {entry.detail ? (
+                        <dd className="mt-2 text-[0.95rem] leading-[1.7] text-brand-gray-text">
+                          {entry.detail}
+                        </dd>
+                      ) : null}
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
+        </Section>
+      ) : null}
 
       <Section ground="black" id="philosophy">
         <Reveal>
@@ -376,13 +471,13 @@ export default async function AboutPage() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
-              <Eyebrow>The approach</Eyebrow>
-              <Display className="mt-8">The Dr Bhagat’s Approach</Display>
+              <Eyebrow>The difference</Eyebrow>
+              <Display className="mt-8">The Dr Bhagat’s difference</Display>
             </div>
           </div>
           <div className="lg:col-span-7 lg:col-start-6">
             <Reveal>
-              <Lines lines={APPROACH} />
+              <Lines lines={DIFFERENCE} />
               <Prose className="mt-12">We believe in:</Prose>
               <ul className="mt-6">
                 {BELIEFS.map((belief) => (
@@ -515,7 +610,7 @@ export default async function AboutPage() {
         </Reveal>
       </Section>
 
-      <BeginConsultation />
+      <BeginConsultation lead="Begin with a consultation grounded in dermatology, experience and precision." />
     </main>
   );
 }

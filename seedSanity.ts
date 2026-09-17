@@ -90,13 +90,18 @@ const ref = (id: string) => ({ _type: "reference" as const, _key: id.replace(/\.
 
 /** Plain paragraphs to Portable Text blocks. */
 const blocks = (paragraphs: string[]) =>
-  paragraphs.map((text, index) => ({
+  paragraphs.map((raw, index) => {
+    // A paragraph written as "## Heading" becomes a subheading.
+    const heading = raw.startsWith("## ");
+    const text = heading ? raw.slice(3) : raw;
+    return {
     _type: "block",
     _key: `p${index}`,
-    style: "normal",
+    style: heading ? "h2" : "normal",
     markDefs: [],
     children: [{ _type: "span", _key: `p${index}s`, text, marks: [] }],
-  }));
+    };
+  });
 
 /** Paragraph arrays are stored as plain text separated by a blank line. */
 const text = (paragraphs: string[]) => paragraphs.join("\n\n");
@@ -157,6 +162,12 @@ const LEGACY = {
   machines: ["gentle-yag", "oxygeno"].map((s) => `machine.${s}`),
   /** Renamed to The Signature Hair & Scalp Programme. */
   programmes: ["hair-restoration-programme"].map((s) => `signatureProgramme.${s}`),
+  /** Drafts, replaced by the doctors' own articles. */
+  articles: [
+    "considered-treatment-not-a-menu",
+    "why-every-plan-begins-with-a-consultation",
+    "technology-selected-with-purpose",
+  ].map((s) => `journalArticle.${s}`),
 };
 
 /* ------------------------------------------------------------------ */
@@ -261,22 +272,26 @@ async function seed() {
   for (const d of DOCTORS) {
     upsert(
       tx,
-      `doctor.${slug(d.name)}`,
+      `doctor.${d.slug}`,
       "doctor",
       {
         name: d.name,
-        slug: slugField(slug(d.name)),
-        position: d.position,
+        slug: slugField(d.slug),
+        degree: d.degree,
+        institution: d.institution,
         role: d.role,
         specialty: d.specialty,
+        position: d.position,
         order: d.order,
         shortBio: d.shortBio,
         biography: text(d.biography),
         quote: d.quote,
-        qualifications: d.qualifications,
         expertise: d.expertise,
+        foundations: d.foundations.map((entry, index) => ({ _key: `f${index}`, ...entry })),
+        ...(d.credential ? { credential: d.credential } : {}),
       },
-      ["bio"]
+      // `qualifications` and `memberships` are superseded by `foundations`.
+      ["bio", "qualifications", "memberships", ...(d.credential ? [] : ["credential"])]
     );
   }
 
@@ -307,13 +322,23 @@ async function seed() {
   });
 
   for (const a of ARTICLES) {
-    upsert(tx, `journalArticle.${a.slug ?? slug(a.title)}`, "journalArticle", {
-      title: a.title,
-      slug: slugField(a.slug ?? slug(a.title)),
-      excerpt: a.excerpt,
-      publishedAt: a.publishedAt,
-      body: blocks(a.paragraphs),
-    });
+    upsert(
+      tx,
+      `journalArticle.${a.slug}`,
+      "journalArticle",
+      {
+        title: a.title,
+        slug: slugField(a.slug),
+        excerpt: a.excerpt,
+        category: a.category,
+        featured: a.featured ?? false,
+        publishedAt: a.publishedAt,
+        body: blocks(a.paragraphs),
+        ...(a.concern ? { concern: ref(ids.concern(a.concern)) } : {}),
+        ...(a.approach ? { approach: ref(ids.approach(a.approach)) } : {}),
+      },
+      [...(a.concern ? [] : ["concern"]), ...(a.approach ? [] : ["approach"])]
+    );
   }
 
   tx.createIfNotExists({ _id: "siteSettings", _type: "siteSettings" });
@@ -321,6 +346,7 @@ async function seed() {
   if (!additive) {
     // Referrers are patched above, so these deletes no longer break a reference.
     for (const id of [...LEGACY.concerns, ...LEGACY.services, ...LEGACY.pillars]) tx.delete(id);
+    for (const id of LEGACY.articles) tx.delete(id);
     for (const id of [...LEGACY.modalities, ...LEGACY.programmes, ...LEGACY.machines]) tx.delete(id);
   }
 

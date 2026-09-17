@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import JsonLd from "@/components/JsonLd";
 import PortableTextBody from "@/components/PortableTextBody";
+import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
-import { BeginConsultation, PageHero, Rail, Rows, Section } from "@/components/ui";
+import { Eyebrow, PageHero, Section, TextLink } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import { BRAND, SITE_URL } from "@/lib/site";
+import { journalCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { journalBySlugQuery, journalSlugsQuery } from "@/sanity/lib/queries";
 import type { Article } from "@/sanity/lib/types";
@@ -43,6 +46,11 @@ export async function generateMetadata({ params }: PageProps<"/journal/[slug]">)
   };
 }
 
+/**
+ * The article, then the journey the doctors asked for: article -> concern ->
+ * treatment -> consultation, offered quietly. No consultation block is stacked
+ * at the end of every piece.
+ */
 export default async function ArticlePage({ params }: PageProps<"/journal/[slug]">) {
   const { slug } = await params;
   const article = await getArticle(slug);
@@ -60,6 +68,7 @@ export default async function ArticlePage({ params }: PageProps<"/journal/[slug]
           "@id": `${url}#article`,
           headline: article.title,
           description: article.excerpt,
+          articleSection: journalCategoryLabel(article.category) || undefined,
           datePublished: article.publishedAt,
           dateModified: article._updatedAt,
           mainEntityOfPage: url,
@@ -80,7 +89,8 @@ export default async function ArticlePage({ params }: PageProps<"/journal/[slug]
         lead={article.excerpt}
       >
         <p className="mt-10 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
-          {formatDate(article.publishedAt)} · {author}
+          {journalCategoryLabel(article.category) || "Journal"} · {formatDate(article.publishedAt)} ·{" "}
+          {author}
         </p>
       </PageHero>
 
@@ -88,42 +98,77 @@ export default async function ArticlePage({ params }: PageProps<"/journal/[slug]
 
       {article.body?.length ? (
         <Section ground="bone">
-          <div className="max-w-3xl lg:ml-[33.333%]">
-            <PortableTextBody value={article.body} />
+          <div className="grid grid-cols-1 lg:grid-cols-12">
+            <article className="lg:col-span-7 lg:col-start-4">
+              <PortableTextBody value={article.body} />
+            </article>
           </div>
         </Section>
       ) : null}
 
-      {article.concern ? (
-        <Rail ground="white" title="Related concern">
-          <Rows
-            ground="white"
-            items={[
-              {
-                key: article.concern.slug,
-                title: article.concern.title,
-                detail: (article.concern as { summary?: string }).summary,
-                href: `/concerns/${article.concern.slug}`,
-              },
-            ]}
-          />
-        </Rail>
+      {/* Where to go next, in the order the doctors described. */}
+      {article.concern || article.approach ? (
+        <Section ground="white" className="border-t border-brand-gray-muted/20">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <Eyebrow ground="white">If this sounds familiar</Eyebrow>
+            </div>
+            <div className="lg:col-span-7 lg:col-start-6">
+              {article.concern ? (
+                <Reveal>
+                  <Link href={`/concerns/${article.concern.slug}`} className="group block">
+                    <h2 className="text-2xl font-normal tracking-[0.01em] text-brand-black transition-colors group-hover:text-brand-champagne-dark lg:text-3xl">
+                      {article.concern.title}
+                    </h2>
+                    {article.concern.summary ? (
+                      <p className="mt-4 max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                        {article.concern.summary}
+                      </p>
+                    ) : null}
+                  </Link>
+                </Reveal>
+              ) : null}
+              <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-6">
+                {article.approach ? (
+                  <TextLink href={`/treatment-approaches/${article.approach.slug}`} ground="white">
+                    Explore the treatment →
+                  </TextLink>
+                ) : null}
+                <TextLink href="/book" ground="white">
+                  Begin with a consultation →
+                </TextLink>
+              </div>
+            </div>
+          </div>
+        </Section>
       ) : null}
 
       {article.others?.length ? (
-        <Rail ground="bone" title="Further reading">
-          <Rows
-            items={article.others.map((other) => ({
-              key: other._id,
-              title: other.title,
-              detail: other.excerpt,
-              href: `/journal/${other.slug}`,
-            }))}
-          />
-        </Rail>
+        <Section ground="bone" className="border-t border-brand-gray-muted/20">
+          <Eyebrow>Further reading</Eyebrow>
+          <ul className="mt-12 grid grid-cols-1 gap-x-16 gap-y-12 md:grid-cols-2">
+            {article.others.map((other, index) => (
+              <li key={other._id} className="border-t border-brand-gray-muted/30 pt-8">
+                <Reveal index={index}>
+                  <Link href={`/journal/${other.slug}`} className="group block">
+                    <span className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                      {journalCategoryLabel(other.category) || "Journal"}
+                    </span>
+                    <h3 className="mt-5 text-xl font-normal leading-[1.3] tracking-[0.01em] text-brand-black transition-colors group-hover:text-brand-champagne-dark">
+                      {other.title}
+                    </h3>
+                    {other.excerpt ? (
+                      <p className="mt-4 text-[0.95rem] leading-[1.75] text-brand-gray-text">
+                        {other.excerpt}
+                      </p>
+                    ) : null}
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Section>
       ) : null}
-
-      <BeginConsultation />
     </main>
   );
 }

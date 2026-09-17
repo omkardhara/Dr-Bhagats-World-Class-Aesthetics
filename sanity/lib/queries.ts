@@ -3,7 +3,7 @@ import { defineQuery } from "next-sanity";
 /* Site ---------------------------------------------------------------- */
 
 export const siteSettingsQuery = defineQuery(`
-  *[_id == "siteSettings"][0]{ heroImage, philosophyImage, clinicImage, consultationImage }
+  *[_id == "siteSettings"][0]{ heroImage, philosophyImage, doctorsImage, clinicImage, consultationImage }
 `);
 
 /* Home ---------------------------------------------------------------- */
@@ -11,7 +11,8 @@ export const siteSettingsQuery = defineQuery(`
 export const homeQuery = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{ heroImage, philosophyImage, clinicImage },
   "doctors": *[_type == "doctor"] | order(order asc){
-    _id, name, role, specialty, position, shortBio, portrait, "slug": slug.current
+    _id, name, degree, institution, credential, role, specialty, position, shortBio, portrait,
+    "slug": slug.current
   },
   "concerns": *[_type == "concern"] | order(order asc){
     _id, title, summary, "slug": slug.current
@@ -25,7 +26,7 @@ export const homeQuery = defineQuery(`{
   ),
   "testimonials": *[_type == "testimonial" && featured == true]{ _id, author, quote, category },
   "articles": *[_type == "journalArticle"] | order(publishedAt desc)[0...3]{
-    _id, title, excerpt, publishedAt, "slug": slug.current
+    _id, title, excerpt, category, publishedAt, "slug": slug.current
   }
 }`);
 
@@ -45,6 +46,9 @@ export const concernBySlugQuery = defineQuery(`
     "programmes": programmes[]->{ _id, title, tagline, "slug": slug.current },
     "approaches": approaches[]->{ _id, title, summary, "slug": slug.current },
     "technologies": technologies[]->{ _id, name, purpose, dedicatedPage, "slug": slug.current },
+    "articles": *[_type == "journalArticle" && concern._ref == ^._id] | order(publishedAt desc)[0...2]{
+      _id, title, excerpt, category, publishedAt, "slug": slug.current
+    },
     "others": *[_type == "concern" && slug.current != $slug] | order(order asc){
       _id, title, "slug": slug.current
     }
@@ -76,6 +80,9 @@ export const approachBySlugQuery = defineQuery(`
     "technologies": technologies[]->{ _id, name, purpose, dedicatedPage, "slug": slug.current },
     "programmes": *[_type == "signatureProgramme" && references(^._id)] | order(order asc){
       _id, title, tagline, "slug": slug.current
+    },
+    "articles": *[_type == "journalArticle" && approach._ref == ^._id] | order(publishedAt desc)[0...2]{
+      _id, title, excerpt, category, publishedAt, "slug": slug.current
     }
   }
 `);
@@ -123,8 +130,10 @@ export const machineSlugsQuery = defineQuery(`
 
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc){
-    _id, name, role, specialty, position, shortBio, biography, quote, practisingSince,
-    qualifications, expertise, conferences, publications, achievements, memberships,
+    _id, name, degree, institution, credential, role, specialty, position,
+    shortBio, biography, quote, practisingSince, expertise,
+    foundations[]{ _key, title, detail },
+    qualifications, conferences, publications, achievements, memberships,
     portrait, "slug": slug.current,
     "technologies": technologies[]->{ _id, name, dedicatedPage, "slug": slug.current }
   }
@@ -143,16 +152,18 @@ export const resultsQuery = defineQuery(`{
 }`);
 
 export const clinicQuery = defineQuery(`{
-  "settings": *[_id == "siteSettings"][0]{ clinicImage },
+  "settings": *[_id == "siteSettings"][0]{ doctorsImage, clinicImage },
   "spaces": *[_type == "clinicSpace" && count(images) > 0] | order(order asc){
     _id, title, description, location, images
   },
   "team": *[_type == "teamMember"] | order(order asc){ _id, name, role, portrait }
 }`);
 
+/* Journal -------------------------------------------------------------- */
+
 export const journalQuery = defineQuery(`
   *[_type == "journalArticle"] | order(publishedAt desc){
-    _id, title, excerpt, publishedAt, image, "slug": slug.current,
+    _id, title, excerpt, category, featured, publishedAt, image, "slug": slug.current,
     "concern": concern->{ title, "slug": slug.current },
     "doctor": doctor->{ name }
   }
@@ -160,12 +171,13 @@ export const journalQuery = defineQuery(`
 
 export const journalBySlugQuery = defineQuery(`
   *[_type == "journalArticle" && slug.current == $slug][0]{
-    _id, title, excerpt, publishedAt, image, body, _updatedAt,
+    _id, title, excerpt, category, publishedAt, image, body, _updatedAt,
     "slug": slug.current,
     "concern": concern->{ title, summary, "slug": slug.current },
+    "approach": approach->{ title, summary, "slug": slug.current },
     "doctor": doctor->{ name, role },
     "others": *[_type == "journalArticle" && slug.current != $slug] | order(publishedAt desc)[0...2]{
-      _id, title, excerpt, "slug": slug.current
+      _id, title, excerpt, category, publishedAt, "slug": slug.current
     }
   }
 `);

@@ -10,11 +10,13 @@ const list = (name: string, title: string, description?: string) =>
   });
 
 /**
- * The doctors are central to the brand, and the About page is built around
- * them. Every credential field is optional and the page hides any section left
- * empty, so a profile can be strengthened as details are confirmed without a
- * half-finished heading ever appearing on the site. Nothing here should be
- * filled in unless the doctor has confirmed it.
+ * The doctors are the authority of the practice, so the credentials are
+ * structured rather than buried in prose: the degree and institution sit
+ * directly beneath the name, and `foundations` renders as an academic record.
+ *
+ * Every field here must be verifiable against the doctor's own CV. Nothing is
+ * filled in on their behalf, and any section left empty is hidden on the page
+ * rather than shown as a gap.
  */
 export const doctor = defineType({
   name: "doctor",
@@ -41,9 +43,23 @@ export const doctor = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "position",
-      title: "Position in the practice",
-      description: "For example: Co-Founder",
+      name: "degree",
+      title: "Degree",
+      description: "Shown directly beneath the name. For example: MD, Dermatology",
+      type: "string",
+      group: "profile",
+    }),
+    defineField({
+      name: "institution",
+      title: "Institution",
+      description: "Where the degree was taken. For example: Seth GS Medical College & KEM Hospital, Mumbai",
+      type: "string",
+      group: "profile",
+    }),
+    defineField({
+      name: "credential",
+      title: "Honour",
+      description: "An academic distinction, if any. For example: Gold Medallist · University of Mumbai",
       type: "string",
       group: "profile",
     }),
@@ -56,8 +72,15 @@ export const doctor = defineType({
     }),
     defineField({
       name: "specialty",
-      title: "Specialty",
-      description: "For example: Aesthetic & Cosmetic Dermatology",
+      title: "Practice",
+      description: "For example: Aesthetic & Cosmetic Dermatology | Laser & Energy-Based Medicine",
+      type: "string",
+      group: "profile",
+    }),
+    defineField({
+      name: "position",
+      title: "Position in the practice",
+      description: "For example: Co-Founder",
       type: "string",
       group: "profile",
     }),
@@ -75,7 +98,7 @@ export const doctor = defineType({
       title: "Biography",
       description: "Separate paragraphs with a blank line.",
       type: "text",
-      rows: 14,
+      rows: 16,
       group: "profile",
     }),
     defineField({
@@ -95,7 +118,35 @@ export const doctor = defineType({
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alt text", type: "string" })],
     }),
-    { ...list("qualifications", "Qualifications and training"), group: "credentials" },
+    { ...list("expertise", "Areas of expertise"), group: "credentials" },
+    defineField({
+      name: "foundations",
+      title: "Academic and professional foundations",
+      description:
+        "The academic record, shown as its own section. Each entry is a credential and where it is from.",
+      type: "array",
+      group: "credentials",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Credential",
+              description: "For example: MD Dermatology, or Gold Medallist",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "detail",
+              title: "Institution or detail",
+              type: "string",
+            }),
+          ],
+          preview: { select: { title: "title", subtitle: "detail" } },
+        }),
+      ],
+    }),
     defineField({
       name: "practisingSince",
       title: "In practice since (year)",
@@ -104,7 +155,7 @@ export const doctor = defineType({
       group: "credentials",
       validation: (Rule) => Rule.integer().min(1960).max(new Date().getFullYear()),
     }),
-    { ...list("expertise", "Areas of expertise"), group: "credentials" },
+    { ...list("qualifications", "Qualifications and training"), group: "credentials" },
     { ...list("conferences", "Conferences", "Presentations, faculty roles and invited talks."), group: "credentials" },
     { ...list("publications", "Publications"), group: "credentials" },
     { ...list("achievements", "Awards and honours"), group: "credentials" },

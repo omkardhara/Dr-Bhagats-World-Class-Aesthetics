@@ -30,6 +30,7 @@ export type Concern = ConcernSummary & {
   programmes?: ProgrammeRef[];
   approaches?: (Ref & { summary?: string })[];
   technologies?: TechnologyRef[];
+  articles?: ArticleSummary[];
   others?: Ref[];
 };
 
@@ -47,6 +48,7 @@ export type Approach = Ref & {
   concerns?: (Ref & { summary?: string })[];
   technologies?: TechnologyRef[];
   programmes?: ProgrammeRef[];
+  articles?: ArticleSummary[];
 };
 
 export type ProgrammeSummary = ProgrammeRef & { shortTitle?: string };
@@ -68,10 +70,16 @@ export type Machine = TechnologyItem & {
   concerns?: (Ref & { summary?: string })[];
 };
 
+/** One line of the academic record on the About page. */
+export type Foundation = { _key?: string; title: string; detail?: string };
+
 export type Doctor = {
   _id: string;
   name: string;
   slug: string;
+  degree?: string;
+  institution?: string;
+  credential?: string;
   position?: string;
   role?: string;
   specialty?: string;
@@ -79,8 +87,9 @@ export type Doctor = {
   biography?: string;
   quote?: string;
   practisingSince?: number;
-  qualifications?: string[];
   expertise?: string[];
+  foundations?: Foundation[];
+  qualifications?: string[];
   conferences?: string[];
   publications?: string[];
   achievements?: string[];
@@ -126,21 +135,27 @@ export type ArticleSummary = {
   title: string;
   slug: string;
   excerpt?: string;
+  category?: string;
+  featured?: boolean;
   publishedAt: string;
   image?: SanityImage | null;
   concern?: { title: string; slug: string } | null;
   doctor?: { name: string } | null;
 };
 
-export type Article = ArticleSummary & {
+export type Article = Omit<ArticleSummary, "concern"> & {
   body?: PortableTextBlock[];
   _updatedAt: string;
-  others?: { _id: string; title: string; excerpt?: string; slug: string }[];
+  /** The article page also reads the concern's summary, to introduce it. */
+  concern?: { title: string; slug: string; summary?: string } | null;
+  approach?: { title: string; slug: string; summary?: string } | null;
+  others?: ArticleSummary[];
 };
 
 export type SiteSettings = {
   heroImage?: SanityImage | null;
   philosophyImage?: SanityImage | null;
+  doctorsImage?: SanityImage | null;
   clinicImage?: SanityImage | null;
   consultationImage?: SanityImage | null;
 };
