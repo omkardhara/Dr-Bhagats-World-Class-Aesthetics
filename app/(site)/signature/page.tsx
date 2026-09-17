@@ -11,7 +11,7 @@ import type { Programme } from "@/sanity/lib/types";
 export const metadata: Metadata = {
   title: "The Dr Bhagat's Signature",
   description:
-    "The Dr Bhagat's Signature Approach: personalised by expertise, refined by experience. Five signature programmes, each a treatment strategy designed around the individual patient.",
+    "The Dr Bhagat's Signature Approach: personalised by expertise, refined by experience. Five programmes, each with its own assessment and sequence, designed around the individual patient.",
   alternates: { canonical: "/signature" },
 };
 
@@ -24,22 +24,27 @@ const INTRODUCTION = [
   "Sometimes the answer is one treatment. Sometimes it is a combination. And sometimes, the most appropriate recommendation is to wait.",
 ];
 
-async function getProgrammes(): Promise<Programme[]> {
-  try {
-    return await getClient().fetch<Programme[]>(programmesQuery);
-  } catch (error) {
-    console.error("[signature] Sanity fetch failed:", error);
-    return [];
-  }
+function Detail({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="border-t border-brand-gray-muted/30 py-8">
+      <h3 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">{title}</h3>
+      <div className="mt-5">{children}</div>
+    </div>
+  );
 }
 
 /**
- * Technologies are never listed under a programme. The patient reads how the
- * doctors think first, and discovers the technology only through a discreet
- * line - the doctors' explicit instruction, and what keeps the page luxurious.
+ * Technologies are never listed under a programme. What makes each one
+ * proprietary shows through its structure - who it is for, what is assessed,
+ * how it is sequenced - rather than through philosophy repeated again.
  */
 export default async function SignaturePage() {
-  const programmes = await getProgrammes();
+  let programmes: Programme[] = [];
+  try {
+    programmes = await getClient().fetch<Programme[]>(programmesQuery);
+  } catch (error) {
+    console.error("[signature] Sanity fetch failed:", error);
+  }
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -85,6 +90,11 @@ export default async function SignaturePage() {
                   {programme.title}
                 </h2>
                 <span aria-hidden className="mt-8 block h-px w-16 bg-champagne-gradient" />
+                {programme.objective ? (
+                  <p className="mt-8 max-w-xs text-[0.95rem] leading-[1.75] text-brand-gray-text">
+                    {programme.objective}
+                  </p>
+                ) : null}
               </div>
             </header>
 
@@ -104,15 +114,71 @@ export default async function SignaturePage() {
                     </Prose>
                   ))}
                 </div>
-                {programme.closing ? (
-                  <p className="mt-10 max-w-2xl border-l border-brand-champagne-dark pl-6 text-[1.15rem] leading-[1.7] text-brand-black">
-                    {programme.closing}
-                  </p>
-                ) : null}
-                <p className="mt-12 text-[0.85rem] leading-[1.7] text-brand-gray-text">
-                  Technologies and treatments may be selected according to individual assessment.
-                </p>
               </Reveal>
+
+              <div className="mt-14">
+                {programme.forWhom ? (
+                  <Detail title="Who it is for">
+                    <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                      {programme.forWhom}
+                    </p>
+                  </Detail>
+                ) : null}
+
+                {programme.assessed?.length ? (
+                  <Detail title="What is assessed">
+                    <ul className="grid grid-cols-1 gap-x-10 sm:grid-cols-2">
+                      {programme.assessed.map((item) => (
+                        <li key={item} className="py-2 text-[1rem] leading-[1.6] text-brand-black">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </Detail>
+                ) : null}
+
+                {programme.sequence?.length ? (
+                  <Detail title="How the programme is sequenced">
+                    <ol className="flex flex-col gap-8">
+                      {programme.sequence.map((stage, stageIndex) => (
+                        <li key={stage._key} className="grid grid-cols-[2.5rem_1fr] gap-4">
+                          <span className="pt-1 text-xs tracking-widest text-brand-champagne-dark">
+                            {pad(stageIndex + 1)}
+                          </span>
+                          <span>
+                            <span className="block text-[1.1rem] leading-[1.5] text-brand-black">
+                              {stage.title}
+                            </span>
+                            {stage.description ? (
+                              <span className="mt-2 block max-w-xl text-[0.95rem] leading-[1.8] text-brand-gray-text">
+                                {stage.description}
+                              </span>
+                            ) : null}
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                  </Detail>
+                ) : null}
+
+                {programme.whyProgramme ? (
+                  <Detail title="Why it is a programme, not a single treatment">
+                    <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                      {programme.whyProgramme}
+                    </p>
+                  </Detail>
+                ) : null}
+              </div>
+
+              {programme.closing ? (
+                <p className="mt-12 max-w-2xl border-l border-brand-champagne-dark pl-6 text-[1.15rem] leading-[1.7] text-brand-black">
+                  {programme.closing}
+                </p>
+              ) : null}
+
+              <p className="mt-12 text-[0.85rem] leading-[1.7] text-brand-gray-text">
+                Technologies and treatments may be selected according to individual assessment.
+              </p>
             </div>
           </div>
         </section>

@@ -189,6 +189,12 @@ async function seed() {
         description: m.description,
         categories: m.categories,
         dedicatedPage: m.dedicatedPage,
+        ...(m.whatItIs ? { whatItIs: m.whatItIs } : {}),
+        ...(m.helpsWith ? { helpsWith: m.helpsWith } : {}),
+        ...(m.whoMayBenefit ? { whoMayBenefit: m.whoMayBenefit } : {}),
+        ...(m.whatItInvolves ? { whatItInvolves: m.whatItInvolves } : {}),
+        ...(m.downtime ? { downtime: m.downtime } : {}),
+        ...(m.whereItFits ? { whereItFits: m.whereItFits } : {}),
       },
       // Replaced by `categories` and `dedicatedPage`.
       ["category", "featured"]
@@ -241,7 +247,11 @@ async function seed() {
       order,
       summary: a.summary,
       philosophy: a.philosophy,
+      addresses: a.addresses,
       considerations: a.considerations,
+      expectations: a.expectations,
+      downtime: a.downtime,
+      combinations: a.combinations,
       modalities: a.modalities.map((name) => ref(ids.modality(name))),
       concerns: a.concerns.map((t) => ref(ids.concern(t))),
       technologies: a.technologies.map((name) => ref(ids.machine(name))),
@@ -261,11 +271,16 @@ async function seed() {
         tagline: p.tagline,
         body: text(p.body),
         ...(p.closing ? { closing: p.closing } : {}),
+        forWhom: p.forWhom,
+        assessed: p.assessed,
+        sequence: p.sequence.map((stage, index) => ({ _key: "s" + index, ...stage })),
+        whyProgramme: p.whyProgramme,
+        objective: p.objective,
         concerns: p.concerns.map((t) => ref(ids.concern(t))),
         approaches: p.approaches.map((t) => ref(ids.approach(t))),
       },
-      // The previous programme shape, which listed stages the doctors never wrote.
-      ["summary", "forWhom", "approach", "stages", ...(p.closing ? [] : ["closing"])]
+      // The previous programme shape.
+      ["summary", "approach", "stages", ...(p.closing ? [] : ["closing"])]
     );
   });
 

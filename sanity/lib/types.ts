@@ -42,7 +42,11 @@ export type ApproachSummary = Ref & {
 export type Approach = Ref & {
   summary?: string;
   philosophy?: string;
+  addresses?: string[];
   considerations?: string[];
+  expectations?: string;
+  downtime?: string;
+  combinations?: string;
   image?: SanityImage | null;
   modalities?: { _id: string; name: string; description?: string }[];
   concerns?: (Ref & { summary?: string })[];
@@ -56,6 +60,11 @@ export type ProgrammeSummary = ProgrammeRef & { shortTitle?: string };
 export type Programme = ProgrammeSummary & {
   body?: string;
   closing?: string;
+  forWhom?: string;
+  assessed?: string[];
+  sequence?: { _key: string; title: string; description?: string }[];
+  whyProgramme?: string;
+  objective?: string;
   image?: SanityImage | null;
 };
 
@@ -65,6 +74,12 @@ export type TechnologyItem = TechnologyRef & {
 
 export type Machine = TechnologyItem & {
   description?: string;
+  whatItIs?: string;
+  helpsWith?: string[];
+  whoMayBenefit?: string;
+  whatItInvolves?: string;
+  downtime?: string;
+  whereItFits?: string;
   image?: SanityImage | null;
   approaches?: Ref[];
   concerns?: (Ref & { summary?: string })[];

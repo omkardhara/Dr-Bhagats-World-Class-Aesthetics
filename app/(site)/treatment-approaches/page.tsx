@@ -8,7 +8,6 @@ import {
   Eyebrow,
   JourneySteps,
   PageHero,
-  Prose,
   Rail,
   Rows,
   Section,
@@ -24,7 +23,7 @@ import type { ApproachSummary, ProgrammeSummary } from "@/sanity/lib/types";
 export const metadata: Metadata = {
   title: "Treatments",
   description:
-    "Considered care. Never a menu. How the doctors approach each family of concerns, and the Dr Bhagat's Signature programmes, with every plan designed for the individual.",
+    "The seven treatment approaches at Dr Bhagat's, and the Signature programmes. Every plan is designed for the individual after assessment.",
   alternates: { canonical: "/treatment-approaches" },
 };
 
@@ -44,8 +43,8 @@ async function getData(): Promise<{ approaches: ApproachSummary[]; programmes: P
 }
 
 /**
- * The "Treatments" tab. It carries both the treatment approaches and the
- * Signature programmes, since the doctors kept the navigation to a curated few.
+ * The "Treatments" tab. The categories come first, as the doctors asked, with
+ * the philosophy kept to a line: it is stated across the site already.
  */
 export default async function TreatmentApproachesPage() {
   const { approaches, programmes } = await getData();
@@ -55,22 +54,8 @@ export default async function TreatmentApproachesPage() {
       <PageHero
         eyebrow="Treatments"
         title={PHILOSOPHY_LINE}
-        lead="We don’t believe in one treatment for everyone. Each approach describes how the doctors think about a family of concerns, and every plan within it is personal."
+        lead="Each approach describes how the doctors think about a family of concerns. Every plan within it is designed for the individual."
       />
-
-      <Section ground="white">
-        <Reveal>
-          <Eyebrow ground="white">Our approach</Eyebrow>
-          <Display ground="white" className="mt-8 max-w-3xl">
-            Assess. Diagnose. Personalise. Treat. Refine.
-          </Display>
-          <Prose ground="white" className="mt-8">
-            Technology comes last, because it should. The doctor first understands the concern, then
-            decides what will genuinely help.
-          </Prose>
-        </Reveal>
-        <JourneySteps ground="white" />
-      </Section>
 
       <Section ground="bone">
         <ul>
@@ -124,6 +109,16 @@ export default async function TreatmentApproachesPage() {
           </div>
         </Rail>
       ) : null}
+
+      <Section ground="white">
+        <Reveal>
+          <Eyebrow ground="white">Our approach</Eyebrow>
+          <Display ground="white" className="mt-8 max-w-3xl">
+            Assess. Diagnose. Personalise. Treat. Refine.
+          </Display>
+        </Reveal>
+        <JourneySteps ground="white" />
+      </Section>
 
       <BeginConsultation />
     </main>

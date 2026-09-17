@@ -1,6 +1,6 @@
 # Information architecture
 
-Revised in response to the doctors' three rounds of feedback, September 2026.
+Revised in response to the doctors' four rounds of feedback, September 2026.
 
 ## The principle
 
@@ -56,10 +56,10 @@ navigation.
 /concerns                           Concerns (primary entry point)
 /concerns/[concern]                 9 concerns
 /treatment-approaches               Treatments: approaches, and the Signature programmes
-/treatment-approaches/[approach]    7 approaches
+/treatment-approaches/[approach]    8 approaches
 /signature                          The Dr Bhagat's Signature Approach (all 5 programmes)
 /technology                         Technology, selected with purpose (cards by category)
-/technology/[device]                Signature technologies only (currently 3)
+/technology/[device]                Technologies with a full page (currently 7)
 /results                            Organised by concern
 /journal                            Expert knowledge
 /journal/[article]
@@ -83,16 +83,21 @@ The Signature Lift · The Signature Skin Quality Programme · The Signature
 Pigmentation Programme · The Signature Acne Scar Programme · The Signature
 Hair & Scalp Programme
 
-One page, in the doctors' words: hero, introduction, the five programmes, then a
-large quiet close — *Your face. Your skin. Your plan.* Technologies are never
+One page, in the doctors' words. Each programme shows its own structure - who it
+is for, what is assessed, how it is sequenced, and why it is a programme rather
+than a single treatment - so the methodology is demonstrated rather than
+described. Hero, introduction, the five programmes, then a large quiet close — *Your face. Your skin. Your plan.* Technologies are never
 listed under a programme; each carries only the line "Technologies and
 treatments may be selected according to individual assessment", with a single
 link to Technology afterwards.
 
-### Treatment approaches (7)
+### Treatment approaches (8)
 
 Facial Rejuvenation · Pigmentation · Acne & Scarring · Skin Quality ·
-Hair & Scalp · Facial Contouring · Body
+Hair & Scalp · Facial Contouring · Body · Hair Removal
+
+Each page carries what it can address, what the doctor considers, what a plan may
+include, realistic expectations, downtime and how treatments combine.
 
 ### Technology
 
@@ -102,10 +107,14 @@ rejuvenation · Regenerative dermatology.
 
 Every technology is a small card of equal size; a technology may appear in more
 than one category (Sylfirm X, for example, sits in Energy-based, Lifting &
-tightening and Skin rejuvenation). Only signature technologies get a dedicated
-page (Endolift X, Thermage FLX and Ultraformer MPT, switchable per technology in
-the Studio). The address of any other technology redirects to its card, so the
-portfolio never becomes a row of competing heroes.
+tightening and Skin rejuvenation).
+
+Seven technologies carry a full page: Endolift X, Thermage FLX, Ultraformer MPT,
+Sylfirm X, Fotona SP Dynamis Max, Fotona StarWalker and GentleYAG. Each page runs
+what it is, what it can help with, who may benefit, what treatment involves,
+downtime and recovery, and where it fits in a plan. The address of any other
+technology redirects to its card, so the portfolio never becomes a row of
+competing heroes.
 
 ## Homepage
 
@@ -134,9 +143,10 @@ Clinic: the experience, both locations, then clinic spaces and the team once
 photographed → Expertise, Elevated. → Begin with a consultation. A section with no
 confirmed details is omitted rather than shown empty.
 
-**Treatments:** Considered care. Never a menu. → Assess · Diagnose · Personalise ·
-Treat · Refine → the seven approaches → the Dr Bhagat's Signature, linking to the
-Signature page.
+**Treatments:** Considered care. Never a menu. → the eight approaches → the Dr
+Bhagat's Signature, linking to the Signature page → Assess · Diagnose ·
+Personalise · Treat · Refine. The categories come first and the philosophy is kept
+to a line.
 
 **Concern:** understanding the concern → how we assess it → our approach →
 the Dr Bhagat's Signature → treatment approaches → technology that may be used →
@@ -150,7 +160,13 @@ only). Not a map and a contact form.
 beside it.
 
 **Results:** grouped by Ageing, Pigmentation, Acne & Scars, Skin Quality, Body,
-Hair. Before/after images render only when consent is recorded against them.
+Hair. Consented before-and-after photography leads each group; patients' words
+follow as support. Images render only when consent is recorded against them.
+
+**Journal:** editorial, not a blog. One featured article leads, the rest alternate
+wide and paired entries, and categories stay quiet. Each article ends with the
+concern and the treatment approach to explore next, so the journey runs article ->
+concern -> treatment -> consultation.
 
 ## Content model
 

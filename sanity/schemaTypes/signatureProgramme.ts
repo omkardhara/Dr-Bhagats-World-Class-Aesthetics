@@ -2,11 +2,13 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 /**
  * A Dr Bhagat's signature programme: a considered treatment strategy, not a
- * fixed protocol. Deliberately has no technology field - the doctors asked
- * that technologies are never listed under a programme, only that they "may be
+ * fixed protocol. Deliberately has no technology field - the doctors asked that
+ * technologies are never listed under a programme, only that they "may be
  * selected according to individual assessment".
  *
- * All five render as sections of the single /signature page.
+ * The methodology is meant to show through the structure - who it is for, what
+ * is assessed, how it is sequenced - rather than being described again as
+ * philosophy. All five render as sections of the single /signature page.
  */
 export const signatureProgramme = defineType({
   name: "signatureProgramme",
@@ -46,7 +48,53 @@ export const signatureProgramme = defineType({
       title: "Description",
       description: "Separate paragraphs with a blank line.",
       type: "text",
-      rows: 10,
+      rows: 8,
+    }),
+    defineField({
+      name: "forWhom",
+      title: "Who it is for",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "assessed",
+      title: "What is assessed",
+      description: "What the doctor examines before the programme is designed.",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({
+      name: "sequence",
+      title: "How the programme is sequenced",
+      description: "The stages, in order. This is what makes it a programme rather than a treatment.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Stage",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({ name: "description", title: "What happens", type: "text", rows: 3 }),
+          ],
+          preview: { select: { title: "title", subtitle: "description" } },
+        }),
+      ],
+    }),
+    defineField({
+      name: "whyProgramme",
+      title: "Why it is a programme, not a single treatment",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
+      name: "objective",
+      title: "What the patient is working towards",
+      type: "text",
+      rows: 3,
     }),
     defineField({
       name: "closing",

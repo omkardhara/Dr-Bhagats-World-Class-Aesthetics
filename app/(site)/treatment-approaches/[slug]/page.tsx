@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
-import { BeginConsultation, PageHero, Prose, Rail, Rows } from "@/components/ui";
-import { programmeHref, technologyHref } from "@/lib/links";
+import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
+import { formatDate } from "@/lib/format";
+import { technologyHref } from "@/lib/links";
+import { programmeHref } from "@/lib/links";
 import { SITE_URL } from "@/lib/site";
+import { journalCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { approachBySlugQuery, approachSlugsQuery } from "@/sanity/lib/queries";
 import type { Approach } from "@/sanity/lib/types";
@@ -44,6 +48,21 @@ export async function generateMetadata({
   };
 }
 
+function Detail({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="border-t border-brand-gray-muted/30 py-8 first:border-t-0 first:pt-0">
+      <h3 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">{title}</h3>
+      <div className="mt-5">{children}</div>
+    </div>
+  );
+}
+
+/**
+ * Concise and useful, in the order a patient reads it: what this addresses,
+ * what the doctor weighs up, what a plan may include, and then the practical
+ * questions - expectations, recovery and how treatments combine. Deliberately
+ * no FAQ section.
+ */
 export default async function ApproachPage({ params }: PageProps<"/treatment-approaches/[slug]">) {
   const { slug } = await params;
   const approach = await getApproach(slug);
@@ -77,11 +96,22 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
 
       <SanityPicture image={approach.image} ratio="21/9" width={2400} priority sizes="100vw" />
 
-      {approach.philosophy ? (
-        <Rail ground="bone" index={1} title="Our philosophy">
-          <Reveal>
-            <Prose>{approach.philosophy}</Prose>
-          </Reveal>
+      {approach.addresses?.length ? (
+        <Rail ground="bone" index={1} title="What it can address">
+          <ul className="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
+            {approach.addresses.map((item, index) => (
+              <li key={item} className="border-t border-brand-gray-muted/30 py-5">
+                <Reveal index={index % 2}>
+                  <span className="text-[1.05rem] leading-[1.6] text-brand-black">{item}</span>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+          {approach.philosophy ? (
+            <Reveal>
+              <Prose className="mt-12">{approach.philosophy}</Prose>
+            </Reveal>
+          ) : null}
         </Rail>
       ) : null}
 
@@ -117,6 +147,32 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
         </Rail>
       ) : null}
 
+      {approach.expectations || approach.downtime || approach.combinations ? (
+        <Rail ground="white" index={4} title="What to expect">
+          {approach.expectations ? (
+            <Detail title="Realistic expectations">
+              <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                {approach.expectations}
+              </p>
+            </Detail>
+          ) : null}
+          {approach.downtime ? (
+            <Detail title="Downtime and recovery">
+              <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                {approach.downtime}
+              </p>
+            </Detail>
+          ) : null}
+          {approach.combinations ? (
+            <Detail title="How treatments may be combined">
+              <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                {approach.combinations}
+              </p>
+            </Detail>
+          ) : null}
+        </Rail>
+      ) : null}
+
       {approach.programmes?.length ? (
         <Rail ground="black" title="The Dr Bhagat’s Signature">
           <Rows
@@ -132,9 +188,8 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
       ) : null}
 
       {approach.concerns?.length ? (
-        <Rail ground="white" title="Concerns this approach addresses">
+        <Rail ground="bone" title="Concerns this approach addresses">
           <Rows
-            ground="white"
             items={approach.concerns.map((concern) => ({
               key: concern._id,
               title: concern.title,
@@ -146,15 +201,16 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
       ) : null}
 
       {approach.technologies?.length ? (
-        <Rail ground="bone" title="Technology that may be used">
+        <Rail ground="white" title="Technology that may be used">
           <Reveal>
-            <Prose>
+            <Prose ground="white">
               Technology is selected by your doctor after assessment, and only where it is clinically
               appropriate.
             </Prose>
           </Reveal>
           <div className="mt-10">
             <Rows
+              ground="white"
               items={approach.technologies.map((technology) => ({
                 key: technology._id,
                 title: technology.name,
@@ -164,6 +220,34 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
             />
           </div>
         </Rail>
+      ) : null}
+
+      {approach.articles?.length ? (
+        <Section ground="bone" className="border-t border-brand-gray-muted/20">
+          <Eyebrow>From the Journal</Eyebrow>
+          <ul className="mt-12 grid grid-cols-1 gap-x-16 gap-y-12 md:grid-cols-2">
+            {approach.articles.map((article, index) => (
+              <li key={article._id} className="border-t border-brand-gray-muted/30 pt-8">
+                <Reveal index={index}>
+                  <Link href={`/journal/${article.slug}`} className="group block">
+                    <span className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                      {journalCategoryLabel(article.category) || "Journal"} ·{" "}
+                      {formatDate(article.publishedAt)}
+                    </span>
+                    <h3 className="mt-5 text-xl font-normal leading-[1.3] tracking-[0.01em] text-brand-black transition-colors group-hover:text-brand-champagne-dark">
+                      {article.title}
+                    </h3>
+                    {article.excerpt ? (
+                      <p className="mt-4 text-[0.95rem] leading-[1.75] text-brand-gray-text">
+                        {article.excerpt}
+                      </p>
+                    ) : null}
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Section>
       ) : null}
 
       <BeginConsultation />
