@@ -165,7 +165,6 @@ const LEGACY = {
   /** Drafts, replaced by the doctors' own articles. */
   articles: [
     "considered-treatment-not-a-menu",
-    "why-every-plan-begins-with-a-consultation",
     "technology-selected-with-purpose",
   ].map((s) => `journalArticle.${s}`),
 };

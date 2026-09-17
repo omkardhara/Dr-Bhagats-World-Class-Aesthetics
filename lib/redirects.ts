@@ -182,7 +182,6 @@ export const TECHNOLOGY_REDIRECTS: Redirect[] = [
 /** Drafts replaced by the doctors' own Journal articles. */
 export const JOURNAL_REDIRECTS: Redirect[] = [
   { from: "/journal/considered-treatment-not-a-menu", to: "/journal" },
-  { from: "/journal/why-every-plan-begins-with-a-consultation", to: "/journal" },
   { from: "/journal/technology-selected-with-purpose", to: "/journal" },
 ];
 

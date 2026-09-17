@@ -1639,5 +1639,20 @@ export const ARTICLES: SeedArticle[] = [
       "Youthfulness is not simply the absence of wrinkles. It is the impression of healthy, resilient, luminous skin that still looks completely like you.",
     ],
   },
+  {
+    title: "Why every plan begins with a consultation",
+    slug: "why-every-plan-begins-with-a-consultation",
+    category: "approach",
+    excerpt:
+      "What happens during an assessment, and why it matters more than the treatment that follows.",
+    publishedAt: "2026-09-01T09:00:00.000Z",
+    paragraphs: [
+      "The consultation is the most important appointment in any course of treatment. It is where a concern is properly understood, and where the difference between a good result and a disappointing one is usually decided.",
+      "An assessment looks beyond the feature a patient is concerned about. With ageing, for instance, we consider skin quality, laxity, volume and proportion together, because treating one in isolation can make another more noticeable. With pigmentation, identifying the type and its triggers matters more than the strength of the treatment.",
+      "We also want to understand the person: their medical history, what they have tried before, the downtime they can accommodate, and how they would like to look. A plan that suits someone's skin but not their life is unlikely to succeed.",
+      "From there, we build a personalised plan, explain the reasoning behind it, and agree how progress will be reviewed. Treatment follows, and so does follow-up, because most concerns are best managed over time rather than in a single visit.",
+      "Assess, diagnose, personalise, treat, refine. It is a simple sequence, and every part of it matters.",
+    ],
+  },
 ];
 
