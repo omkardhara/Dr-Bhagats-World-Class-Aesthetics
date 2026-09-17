@@ -173,7 +173,8 @@ export default async function Home() {
               {home.doctors.map((doctor) => doctor.name).join(" & ")}
             </Display>
             <Prose ground="black" className="mt-8">
-              Two doctors. One standard of care.
+              Dermatology, grounded in medicine. Aesthetic medicine, refined through experience. Both
+              doctors hold an MD in Dermatology from Seth GS Medical College &amp; KEM Hospital, Mumbai.
             </Prose>
           </Reveal>
           <div className="mt-20 grid grid-cols-1 gap-16 md:grid-cols-2">
@@ -191,10 +192,22 @@ export default async function Home() {
                   <h3 className="mt-8 text-3xl font-normal tracking-[0.01em] text-brand-cream">
                     {doctor.name}
                   </h3>
+                  {doctor.degree ? (
+                    <p className="mt-5 text-[1.05rem] tracking-[0.02em] text-brand-cream">
+                      {doctor.degree}
+                    </p>
+                  ) : null}
+                  {doctor.institution ? (
+                    <p className="mt-2 text-[0.9rem] leading-[1.6] text-brand-gray-muted">
+                      {doctor.institution}
+                    </p>
+                  ) : null}
+                  {doctor.credential ? (
+                    <p className="mt-2 text-[0.9rem] text-brand-champagne-light">{doctor.credential}</p>
+                  ) : null}
                   {doctor.role ? (
-                    <Eyebrow ground="black" className="mt-4">
+                    <Eyebrow ground="black" className="mt-5">
                       {doctor.role}
-                      {doctor.specialty ? ` · ${doctor.specialty}` : ""}
                     </Eyebrow>
                   ) : null}
                   {doctor.shortBio ? (

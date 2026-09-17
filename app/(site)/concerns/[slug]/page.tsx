@@ -6,8 +6,10 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
+import { formatDate } from "@/lib/format";
 import { programmeHref, technologyHref } from "@/lib/links";
 import { SITE_URL } from "@/lib/site";
+import { journalCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { concernBySlugQuery, concernSlugsQuery } from "@/sanity/lib/queries";
 import type { Concern } from "@/sanity/lib/types";
@@ -204,6 +206,34 @@ export default async function ConcernPage({ params }: PageProps<"/concerns/[slug
             ))}
           </dl>
         </Rail>
+      ) : null}
+
+      {concern.articles?.length ? (
+        <Section ground="bone" className="border-t border-brand-gray-muted/20">
+          <Eyebrow>From the Journal</Eyebrow>
+          <ul className="mt-12 grid grid-cols-1 gap-x-16 gap-y-12 md:grid-cols-2">
+            {concern.articles.map((article, index) => (
+              <li key={article._id} className="border-t border-brand-gray-muted/30 pt-8">
+                <Reveal index={index}>
+                  <Link href={`/journal/${article.slug}`} className="group block">
+                    <span className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                      {journalCategoryLabel(article.category) || "Journal"} ·{" "}
+                      {formatDate(article.publishedAt)}
+                    </span>
+                    <h2 className="mt-5 text-xl font-normal leading-[1.3] tracking-[0.01em] text-brand-black transition-colors group-hover:text-brand-champagne-dark">
+                      {article.title}
+                    </h2>
+                    {article.excerpt ? (
+                      <p className="mt-4 text-[0.95rem] leading-[1.75] text-brand-gray-text">
+                        {article.excerpt}
+                      </p>
+                    ) : null}
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Section>
       ) : null}
 
       {concern.others?.length ? (
