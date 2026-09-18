@@ -250,6 +250,12 @@ async function seed() {
       slug: slugField(slug(a.title)),
       order,
       summary: a.summary,
+      focus: a.focus,
+      related: a.related.map((r, index) => ({
+        _key: "r" + index,
+        note: r.note,
+        approach: ref(ids.approach(r.approach)),
+      })),
       philosophy: a.philosophy,
       addresses: a.addresses,
       considerations: a.considerations,

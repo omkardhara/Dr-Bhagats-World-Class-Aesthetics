@@ -39,11 +39,16 @@ export type Concern = ConcernSummary & {
 
 export type ApproachSummary = Ref & {
   summary?: string;
+  focus?: string;
   concerns?: Ref[];
 };
 
 export type Approach = Ref & {
   summary?: string;
+  focus?: string;
+  related?: { _key: string; note?: string; approach: Ref | null }[];
+  /** Every approach in display order, for the page's position and the next approach. */
+  sequence?: Ref[];
   philosophy?: string;
   addresses?: string[];
   considerations?: string[];

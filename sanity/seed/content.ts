@@ -728,9 +728,19 @@ export const MEDICAL_DERMATOLOGY = ["Psoriasis", "Vitiligo", "Dermatitis", "Wart
 /* Treatment approaches                                                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Eight approaches, in the doctors' order: the face and its structure first,
+ * then the skin, then hair, hair removal and the body. Each is organised
+ * around the patient's goal - concern, assessment, personalised strategy, and
+ * only then the technology. `focus` states what sets an approach apart from its
+ * neighbours; `related` points to the approaches a patient may be weighing it
+ * against, so the eight read as one philosophy rather than isolated categories.
+ */
 export type SeedApproach = {
   title: string;
   summary: string;
+  focus: string;
+  related: { approach: string; note: string }[];
   philosophy: string;
   addresses: string[];
   considerations: string[];
@@ -747,25 +757,38 @@ export type SeedApproach = {
 export const APPROACHES: SeedApproach[] = [
   {
     title: "Facial Rejuvenation",
-    summary: "Restoring freshness, firmness and structure in a way that still looks like you.",
+    summary:
+      "Addressing how the face changes with time - its firmness, support and volume - so you look rested, not different.",
+    focus:
+      "Facial Rejuvenation is about time: how the support, firmness and volume of the face change as it ages, and how to restore them without changing who you are.",
+    related: [
+      {
+        approach: "Facial Contouring",
+        note: "When the question is proportion or definition rather than change over time - a chin, a jawline or a profile that has always been that way.",
+      },
+      {
+        approach: "Skin Quality",
+        note: "When the concern is the skin's surface - texture, pores, radiance or hydration - rather than the support beneath it.",
+      },
+    ],
     philosophy:
-      "Rejuvenation is rarely a single treatment. We think in layers, from the surface of the skin to the deeper support of the face, and decide which of them genuinely need attention. The result should be that people notice you look well, not that you have had something done.",
+      "Rejuvenation begins with understanding how your face is ageing: where support has receded, where the skin has loosened and where volume has moved. We think in layers and decide which of them genuinely need attention. The result should be that people notice you look well, not that you have had something done.",
     addresses: [
       "Loss of firmness along the jawline and neck",
-      "Fine lines and early wrinkles",
-      "Volume loss through the mid-face",
-      "Dull, crepey or tired-looking skin",
-      "Softening facial definition",
+      "Volume loss through the temples and mid-face",
+      "Deepening folds and lines of expression",
+      "Hollowing or heaviness around the eyes",
+      "A tired look that was not there before",
     ],
     considerations: [
-      "Skin quality and thickness",
+      "Your pattern of ageing, layer by layer",
       "Where laxity and volume loss sit",
-      "Facial proportions and movement",
-      "Downtime and timeline",
-      "How results will be maintained",
+      "Skin thickness and elasticity",
+      "Facial movement and expression",
+      "Downtime, timeline and maintenance",
     ],
     options:
-      "Depending on your anatomy and your ageing pattern, a plan may involve lifting, tightening, collagen stimulation, skin-quality improvement or contour refinement - rarely all of them, and never decided before the assessment. Technology is one of the ways these are delivered, alongside injectable treatment and medical skincare.",
+      "Depending on how your face is ageing, a plan may involve lifting, tightening, collagen stimulation, careful volume restoration or softening of expression lines - rarely all of them, and never decided before the assessment. Technology is one of the ways these are delivered, alongside injectable treatment.",
     expectations:
       "Change is gradual and cumulative. Most plans are judged over two to six months rather than after a single appointment, and the aim is that you look rested and well - not treated.",
     downtime:
@@ -779,7 +802,6 @@ export const APPROACHES: SeedApproach[] = [
       "Ultrasound Skin Tightening",
       "Subdermal Laser Tightening",
       "Laser Skin Resurfacing",
-      "Microneedling & RF Microneedling",
       "Dermal Fillers",
       "Botulinum Toxin",
     ],
@@ -787,8 +809,123 @@ export const APPROACHES: SeedApproach[] = [
     technologies: ["Thermage FLX", "Ultraformer MPT", "Endolift X", "Fotona SP Dynamis Max", "Sylfirm X"],
   },
   {
+    title: "Facial Contouring",
+    summary: "Proportion, balance and definition in the structure of the face, at any age.",
+    focus:
+      "Facial Contouring is about proportion: how the jawline, chin, cheeks and lips relate to one another, in profile as well as from the front - whatever your age.",
+    related: [
+      {
+        approach: "Facial Rejuvenation",
+        note: "When definition has softened with time. Then the cause is usually lost support and laxity, which rejuvenation addresses first.",
+      },
+      {
+        approach: "Skin Quality",
+        note: "When the surface of the skin, rather than its shape, is what you would like to change.",
+      },
+    ],
+    philosophy:
+      "Contouring is not about reversing age. It is about proportion: the relationship between features, and the way light falls across the structure of the face. We make small, considered changes that bring features into balance, and would rather do slightly less than risk a result that looks overdone.",
+    addresses: [
+      "Jawline definition",
+      "Chin projection and profile balance",
+      "Cheek structure and contour",
+      "Lip proportion and shape",
+      "Fullness beneath the chin",
+    ],
+    considerations: [
+      "Facial proportions and profile",
+      "Underlying bone and fat structure",
+      "Muscle activity, such as a strong jaw muscle",
+      "Symmetry",
+      "What you want to change, and why",
+    ],
+    options:
+      "Depending on your proportions, a plan may involve structural filler to the chin, jawline or cheeks, refinement of muscle activity, or subdermal tightening beneath the chin such as Endolift - used sparingly and built up gradually.",
+    expectations:
+      "Changes are deliberately subtle and made over more than one visit. The intention is balance, not a change to the features you are recognised by.",
+    downtime:
+      "Injectable treatment may cause swelling or bruising for a few days. Subdermal tightening involves a quieter week.",
+    combinations:
+      "Combinations are useful when proportion is one part of the picture. Where laxity or skin quality also play a part, they are assessed alongside, so that shape is not asked to compensate for something else.",
+    maintenance:
+      "Injectable results last months rather than years and are maintained with review; tightening develops and holds over a longer period.",
+    modalities: [
+      "Dermal Fillers",
+      "Botulinum Toxin",
+      "Subdermal Laser Tightening",
+      "Ultrasound Skin Tightening",
+    ],
+    concerns: ["Facial Contouring"],
+    technologies: ["Endolift X", "Ultraformer MPT"],
+  },
+  {
+    title: "Skin Quality",
+    summary:
+      "The health of the skin itself - texture, pores, hydration and radiance - as the foundation for everything else.",
+    focus:
+      "Skin Quality is about the skin itself: its surface, its barrier and the way it reflects light - not the structure of the face beneath it.",
+    related: [
+      {
+        approach: "Facial Rejuvenation",
+        note: "When the concern is firmness, laxity or volume - the support of the face - rather than the skin's surface.",
+      },
+      {
+        approach: "Pigmentation",
+        note: "When unevenness is driven by pigment, such as melasma or sun spots.",
+      },
+    ],
+    philosophy:
+      "Good skin quality makes every other treatment look better and last longer. We start with the barrier and the basics, then add treatment that renews and strengthens the skin at a pace it can tolerate.",
+    addresses: [
+      "Dullness and loss of radiance",
+      "Rough texture and enlarged pores",
+      "Dehydration and a compromised barrier",
+      "Sensitive, reactive skin",
+      "Congestion and blemishes",
+    ],
+    considerations: [
+      "Barrier health and sensitivity",
+      "Hydration and oil balance",
+      "Texture, pores and tone",
+      "Your current skincare",
+      "Sun exposure and lifestyle",
+    ],
+    options:
+      "Plans usually combine medical skincare with in-clinic treatment such as medical facials, peels, microneedling, laser rejuvenation or regenerative treatment - paced to what your skin tolerates.",
+    expectations:
+      "Some improvement in brightness can be seen within days; collagen-led changes in texture and pores develop over two to three months.",
+    downtime:
+      "Most treatments involve little or none. Deeper resurfacing, where it is appropriate, needs a few quieter days.",
+    combinations:
+      "Combinations are useful because texture, pores, hydration and radiance respond to different treatments. Medical skincare forms the foundation, and in-clinic treatment is added to it rather than replacing it.",
+    maintenance:
+      "Skin quality is maintained rather than completed. A simple routine and periodic treatment hold the improvement over time.",
+    modalities: [
+      "Hydrafacial & Medical Facials",
+      "Medical Peels",
+      "Microneedling & RF Microneedling",
+      "PRP & GFC",
+      "Laser Toning",
+      "Dermatosurgery",
+    ],
+    concerns: ["Skin Quality, Texture & Pores"],
+    technologies: ["Hydrafacial", "OxyGeneo", "Dermapen 4", "SkinPen", "GFC"],
+  },
+  {
     title: "Pigmentation",
     summary: "Even, luminous skin, pursued patiently and safely.",
+    focus:
+      "Pigmentation is about colour: the pigment the skin produces, why it is producing it, and how to bring it back into balance without provoking more.",
+    related: [
+      {
+        approach: "Skin Quality",
+        note: "When dullness or unevenness comes from texture and hydration rather than from pigment.",
+      },
+      {
+        approach: "Acne & Scarring",
+        note: "When the marks are left behind by acne, and the acne itself still needs controlling.",
+      },
+    ],
     philosophy:
       "Pigmentation rewards patience and punishes haste. We favour gradual, controlled improvement over aggressive treatment, and we plan for maintenance from the outset, because most pigmentation tends to return without it.",
     addresses: [
@@ -828,6 +965,18 @@ export const APPROACHES: SeedApproach[] = [
   {
     title: "Acne & Scarring",
     summary: "Calming active acne first, then restoring smoother, more even skin.",
+    focus:
+      "Acne & Scarring is about control, then repair: settling active acne as a medical condition, and only then treating the marks and scars it has left.",
+    related: [
+      {
+        approach: "Pigmentation",
+        note: "When what remains after acne is colour rather than texture - flat brown or red marks rather than scars.",
+      },
+      {
+        approach: "Skin Quality",
+        note: "When the skin is congested or uneven but acne is not the underlying cause.",
+      },
+    ],
     philosophy:
       "We treat acne as a medical condition before we treat it as a cosmetic one. Once the skin is stable, scars are addressed in stages, matching each type of scar to the treatment most likely to improve it, and reviewing progress as we go.",
     addresses: [
@@ -866,48 +1015,16 @@ export const APPROACHES: SeedApproach[] = [
     technologies: ["Dermapen 4", "SkinPen", "Sylfirm X", "Fotona SP Dynamis Max", "Hydrafacial"],
   },
   {
-    title: "Skin Quality",
-    summary: "Healthier, clearer, more resilient skin, as the foundation for everything else.",
-    philosophy:
-      "Good skin quality makes every other treatment look better and last longer. We start with the barrier and the basics, then add treatment that renews and strengthens the skin at a pace it can tolerate.",
-    addresses: [
-      "Dullness and uneven tone",
-      "Rough texture and enlarged pores",
-      "Dehydration and a compromised barrier",
-      "Early loss of elasticity",
-      "Congestion and blemishes",
-    ],
-    considerations: [
-      "Barrier health and sensitivity",
-      "Hydration and oil balance",
-      "Texture, pores and tone",
-      "Your current skincare",
-      "Sun exposure and lifestyle",
-    ],
-    options:
-      "Plans usually combine medical skincare with in-clinic treatment such as medical facials, peels, microneedling, laser rejuvenation or regenerative treatment - paced to what your skin tolerates.",
-    expectations:
-      "Some improvement in brightness and texture can be seen within days; collagen-led changes in firmness and pores develop over two to three months.",
-    downtime:
-      "Most treatments involve little or none. Deeper resurfacing, where it is appropriate, needs a few quieter days.",
-    combinations:
-      "Combinations are useful because texture, tone, hydration and firmness respond to different treatments. Medical skincare forms the foundation, and in-clinic treatment is added to it rather than replacing it.",
-    maintenance:
-      "Skin quality is maintained rather than completed. A simple routine and periodic treatment hold the improvement over time.",
-    modalities: [
-      "Hydrafacial & Medical Facials",
-      "Medical Peels",
-      "Microneedling & RF Microneedling",
-      "PRP & GFC",
-      "Laser Toning",
-      "Dermatosurgery",
-    ],
-    concerns: ["Skin Quality, Texture & Pores", "Facial Ageing & Skin Laxity"],
-    technologies: ["Hydrafacial", "OxyGeneo", "Dermapen 4", "SkinPen", "GFC"],
-  },
-  {
     title: "Hair & Scalp",
     summary: "Understanding the cause of hair loss, then treating it over time.",
+    focus:
+      "Hair & Scalp is about growth: finding out why hair is thinning or falling, and supporting the scalp and follicles over the months it takes to respond.",
+    related: [
+      {
+        approach: "Hair Removal",
+        note: "When the concern is unwanted hair rather than hair loss - sometimes with the same hormonal cause behind it.",
+      },
+    ],
     philosophy:
       "Hair responds slowly, so treatment is a programme rather than an appointment. We combine medical management with regenerative therapy and track progress, so the plan evolves with your response.",
     addresses: [
@@ -939,79 +1056,20 @@ export const APPROACHES: SeedApproach[] = [
     technologies: ["GFC"],
   },
   {
-    title: "Facial Contouring",
-    summary: "Definition and balance, restored with a light and precise hand.",
-    philosophy:
-      "Contouring is about proportion. We make small, considered changes that bring features into balance, and would rather do slightly less than risk a result that looks overdone.",
-    addresses: [
-      "Jawline definition",
-      "Chin projection and profile balance",
-      "Cheek contour",
-      "Lip proportion",
-      "Fullness beneath the chin",
-    ],
-    considerations: [
-      "Facial proportions and profile",
-      "Underlying bone and fat structure",
-      "Muscle activity",
-      "Symmetry",
-      "What you want to change, and why",
-    ],
-    options:
-      "Depending on your proportions, a plan may involve volume restoration, refinement of muscle activity, or subdermal tightening such as Endolift - used sparingly and built up gradually.",
-    expectations:
-      "Changes are deliberately subtle and made over more than one visit. The intention is balance, not a change to the features you are recognised by.",
-    downtime:
-      "Injectable treatment may cause swelling or bruising for a few days. Subdermal tightening involves a quieter week.",
-    combinations:
-      "Combinations are useful because definition depends on skin quality and laxity as well as volume. We assess all three before deciding what, if anything, to change.",
-    maintenance:
-      "Injectable results last months rather than years and are maintained with review; tightening develops and holds over a longer period.",
-    modalities: [
-      "Dermal Fillers",
-      "Botulinum Toxin",
-      "Subdermal Laser Tightening",
-      "Ultrasound Skin Tightening",
-    ],
-    concerns: ["Facial Contouring", "Facial Ageing & Skin Laxity"],
-    technologies: ["Endolift X", "Ultraformer MPT"],
-  },
-  {
-    title: "Body",
-    summary: "Contour, firmness and smoother skin, with honest expectations.",
-    philosophy:
-      "Non-surgical body treatment can make a real difference in the right person. We are clear about who is likely to benefit, combine treatments where that adds value, and deliver them as a reviewed course.",
-    addresses: [
-      "Localised fat that persists despite diet and exercise",
-      "Loose or crepey skin on the body",
-      "Cellulite",
-      "Muscle tone",
-      "Skin texture on the body",
-    ],
-    considerations: [
-      "Areas of concern and fat distribution",
-      "Skin laxity and texture",
-      "Lifestyle and weight stability",
-      "Expected timelines",
-      "Whether hair reduction is also wanted",
-    ],
-    options:
-      "Depending on the area and the concern, a plan may involve localised fat reduction, skin tightening or muscle toning, delivered as a course.",
-    expectations:
-      "Non-surgical body treatment suits people close to a stable weight who are looking for refinement, not weight loss. Results are gradual and best judged after the full course.",
-    downtime:
-      "Most body treatments allow normal activity straight away, with temporary redness, tenderness or firmness in the treated area.",
-    combinations:
-      "Combinations are useful when fat, laxity and tone all contribute to the concern. The order is decided at assessment.",
-    maintenance:
-      "Results are maintained with a stable weight and lifestyle, and occasional maintenance sessions where appropriate.",
-    modalities: ["Body Contouring", "Radiofrequency Skin Tightening", "Laser Hair Reduction"],
-    concerns: ["Body Contouring"],
-    technologies: ["Venus Bliss Max", "Ultraformer MPT", "Endolift X", "Fotona StarFormer", "GentleYAG"],
-  },
-  {
     title: "Hair Removal",
     summary: "Long-term reduction of unwanted hair, with every setting chosen for your skin.",
+    focus:
+      "Hair Removal is about reduction: fewer, finer hairs over a planned course, with settings chosen for your skin - and, where hair growth has a hormonal cause, attention to that too.",
+    related: [
+      {
+        approach: "Hair & Scalp",
+        note: "When the concern is hair loss or thinning on the scalp rather than unwanted hair elsewhere.",
+      },
+      {
+        approach: "Body",
+        note: "When contour, firmness or skin texture on the body is also a concern.",
+      },
+    ],
     philosophy:
       "Laser hair reduction is a course of treatment rather than a single appointment, and the settings matter more than the platform. We select the wavelength and parameters for your skin type and hair, and where unwanted hair growth suggests a hormonal cause, we look into that too.",
     addresses: [
@@ -1041,6 +1099,47 @@ export const APPROACHES: SeedApproach[] = [
     modalities: ["Laser Hair Reduction", "Medical Treatment"],
     concerns: ["Hair Removal"],
     technologies: ["GentleYAG", "Fotona SP Dynamis Max"],
+  },
+  {
+    title: "Body",
+    summary: "Contour, firmness and smoother skin, with honest expectations.",
+    focus:
+      "Body is about refinement below the face: contour, firmness and the texture of the skin, for people close to a stable weight rather than seeking weight loss.",
+    related: [
+      {
+        approach: "Hair Removal",
+        note: "When the concern on the body is unwanted hair.",
+      },
+    ],
+    philosophy:
+      "Non-surgical body treatment can make a real difference in the right person. We are clear about who is likely to benefit, combine treatments where that adds value, and deliver them as a reviewed course.",
+    addresses: [
+      "Localised fat that persists despite diet and exercise",
+      "Loose or crepey skin on the body",
+      "Cellulite",
+      "Muscle tone",
+      "Skin texture on the body",
+    ],
+    considerations: [
+      "Areas of concern and fat distribution",
+      "Skin laxity and texture",
+      "Lifestyle and weight stability",
+      "Expected timelines",
+      "Medical history and previous treatment",
+    ],
+    options:
+      "Depending on the area and the concern, a plan may involve localised fat reduction, skin tightening or muscle toning, delivered as a course.",
+    expectations:
+      "Non-surgical body treatment suits people close to a stable weight who are looking for refinement, not weight loss. Results are gradual and best judged after the full course.",
+    downtime:
+      "Most body treatments allow normal activity straight away, with temporary redness, tenderness or firmness in the treated area.",
+    combinations:
+      "Combinations are useful when fat, laxity and tone all contribute to the concern. The order is decided at assessment.",
+    maintenance:
+      "Results are maintained with a stable weight and lifestyle, and occasional maintenance sessions where appropriate.",
+    modalities: ["Body Contouring", "Radiofrequency Skin Tightening"],
+    concerns: ["Body Contouring"],
+    technologies: ["Venus Bliss Max", "Ultraformer MPT", "Endolift X", "Fotona StarFormer"],
   },
 ];
 

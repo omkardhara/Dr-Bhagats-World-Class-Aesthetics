@@ -48,6 +48,12 @@ export async function generateMetadata({
 }
 
 /**
+ * One of eight approaches, each organised around the patient's goal: concern,
+ * assessment, personalised strategy, and only then technology. Every page opens
+ * with its focus - what sets it apart from its neighbours - and closes by
+ * pointing to the approaches a patient may be weighing it against, then the
+ * next in the sequence, so the eight read as one philosophy.
+ *
  * The doctors' order: 01 what the approach addresses, 02 what we assess,
  * 03 the possible treatment options, then 04 expectations, 05 downtime,
  * 06 when combinations are useful and 07 results and maintenance, before
@@ -60,6 +66,14 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
   if (!approach) notFound();
 
   const url = `${SITE_URL}/treatment-approaches/${approach.slug}`;
+
+  const sequence = approach.sequence ?? [];
+  const position = sequence.findIndex((item) => item._id === approach._id);
+  const next = position >= 0 && sequence.length > 1 ? sequence[(position + 1) % sequence.length] : null;
+  const related = (approach.related ?? []).filter(
+    (item): item is { _key: string; note?: string; approach: NonNullable<typeof item.approach> } =>
+      Boolean(item.approach)
+  );
 
   const outlook = [
     { title: "What should you realistically expect?", body: approach.expectations },
@@ -90,9 +104,26 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
         ]}
         title={approach.title}
         lead={approach.summary}
-      />
+      >
+        {position >= 0 ? (
+          <p className="mt-10 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
+            Treatment approach {pad(position + 1)} of {pad(sequence.length)}
+          </p>
+        ) : null}
+      </PageHero>
 
       <SanityPicture image={approach.image} ratio="21/9" width={2400} priority sizes="100vw" />
+
+      {approach.focus ? (
+        <Section ground="white">
+          <Reveal>
+            <Eyebrow ground="white">What this approach is about</Eyebrow>
+            <p className="mt-8 max-w-4xl text-2xl font-normal leading-[1.4] tracking-[0.01em] text-brand-black lg:text-3xl">
+              {approach.focus}
+            </p>
+          </Reveal>
+        </Section>
+      ) : null}
 
       {approach.addresses?.length ? (
         <Rail ground="bone" index={1} title="What this approach addresses">
@@ -193,6 +224,19 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
         </Section>
       ) : null}
 
+      {related.length > 0 ? (
+        <Rail ground="bone" title="If this is not quite your concern">
+          <Rows
+            items={related.map((item) => ({
+              key: item._key,
+              title: item.approach.title,
+              detail: item.note,
+              href: `/treatment-approaches/${item.approach.slug}`,
+            }))}
+          />
+        </Rail>
+      ) : null}
+
       {approach.programmes?.length ? (
         <Rail ground="black" title="The Dr Bhagat’s Signature">
           <Rows
@@ -246,6 +290,27 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
             ))}
           </ul>
         </Section>
+      ) : null}
+
+      {next ? (
+        <nav aria-label="Next treatment approach" className="border-t border-brand-gray-muted/20 bg-brand-bone">
+          <Link
+            href={`/treatment-approaches/${next.slug}`}
+            className="group mx-auto flex w-full max-w-7xl items-baseline justify-between gap-8 px-6 py-14 lg:px-10"
+          >
+            <span>
+              <span className="block text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                Next approach · {pad(((position + 1) % sequence.length) + 1)}
+              </span>
+              <span className="mt-4 block text-2xl font-normal tracking-[0.01em] text-brand-black transition-colors group-hover:text-brand-champagne-dark lg:text-3xl">
+                {next.title}
+              </span>
+            </span>
+            <span aria-hidden className="text-brand-champagne-dark">
+              →
+            </span>
+          </Link>
+        </nav>
       ) : null}
 
       <BeginConsultation />

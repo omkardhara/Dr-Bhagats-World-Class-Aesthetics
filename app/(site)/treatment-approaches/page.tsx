@@ -23,7 +23,7 @@ import type { ApproachSummary, ProgrammeSummary } from "@/sanity/lib/types";
 export const metadata: Metadata = {
   title: "Treatments",
   description:
-    "The seven treatment approaches at Dr Bhagat's, and the Signature programmes. Every plan is designed for the individual after assessment.",
+    "The eight treatment approaches at Dr Bhagat's, each organised around the patient's goal, and the Signature programmes. Every plan is designed for the individual after assessment.",
   alternates: { canonical: "/treatment-approaches" },
 };
 
@@ -54,7 +54,7 @@ export default async function TreatmentApproachesPage() {
       <PageHero
         eyebrow="Treatments"
         title={PHILOSOPHY_LINE}
-        lead="Each approach describes how the doctors think about a family of concerns. Every plan within it is designed for the individual."
+        lead="Eight approaches, one philosophy. Each begins with your concern or the outcome you are seeking, then an assessment and a plan designed for you - and only then the technology that delivers it."
       />
 
       <Section ground="bone">
@@ -73,9 +73,9 @@ export default async function TreatmentApproachesPage() {
                     {approach.title}
                   </span>
                   <span className="lg:col-span-5 lg:col-start-8">
-                    {approach.summary ? (
+                    {approach.focus || approach.summary ? (
                       <span className="block text-[1rem] leading-[1.8] text-brand-gray-text">
-                        {approach.summary}
+                        {approach.focus ?? approach.summary}
                       </span>
                     ) : null}
                     {approach.concerns?.length ? (

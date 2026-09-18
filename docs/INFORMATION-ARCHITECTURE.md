@@ -93,11 +93,24 @@ link to Technology afterwards.
 
 ### Treatment approaches (8)
 
-Facial Rejuvenation · Pigmentation · Acne & Scarring · Skin Quality ·
-Hair & Scalp · Facial Contouring · Body · Hair Removal
+In the doctors' order - the face and its structure, then the skin, then hair,
+hair removal and the body:
 
-Each page carries what it can address, what the doctor considers, what a plan may
-include, realistic expectations, downtime and how treatments combine.
+01 Facial Rejuvenation · 02 Facial Contouring · 03 Skin Quality · 04 Pigmentation ·
+05 Acne & Scarring · 06 Hair & Scalp · 07 Hair Removal · 08 Body
+
+Organised around the patient's goal, never the machine: concern → assessment →
+personalised strategy → technology. Each page opens with its focus (what sets it
+apart), then what it addresses, what the doctor assesses, the treatment options,
+expectations, downtime, combinations and maintenance. It closes with related
+approaches ("If this is not quite your concern") and the next approach in the
+sequence, so the eight read as one philosophy.
+
+The three facial approaches are positioned so they never repeat one another:
+
+- **Facial Rejuvenation** - time: how support, firmness and volume change with age.
+- **Facial Contouring** - proportion: jawline, chin, cheeks and lips, at any age.
+- **Skin Quality** - the skin itself: texture, pores, hydration, barrier, radiance.
 
 ### Technology
 
@@ -174,7 +187,7 @@ concern -> treatment -> consultation.
 | --- | --- |
 | `concern` | 9 concerns with understanding / assessment / approach fields |
 | `signatureProgramme` | Title, short title, tagline, description, closing line. No technology field, by design |
-| `treatmentApproach` | 7 approaches |
+| `treatmentApproach` | 8 approaches, with focus and related approaches |
 | `treatment` | Modalities within approaches; no public pages |
 | `machine` | Card line, categories (several allowed), `dedicatedPage` |
 | `doctor` | Position, title, specialty, biography, philosophy quote, and optional credentials: qualifications, practising since, expertise, conferences, publications, awards, technologies, memberships |

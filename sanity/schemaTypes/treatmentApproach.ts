@@ -32,6 +32,34 @@ export const treatmentApproach = defineType({
     }),
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
     defineField({ name: "summary", title: "Summary", type: "text", rows: 2 }),
+    text(
+      "focus",
+      "What sets this approach apart",
+      "One sentence on the patient goal this approach is about, so it is never confused with its neighbours.",
+      2
+    ),
+    defineField({
+      name: "related",
+      title: "Related approaches",
+      description: "The approaches a patient may be weighing this one against, and when each is the better fit.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "approach",
+              title: "Approach",
+              type: "reference",
+              to: [{ type: "treatmentApproach" }],
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({ name: "note", title: "When it is the better fit", type: "text", rows: 2 }),
+          ],
+          preview: { select: { title: "approach.title", subtitle: "note" } },
+        }),
+      ],
+    }),
     defineField({
       name: "addresses",
       title: "What concern does this approach address?",
