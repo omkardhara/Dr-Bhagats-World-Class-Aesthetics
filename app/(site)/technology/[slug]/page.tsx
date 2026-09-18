@@ -4,6 +4,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import { technologyShot } from "@/lib/shotList";
 import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
 import { pad } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
@@ -93,7 +94,14 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
         </p>
       </PageHero>
 
-      <SanityPicture image={machine.image} ratio="21/9" width={2400} priority sizes="100vw" />
+      <SanityPicture
+        image={machine.image}
+        brief={technologyShot(machine.name)}
+        ratio="21/9"
+        width={2400}
+        priority
+        sizes="100vw"
+      />
 
       {machine.whatItIs ? (
         <Rail ground="bone" index={1} title="What does it do?">

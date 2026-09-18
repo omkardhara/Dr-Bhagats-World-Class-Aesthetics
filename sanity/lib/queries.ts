@@ -159,7 +159,7 @@ export const resultsQuery = defineQuery(`{
 
 export const clinicQuery = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{ doctorsImage, clinicImage },
-  "spaces": *[_type == "clinicSpace" && count(images) > 0] | order(order asc){
+  "spaces": *[_type == "clinicSpace"] | order(order asc){
     _id, title, description, location, images
   },
   "team": *[_type == "teamMember"] | order(order asc){ _id, name, role, portrait }

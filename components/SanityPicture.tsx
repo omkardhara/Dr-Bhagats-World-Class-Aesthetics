@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import ShotBrief from "@/components/ShotBrief";
+import { shotListEnabled, type Brief } from "@/lib/shotList";
 import { imageProps, type SanityImage } from "@/sanity/lib/image";
 
 const ASPECT = {
@@ -13,17 +15,20 @@ const ASPECT = {
 /**
  * A Sanity image, or nothing at all.
  *
- * There is no fallback on purpose. Stock photography has been removed from
- * the site, and every layout is designed to read as complete without imagery,
- * so an unset image leaves no frame, placeholder or apologetic caption behind.
+ * There is no public fallback on purpose. Stock photography has been removed
+ * from the site, and every layout is designed to read as complete without
+ * imagery, so an unset image leaves no frame, placeholder or apologetic
+ * caption behind. The one exception is the private shot-list preview, where
+ * an unset image with a `brief` shows the photograph still to be taken.
  */
-export default function SanityPicture({
+export default async function SanityPicture({
   image,
   ratio = "16/9",
   sizes = "100vw",
   width = 1800,
   priority = false,
   alt,
+  brief,
   className = "",
 }: {
   image: SanityImage | null | undefined;
@@ -32,10 +37,16 @@ export default function SanityPicture({
   width?: number;
   priority?: boolean;
   alt?: string;
+  /** What the photograph should show, for the shot-list preview. */
+  brief?: Brief;
   className?: string;
 }) {
   const props = imageProps(image, width);
-  if (!props) return null;
+  if (!props) {
+    return brief && (await shotListEnabled()) ? (
+      <ShotBrief brief={brief} ratio={ratio} className={className} />
+    ) : null;
+  }
 
   return (
     <div className={`relative ${ASPECT[ratio]} w-full overflow-hidden bg-brand-gray-dark ${className}`}>

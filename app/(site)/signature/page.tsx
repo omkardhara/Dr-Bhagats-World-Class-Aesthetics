@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import { PROGRAMME_SHOTS } from "@/lib/shotList";
 import { Eyebrow, PageHero, PrimaryLink, Prose, Section, Statement, TextLink } from "@/components/ui";
 import { pad, paragraphs } from "@/lib/format";
 import { getClient } from "@/sanity/lib/client";
@@ -125,6 +126,7 @@ export default async function SignaturePage() {
                 {programme.tagline ? <Statement>{programme.tagline}</Statement> : null}
                 <SanityPicture
                   image={programme.image}
+                  brief={PROGRAMME_SHOTS[programme.slug]}
                   ratio="16/9"
                   sizes="(min-width: 1024px) 55vw, 100vw"
                   className="mt-12"

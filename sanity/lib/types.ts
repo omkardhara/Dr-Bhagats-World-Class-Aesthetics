@@ -147,7 +147,7 @@ export type ClinicSpace = {
   title: string;
   description?: string;
   location?: string;
-  images: SanityImage[];
+  images?: SanityImage[] | null;
 };
 
 export type TeamMember = {

@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import ShotBrief from "@/components/ShotBrief";
 import {
   BeginConsultation,
   Display,
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui";
 import { formatDate, pad } from "@/lib/format";
 import { programmeHref } from "@/lib/links";
+import { DOCTOR_SHOTS, shotListEnabled, SITE_SHOTS } from "@/lib/shotList";
 import { LOCATIONS, PHILOSOPHY_LINE, PHILOSOPHY_TEXT, SUPPORTING_LINE, TAGLINE } from "@/lib/site";
 import { RESULT_CATEGORIES, resultCategoryLabel, TECHNOLOGY_CATEGORIES } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
@@ -79,9 +81,9 @@ const PRINCIPLES = ["The doctor decides.", "Technology supports.", "You receive 
  * technology - which appears seventh, as supporting evidence.
  */
 export default async function Home() {
-  const home = await getHome();
+  const [home, shots] = await Promise.all([getHome(), shotListEnabled()]);
   const hero = imageProps(home.settings?.heroImage, 2400);
-  const hasClinicImage = Boolean(home.settings?.clinicImage?.asset);
+  const hasClinicImage = Boolean(home.settings?.clinicImage?.asset) || shots;
   const resultCategories = RESULT_CATEGORIES.filter((c) => home.resultCategories.includes(c.value));
 
   return (
@@ -96,6 +98,8 @@ export default async function Home() {
               className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/70 to-brand-black/25"
             />
           </>
+        ) : shots ? (
+          <ShotBrief brief={SITE_SHOTS.homeHero} fill />
         ) : (
           <div
             aria-hidden
@@ -134,6 +138,7 @@ export default async function Home() {
             </Reveal>
             <SanityPicture
               image={home.settings?.philosophyImage}
+              brief={SITE_SHOTS.homePhilosophy}
               ratio="4/3"
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="mt-14"
@@ -183,6 +188,7 @@ export default async function Home() {
                 <article>
                   <SanityPicture
                     image={doctor.portrait}
+                    brief={DOCTOR_SHOTS[doctor.slug]}
                     ratio="3/4"
                     width={1200}
                     sizes="(min-width: 768px) 50vw, 100vw"
@@ -424,6 +430,7 @@ export default async function Home() {
             <div className="lg:col-span-6 lg:col-start-7">
               <SanityPicture
                 image={home.settings?.clinicImage}
+                brief={SITE_SHOTS.homeClinic}
                 ratio="4/3"
                 sizes="(min-width: 1024px) 50vw, 100vw"
               />

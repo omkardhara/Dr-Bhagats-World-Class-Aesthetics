@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import { APPROACH_SHOTS } from "@/lib/shotList";
 import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
 import { formatDate, pad } from "@/lib/format";
 import { programmeHref, technologyHref } from "@/lib/links";
@@ -112,7 +113,14 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
         ) : null}
       </PageHero>
 
-      <SanityPicture image={approach.image} ratio="21/9" width={2400} priority sizes="100vw" />
+      <SanityPicture
+        image={approach.image}
+        brief={APPROACH_SHOTS[approach.slug]}
+        ratio="21/9"
+        width={2400}
+        priority
+        sizes="100vw"
+      />
 
       {approach.focus ? (
         <Section ground="white">

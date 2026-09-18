@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import { CONCERN_SHOTS } from "@/lib/shotList";
 import {
   BeginConsultation,
   Eyebrow,
@@ -112,7 +113,14 @@ export default async function ConcernPage({ params }: PageProps<"/concerns/[slug
         lead={concern.summary}
       />
 
-      <SanityPicture image={concern.image} ratio="21/9" width={2400} priority sizes="100vw" />
+      <SanityPicture
+        image={concern.image}
+        brief={CONCERN_SHOTS[concern.slug]}
+        ratio="21/9"
+        width={2400}
+        priority
+        sizes="100vw"
+      />
 
       {concern.experience || concern.relatedConditions?.length ? (
         <Rail ground="bone" index={1} title="The concern">

@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import DoctorSchema from "@/components/DoctorSchema";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import ShotBrief from "@/components/ShotBrief";
 import {
   BeginConsultation,
   Display,
@@ -18,6 +19,7 @@ import {
 } from "@/components/ui";
 import { paragraphs } from "@/lib/format";
 import { technologyHref } from "@/lib/links";
+import { DOCTOR_SHOTS, shotListEnabled, SITE_SHOTS, SPACE_SHOTS } from "@/lib/shotList";
 import { directionsHref, LOCATIONS, PHILOSOPHY_LINE, PHILOSOPHY_TEXT, TAGLINE } from "@/lib/site";
 import { getClient } from "@/sanity/lib/client";
 import { clinicQuery, doctorsQuery } from "@/sanity/lib/queries";
@@ -200,8 +202,9 @@ function CredentialList({ title, items }: { title: string; items?: string[] }) {
  * Both doctors get the same layout and the same space; only the side the
  * portrait sits on alternates, so neither profile reads as the senior one.
  */
-function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
-  const hasPortrait = Boolean(doctor.portrait?.asset);
+function DoctorProfile({ doctor, flip, shots }: { doctor: Doctor; flip: boolean; shots: boolean }) {
+  // In the shot-list preview the portrait layout is shown, with the brief in the frame.
+  const hasPortrait = Boolean(doctor.portrait?.asset) || shots;
   const years = doctor.practisingSince ? new Date().getFullYear() - doctor.practisingSince : null;
 
   const header = (
@@ -243,6 +246,7 @@ function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
               <Reveal>
                 <SanityPicture
                   image={doctor.portrait}
+                  brief={DOCTOR_SHOTS[doctor.slug]}
                   ratio="3/4"
                   width={1600}
                   priority
@@ -320,7 +324,10 @@ function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
 }
 
 export default async function AboutPage() {
-  const [doctors, clinic] = await Promise.all([getDoctors(), getClinic()]);
+  const [doctors, clinic, shots] = await Promise.all([getDoctors(), getClinic(), shotListEnabled()]);
+  // Spaces appear only once photographed - or, in the shot-list preview, as the frames still to shoot.
+  const spaces = shots ? clinic.spaces : clinic.spaces.filter((space) => space.images?.length);
+  const team = clinic.team;
   const withFoundations = doctors.filter((doctor) => doctor.foundations?.length);
 
   return (
@@ -359,6 +366,7 @@ export default async function AboutPage() {
             </Reveal>
             <SanityPicture
               image={clinic.settings?.doctorsImage}
+              brief={SITE_SHOTS.aboutDoctors}
               ratio="21/9"
               width={2400}
               sizes="(min-width: 1024px) 80rem, 100vw"
@@ -372,7 +380,7 @@ export default async function AboutPage() {
           </div>
 
           {doctors.map((doctor, index) => (
-            <DoctorProfile key={doctor._id} doctor={doctor} flip={index % 2 === 1} />
+            <DoctorProfile key={doctor._id} doctor={doctor} flip={index % 2 === 1} shots={shots} />
           ))}
         </div>
       ) : null}
@@ -542,10 +550,10 @@ export default async function AboutPage() {
         </div>
       </Section>
 
-      {/* Spaces and team appear only once photographed; the query filters out spaces without images. */}
-      {clinic.spaces.length > 0 || clinic.team.length > 0 ? (
+      {/* Spaces and team appear only once photographed. */}
+      {spaces.length > 0 || team.length > 0 || shots ? (
         <Section ground="bone">
-          {clinic.spaces.map((space) => (
+          {spaces.map((space) => (
             <div
               key={space._id}
               className="grid grid-cols-1 gap-12 border-t border-brand-gray-muted/30 py-16 first:border-t-0 first:pt-0 lg:grid-cols-12"
@@ -562,27 +570,44 @@ export default async function AboutPage() {
                 </Reveal>
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
-                {space.images.map((image, imageIndex) => (
-                  <SanityPicture
-                    key={`${space._id}-${imageIndex}`}
-                    image={image}
-                    ratio="4/3"
-                    sizes="(min-width: 1024px) 35vw, 100vw"
-                    className={imageIndex === 0 ? "sm:col-span-2" : ""}
-                  />
-                ))}
+                {space.images?.length
+                  ? space.images.map((image, imageIndex) => (
+                      <SanityPicture
+                        key={`${space._id}-${imageIndex}`}
+                        image={image}
+                        ratio="4/3"
+                        sizes="(min-width: 1024px) 35vw, 100vw"
+                        className={imageIndex === 0 ? "sm:col-span-2" : ""}
+                      />
+                    ))
+                  : (SPACE_SHOTS[space.title] ?? []).map((brief, imageIndex) => (
+                      <ShotBrief
+                        key={brief.title}
+                        brief={brief}
+                        ratio="4/3"
+                        className={imageIndex === 0 ? "sm:col-span-2" : ""}
+                      />
+                    ))}
               </div>
             </div>
           ))}
 
-          {clinic.team.length > 0 ? (
-            <div className={clinic.spaces.length > 0 ? "border-t border-brand-gray-muted/30 pt-16" : ""}>
+          {team.length > 0 || shots ? (
+            <div className={spaces.length > 0 ? "border-t border-brand-gray-muted/30 pt-16" : ""}>
               <Eyebrow>The team</Eyebrow>
               <ul className="mt-12 grid grid-cols-2 gap-10 md:grid-cols-4">
-                {clinic.team.map((member) => (
+                {team.length === 0
+                  ? [1, 2, 3, 4].map((n) => (
+                      <li key={n}>
+                        <ShotBrief brief={SITE_SHOTS.team} ratio="3/4" />
+                      </li>
+                    ))
+                  : null}
+                {team.map((member) => (
                   <li key={member._id}>
                     <SanityPicture
                       image={member.portrait}
+                      brief={SITE_SHOTS.team}
                       ratio="3/4"
                       width={800}
                       sizes="(min-width: 768px) 25vw, 50vw"

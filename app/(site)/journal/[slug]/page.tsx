@@ -6,6 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import PortableTextBody from "@/components/PortableTextBody";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import { ARTICLE_SHOTS } from "@/lib/shotList";
 import { Eyebrow, PageHero, Section, TextLink } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import { BRAND, SITE_URL } from "@/lib/site";
@@ -94,7 +95,14 @@ export default async function ArticlePage({ params }: PageProps<"/journal/[slug]
         </p>
       </PageHero>
 
-      <SanityPicture image={article.image} ratio="21/9" width={2400} priority sizes="100vw" />
+      <SanityPicture
+        image={article.image}
+        brief={ARTICLE_SHOTS[article.slug]}
+        ratio="21/9"
+        width={2400}
+        priority
+        sizes="100vw"
+      />
 
       {article.body?.length ? (
         <Section ground="bone">

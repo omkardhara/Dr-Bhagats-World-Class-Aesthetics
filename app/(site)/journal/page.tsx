@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
+import { ARTICLE_SHOTS } from "@/lib/shotList";
 import { Eyebrow, PageHero, Section, TextLink } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import { JOURNAL_CATEGORIES, journalCategoryLabel } from "@/sanity/lib/categories";
@@ -106,6 +107,7 @@ export default async function JournalPage({ searchParams }: PageProps<"/journal"
             <Link href={`/journal/${featured.slug}`} className="group block">
               <SanityPicture
                 image={featured.image}
+                brief={ARTICLE_SHOTS[featured.slug]}
                 ratio="21/9"
                 width={2400}
                 priority
@@ -163,6 +165,7 @@ export default async function JournalPage({ searchParams }: PageProps<"/journal"
                       <Link href={`/journal/${article.slug}`} className="group block">
                         <SanityPicture
                           image={article.image}
+                          brief={ARTICLE_SHOTS[article.slug]}
                           ratio="4/3"
                           sizes="(min-width: 768px) 40vw, 100vw"
                           className="mb-8"

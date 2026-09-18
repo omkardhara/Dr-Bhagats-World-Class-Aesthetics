@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ShotListBanner from "@/components/ShotListBanner";
 
 /** Marketing-site chrome. The /studio segment sits outside this group. */
 export default function SiteLayout({
@@ -15,6 +16,7 @@ export default function SiteLayout({
       <Navbar />
       <div id="main">{children}</div>
       <Footer />
+      <ShotListBanner />
     </>
   );
 }
