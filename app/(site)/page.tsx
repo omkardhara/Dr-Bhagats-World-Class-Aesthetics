@@ -105,7 +105,7 @@ export default async function Home() {
           </div>
         )}
 
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 pt-44 lg:px-10 lg:pb-32 xl:pt-56">
+        <div className="relative mx-auto w-full max-w-7xl px-6 pb-24 pt-44 lg:px-10 lg:pb-24 xl:pt-48">
           <h1 className="text-4xl font-normal leading-[1.04] tracking-[0.005em] text-brand-cream sm:text-5xl lg:text-7xl xl:text-[5.5rem]">
             Dr Bhagat’s
             <br />

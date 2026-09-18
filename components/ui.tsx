@@ -55,7 +55,7 @@ export function Section({
 }) {
   return (
     <section id={id} className={`scroll-mt-24 ${GROUND[ground]} ${className}`}>
-      <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-32">{children}</div>
+      <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-24">{children}</div>
     </section>
   );
 }
@@ -191,7 +191,7 @@ export function PageHero({
 }) {
   return (
     <section className="bg-brand-black">
-      <div className="mx-auto w-full max-w-7xl px-6 pb-24 pt-40 lg:px-10 lg:pb-32 lg:pt-52">
+      <div className="mx-auto w-full max-w-7xl px-6 pb-24 pt-40 lg:px-10 lg:pb-20 lg:pt-44">
         {crumbs ? (
           <Breadcrumbs crumbs={crumbs} />
         ) : eyebrow ? (

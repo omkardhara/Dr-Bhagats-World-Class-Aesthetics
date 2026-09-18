@@ -236,7 +236,7 @@ function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
 
   return (
     <section id={doctor.slug} className="scroll-mt-24 border-t border-brand-gray-muted/20">
-      <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-36">
+      <div className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-10 lg:py-28">
         {hasPortrait ? (
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:items-end">
             <div className={`lg:col-span-6 ${flip ? "lg:order-2 lg:col-start-7" : ""}`}>
@@ -258,7 +258,7 @@ function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
           <Reveal>{header}</Reveal>
         )}
 
-        <div className="mt-24 grid grid-cols-1 gap-16 lg:grid-cols-12">
+        <div className="mt-24 grid grid-cols-1 gap-16 lg:mt-20 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Reveal>
               {paragraphs(doctor.biography).map((paragraph) => (
@@ -303,7 +303,7 @@ function DoctorProfile({ doctor, flip }: { doctor: Doctor; flip: boolean }) {
 
         {doctor.quote ? (
           <Reveal>
-            <figure className="mt-24 border-t border-brand-gray-muted/25 pt-16">
+            <figure className="mt-24 border-t border-brand-gray-muted/25 pt-16 lg:mt-16 lg:pt-12">
               <Eyebrow ground="black">Philosophy</Eyebrow>
               <blockquote className="mt-10 max-w-4xl text-2xl font-normal leading-[1.35] tracking-[0.005em] text-brand-cream lg:text-[2.4rem] lg:leading-[1.25]">
                 &ldquo;{doctor.quote}&rdquo;
@@ -347,7 +347,7 @@ export default async function AboutPage() {
 
       {doctors.length > 0 ? (
         <div id="doctors" className="scroll-mt-24 bg-brand-black">
-          <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
+          <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-24">
             <Reveal>
               <Eyebrow ground="black">The doctors</Eyebrow>
               <h2 className="mt-10 max-w-4xl text-3xl font-normal leading-[1.15] tracking-[0.005em] text-brand-cream sm:text-4xl lg:text-5xl">

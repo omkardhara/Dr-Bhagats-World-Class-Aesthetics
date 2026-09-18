@@ -104,7 +104,7 @@ export default async function SignaturePage() {
           id={programme.slug}
           className="scroll-mt-24 border-t border-brand-gray-muted/30 bg-brand-bone"
         >
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-12 lg:px-10 lg:py-32">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-12 lg:px-10 lg:py-24">
             <header className="lg:col-span-4">
               <div className="lg:sticky lg:top-32">
                 <span className="block text-xs tracking-widest text-brand-champagne-dark">{pad(index + 1)}</span>
@@ -215,7 +215,7 @@ export default async function SignaturePage() {
 
       {/* A large, quiet close in place of the usual consultation block. */}
       <section className="bg-brand-black">
-        <div className="mx-auto w-full max-w-7xl px-6 py-40 lg:px-10 lg:py-56">
+        <div className="mx-auto w-full max-w-7xl px-6 py-40 lg:px-10 lg:py-32">
           <Reveal>
             <Eyebrow ground="black">Begin with a consultation</Eyebrow>
             <h2 className="mt-12 max-w-4xl text-5xl font-normal leading-[1.05] tracking-[0.01em] text-brand-cream sm:text-6xl lg:text-7xl">

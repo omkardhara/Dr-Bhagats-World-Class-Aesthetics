@@ -31,8 +31,8 @@ const CONTINUE = [
 export default function Footer() {
   return (
     <footer className="border-t border-brand-gray-muted/25 bg-brand-black">
-      <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-28">
-        <div className="grid grid-cols-1 gap-12 border-b border-brand-gray-muted/25 pb-20 lg:grid-cols-12 lg:gap-10">
+      <div className="mx-auto w-full max-w-7xl px-6 pt-24 lg:px-10 lg:pt-24">
+        <div className="grid grid-cols-1 gap-12 border-b border-brand-gray-muted/25 pb-20 lg:grid-cols-12 lg:gap-10 lg:pb-16">
           <div className="lg:col-span-5">
             <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
               Continue the conversation
@@ -64,7 +64,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-16 pt-20 lg:grid-cols-12 lg:gap-10">
+        <div className="grid grid-cols-1 gap-16 pt-20 lg:grid-cols-12 lg:gap-10 lg:pt-16">
           <div className="lg:col-span-4">
             <Image
               src="/brand/logo-vertical-light.svg"
@@ -150,7 +150,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 flex flex-col gap-6 border-t border-brand-gray-muted/25 py-10 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-20 flex flex-col gap-6 border-t lg:mt-16 border-brand-gray-muted/25 py-10 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">
             &copy; {new Date().getFullYear()} {BRAND.legalName}
           </p>

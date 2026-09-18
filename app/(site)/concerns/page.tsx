@@ -48,13 +48,14 @@ export default async function ConcernsPage() {
       />
 
       <Section ground="bone">
-        <ul>
+        {/* The rows carry their own padding, so the list is pulled flush with the section. */}
+        <ul className="lg:-my-10">
           {concerns.map((concern, index) => (
             <li key={concern._id} className="border-t border-brand-gray-muted/30 first:border-t-0">
               <Reveal>
                 <Link
                   href={`/concerns/${concern.slug}`}
-                  className="group grid grid-cols-1 gap-5 py-12 lg:grid-cols-12 lg:gap-12"
+                  className="group grid grid-cols-1 gap-5 py-12 lg:grid-cols-12 lg:gap-12 lg:py-10"
                 >
                   <span className="text-xs tracking-widest text-brand-champagne-dark lg:col-span-1 lg:pt-3">
                     {pad(index + 1)}

@@ -31,7 +31,7 @@ export default async function BookPage() {
 
   return (
     <main className="flex-1 bg-brand-black">
-      <section className="mx-auto w-full max-w-7xl px-6 pb-20 pt-40 lg:px-10 lg:pb-24 lg:pt-52">
+      <section className="mx-auto w-full max-w-7xl px-6 pb-20 pt-40 lg:px-10 lg:pb-20 lg:pt-44">
         <p className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">{PHILOSOPHY_LINE}</p>
         <h1 className="mt-10 max-w-4xl text-4xl font-normal leading-[1.08] tracking-[0.01em] text-brand-cream sm:text-5xl lg:text-7xl">
           Book a Consultation
@@ -43,7 +43,7 @@ export default async function BookPage() {
         <span aria-hidden className="mt-16 block h-px w-full bg-champagne-gradient" />
       </section>
 
-      <section className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-20 px-6 pb-28 lg:grid-cols-12 lg:px-10 lg:pb-40">
+      <section className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-20 px-6 pb-28 lg:grid-cols-12 lg:px-10 lg:pb-28">
         <div className="lg:col-span-7">
           <BookForm concerns={concerns} />
         </div>
