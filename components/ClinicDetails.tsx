@@ -1,6 +1,7 @@
 import { directionsHref, formatPhone, LOCATIONS, whatsappHref } from "@/lib/site";
 
-const DETAIL_LINK = "text-brand-cream transition-colors hover:text-brand-champagne-light";
+const DETAIL_LINK =
+  "inline-flex min-h-11 items-center text-brand-cream transition-colors hover:text-brand-champagne-light";
 
 type Row = { label: string; value: string; href?: string };
 
@@ -29,7 +30,7 @@ export default function ClinicDetails({ columns = 1 }: { columns?: 1 | 2 }) {
             <p className="text-2xl font-normal tracking-[0.01em] text-brand-cream">{location.name}</p>
             <dl className="mt-6">
               <div className="border-t border-brand-gray-muted/25 py-5">
-                <dt className="text-[0.6rem] uppercase tracking-widest text-brand-gray-muted">Location</dt>
+                <dt className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">Location</dt>
                 <dd className="mt-2 text-[0.9rem] leading-[1.7] text-brand-cream/85">
                   {location.streetAddress}, {location.locality}, {location.region} {location.postalCode}
                 </dd>
@@ -46,7 +47,7 @@ export default function ClinicDetails({ columns = 1 }: { columns?: 1 | 2 }) {
               </div>
               {rows.map((row) => (
                 <div key={row.label} className="border-t border-brand-gray-muted/25 py-5">
-                  <dt className="text-[0.6rem] uppercase tracking-widest text-brand-gray-muted">{row.label}</dt>
+                  <dt className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">{row.label}</dt>
                   <dd className="mt-2 text-[0.95rem]">
                     {row.href ? (
                       <a href={row.href} className={DETAIL_LINK}>

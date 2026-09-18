@@ -14,7 +14,7 @@ import {
 } from "@/lib/site";
 
 const DETAIL_LINK =
-  "inline-flex min-h-10 items-center text-[0.8rem] text-brand-cream transition-colors hover:text-brand-champagne-light";
+  "inline-flex min-h-11 items-center text-[0.8rem] text-brand-cream transition-colors hover:text-brand-champagne-light";
 
 /** The doctors' closing invitation: four ways on, in the order a patient reads them. */
 const CONTINUE = [
@@ -92,7 +92,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="inline-flex min-h-10 items-center text-[0.8rem] text-brand-gray-muted transition-colors hover:text-brand-cream"
+                      className="inline-flex min-h-11 items-center text-[0.8rem] text-brand-gray-muted transition-colors hover:text-brand-cream"
                     >
                       {link.label}
                     </Link>
@@ -161,7 +161,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-cream"
+                  className="inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-cream"
                 >
                   {name}
                 </a>

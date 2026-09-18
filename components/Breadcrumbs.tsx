@@ -66,7 +66,7 @@ export default function Breadcrumbs({
                 ) : (
                   <Link
                     href={crumb.href}
-                    className={`transition-colors ${linkColor}`}
+                    className={`inline-flex min-h-11 items-center transition-colors ${linkColor}`}
                   >
                     {crumb.label}
                   </Link>

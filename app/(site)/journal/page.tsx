@@ -76,7 +76,7 @@ export default async function JournalPage({ searchParams }: PageProps<"/journal"
               <Link
                 href="/journal"
                 aria-current={active ? undefined : "page"}
-                className={`inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest transition-colors hover:text-brand-black ${
+                className={`-mx-2 inline-flex min-h-11 items-center px-2 text-[0.65rem] uppercase tracking-widest transition-colors hover:text-brand-black ${
                   active ? "text-brand-gray-text" : "text-brand-black"
                 }`}
               >
@@ -88,7 +88,7 @@ export default async function JournalPage({ searchParams }: PageProps<"/journal"
                 <Link
                   href={`/journal?category=${category.value}`}
                   aria-current={active === category.value ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest transition-colors hover:text-brand-black ${
+                  className={`-mx-2 inline-flex min-h-11 items-center px-2 text-[0.65rem] uppercase tracking-widest transition-colors hover:text-brand-black ${
                     active === category.value ? "text-brand-black" : "text-brand-gray-text"
                   }`}
                 >

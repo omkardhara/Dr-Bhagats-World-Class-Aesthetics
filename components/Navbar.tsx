@@ -25,7 +25,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /** While the menu is open: Escape closes it, and the page behind stays still. */
+  /**
+   * While the menu is open: Escape closes it, the page behind stays still, and
+   * the page behind is made inert - it is fully covered, so keyboard and
+   * screen-reader users must not be able to move into it unseen.
+   */
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
@@ -33,9 +37,18 @@ export default function Navbar() {
     };
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const covered = [document.getElementById("main"), document.querySelector("footer")].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement
+    );
+    covered.forEach((el) => {
+      el.inert = true;
+    });
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
+      covered.forEach((el) => {
+        el.inert = false;
+      });
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);

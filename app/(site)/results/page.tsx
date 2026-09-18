@@ -124,7 +124,7 @@ export default async function ResultsPage() {
                             width={900}
                             sizes="(min-width: 1024px) 30vw, 50vw"
                           />
-                          <figcaption className={`mt-3 text-[0.6rem] uppercase tracking-widest ${p.body}`}>
+                          <figcaption className={`mt-3 text-[0.65rem] uppercase tracking-widest ${p.body}`}>
                             Before
                           </figcaption>
                         </figure>
@@ -135,7 +135,7 @@ export default async function ResultsPage() {
                             width={900}
                             sizes="(min-width: 1024px) 30vw, 50vw"
                           />
-                          <figcaption className={`mt-3 text-[0.6rem] uppercase tracking-widest ${p.body}`}>
+                          <figcaption className={`mt-3 text-[0.65rem] uppercase tracking-widest ${p.body}`}>
                             After
                           </figcaption>
                         </figure>
@@ -189,7 +189,7 @@ export default async function ResultsPage() {
                         <blockquote className={`text-[0.95rem] leading-[1.8] ${p.body}`}>
                           &ldquo;{testimonial.quote}&rdquo;
                         </blockquote>
-                        <p className={`mt-4 text-[0.6rem] uppercase tracking-widest ${p.eyebrow}`}>
+                        <p className={`mt-4 text-[0.65rem] uppercase tracking-widest ${p.eyebrow}`}>
                           {testimonial.author}
                         </p>
                       </Reveal>
