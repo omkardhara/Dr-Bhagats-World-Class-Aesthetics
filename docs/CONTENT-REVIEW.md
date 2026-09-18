@@ -20,10 +20,10 @@ Drafted to fill a gap, and needing clinical sign-off:
 
 | Where | What was drafted |
 | --- | --- |
-| Technology pages (7) | What it is, what it can help with, who may benefit, what treatment involves, **downtime and recovery**, and where it fits in a plan, for Endolift X, Thermage FLX, Ultraformer MPT, Sylfirm X, Fotona SP Dynamis Max, Fotona StarWalker and GentleYAG |
-| Treatment approaches (8) | What it can address, what the doctor considers, realistic expectations, downtime, how treatments combine |
-| Signature programmes (5) | Who it is for, what is assessed, how it is sequenced, why it is a programme, and the objective |
-| Concerns (9) | Understanding the concern, how we assess it, our approach |
+| Technology pages (7) | The six patient questions - what it does, who it suits, what it addresses, **session time**, **downtime**, combinations and when it may not be chosen - plus realistic expectations. How we decide passages on Endolift X, Thermage FLX and Ultraformer MPT |
+| Treatment approaches (8) | What it addresses, what we assess, possible treatment options, expectations, downtime, when combinations are useful, results and maintenance |
+| Signature programmes (5) | What is assessed, how treatment is personalised, and the six stages - Assess, Prioritise, Treat, Reassess, Refine, Maintain |
+| Concerns (9) | The concern, understanding, how we assess it, your treatment approach, before treatment is selected, results and expectations |
 | Homepage | The five approach steps, the clinical-judgement line, the Clinic section |
 | The Clinic | The space descriptions, each shown only once photographed |
 
