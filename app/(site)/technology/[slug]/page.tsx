@@ -5,8 +5,8 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
+import { pad } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
-import { technologyCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { machineBySlugQuery, machineSlugsQuery } from "@/sanity/lib/queries";
 import type { Machine } from "@/sanity/lib/types";
@@ -39,16 +39,20 @@ export async function generateMetadata({
   if (!machine?.dedicatedPage) return { title: "Technology" };
   return {
     title: machine.name,
-    description: machine.whatItIs ?? machine.purpose ?? machine.description,
+    description: machine.whatItIs ?? machine.purpose,
     alternates: { canonical: `/technology/${machine.slug}` },
   };
 }
 
 /**
- * A page for a technology that carries the practice, written patient-facing:
- * what it is, what it helps with, who may benefit, what treatment involves,
- * downtime, and where it fits within a plan. Every other technology redirects
- * to its card on /technology.
+ * Each page answers the doctors' six patient questions in their order: what
+ * does it do, who is it suitable for, what concerns can it address, how long
+ * is a session, what is the downtime, and what can it be combined with - and
+ * when might it not be chosen - with realistic expectations alongside.
+ *
+ * It reads as "what this technology allows us to do, and how the doctors
+ * decide when it is appropriate". There is deliberately no specification
+ * section. Technologies without a dedicated page redirect to their card.
  */
 export default async function MachinePage({ params }: PageProps<"/technology/[slug]">) {
   const { slug } = await params;
@@ -56,7 +60,11 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
   if (!machine) notFound();
   if (!machine.dedicatedPage) permanentRedirect(`/technology#${machine.slug}`);
 
-  const categories = (machine.categories ?? []).map(technologyCategoryLabel).filter(Boolean);
+  const practical = [
+    { title: "How long is a session?", body: machine.sessionTime },
+    { title: "What is the downtime and recovery?", body: machine.downtime },
+    { title: "What should you expect?", body: machine.expectations },
+  ].filter((item): item is { title: string; body: string } => Boolean(item.body));
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -66,7 +74,7 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
           "@type": "MedicalDevice",
           "@id": `${SITE_URL}/technology/${machine.slug}#device`,
           name: machine.name,
-          description: machine.whatItIs ?? machine.description,
+          description: machine.whatItIs,
           url: `${SITE_URL}/technology/${machine.slug}`,
         }}
       />
@@ -79,76 +87,57 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
         ]}
         title={machine.name}
         lead={machine.purpose}
-      />
+      >
+        <p className="mt-10 max-w-xl text-[0.9rem] leading-[1.7] text-brand-champagne-light">
+          Selected by your doctor after assessment, as one part of a personalised plan.
+        </p>
+      </PageHero>
 
       <SanityPicture image={machine.image} ratio="21/9" width={2400} priority sizes="100vw" />
 
       {machine.whatItIs ? (
-        <Rail ground="bone" index={1} title="What it is">
+        <Rail ground="bone" index={1} title="What does it do?">
           <Reveal>
             <Prose>{machine.whatItIs}</Prose>
-            {categories.length > 0 ? (
-              <p className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
-                {categories.join(" · ")}
-              </p>
-            ) : null}
+          </Reveal>
+          {/* Editorial depth for the major lifting and tightening technologies. */}
+          {machine.perspective ? (
+            <Reveal>
+              <div className="mt-12 border-l border-brand-champagne-dark pl-6">
+                <Eyebrow>How we decide</Eyebrow>
+                <p className="mt-4 max-w-xl text-[1.1rem] leading-[1.75] text-brand-black">
+                  {machine.perspective}
+                </p>
+              </div>
+            </Reveal>
+          ) : null}
+        </Rail>
+      ) : null}
+
+      {machine.whoMayBenefit ? (
+        <Rail ground="white" index={2} title="Who is it suitable for?">
+          <Reveal>
+            <Prose ground="white">{machine.whoMayBenefit}</Prose>
           </Reveal>
         </Rail>
       ) : null}
 
       {machine.helpsWith?.length ? (
-        <Rail ground="white" index={2} title="What it can help with">
-          <ul>
+        <Rail ground="bone" index={3} title="What concerns can it address?">
+          <ul className="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
             {machine.helpsWith.map((item, index) => (
-              <li key={item} className="border-t border-brand-gray-muted/30 py-5 first:border-t-0 first:pt-0">
-                <Reveal index={index}>
-                  <span className="text-[1.1rem] leading-[1.6] text-brand-black">{item}</span>
+              <li key={item} className="border-t border-brand-gray-muted/30 py-5">
+                <Reveal index={index % 2}>
+                  <span className="text-[1.05rem] leading-[1.6] text-brand-black">{item}</span>
                 </Reveal>
               </li>
             ))}
           </ul>
-        </Rail>
-      ) : null}
-
-      {machine.whoMayBenefit ? (
-        <Rail ground="bone" index={3} title="Who may benefit">
-          <Reveal>
-            <Prose>{machine.whoMayBenefit}</Prose>
-          </Reveal>
-        </Rail>
-      ) : null}
-
-      {machine.whatItInvolves ? (
-        <Rail ground="white" index={4} title="What treatment involves">
-          <Reveal>
-            <Prose ground="white">{machine.whatItInvolves}</Prose>
-          </Reveal>
-        </Rail>
-      ) : null}
-
-      {machine.downtime ? (
-        <Rail ground="bone" index={5} title="Downtime and recovery">
-          <Reveal>
-            <Prose>{machine.downtime}</Prose>
-            <p className="mt-8 text-[0.85rem] leading-[1.7] text-brand-gray-text">
-              Recovery varies with the settings chosen for you. Your doctor will tell you what to
-              expect before treatment begins.
-            </p>
-          </Reveal>
-        </Rail>
-      ) : null}
-
-      {machine.whereItFits ? (
-        <Rail ground="white" index={6} title="Where it fits in a plan">
-          <Reveal>
-            <Prose ground="white">{machine.whereItFits}</Prose>
-          </Reveal>
           {machine.concerns?.length ? (
-            <div className="mt-12">
-              <Eyebrow ground="white">Concerns it is used within</Eyebrow>
+            <div className="mt-14">
+              <Eyebrow>Start with the concern</Eyebrow>
               <div className="mt-6">
                 <Rows
-                  ground="white"
                   items={machine.concerns.map((concern) => ({
                     key: concern._id,
                     title: concern.title,
@@ -162,9 +151,43 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
         </Rail>
       ) : null}
 
+      {practical.length > 0 ? (
+        <Section ground="white">
+          <ul className="grid grid-cols-1 gap-14 md:grid-cols-3 md:gap-10">
+            {practical.map((item, index) => (
+              <li key={item.title}>
+                <Reveal index={index}>
+                  <span className="block text-xs tracking-widest text-brand-champagne-dark">
+                    {pad(index + 4)}
+                  </span>
+                  <span aria-hidden className="mt-6 block h-px w-full bg-champagne-gradient" />
+                  <h2 className="mt-8 text-xl font-normal leading-snug tracking-[0.01em] text-brand-black">
+                    {item.title}
+                  </h2>
+                  <p className="mt-5 text-[0.98rem] leading-[1.8] text-brand-gray-text">{item.body}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-14 max-w-2xl text-[0.85rem] leading-[1.7] text-brand-gray-text">
+            Every patient is different. Your doctor will explain what to expect for your own treatment
+            before it begins.
+          </p>
+        </Section>
+      ) : null}
+
+      {machine.combinations ? (
+        <Rail ground="bone" index={7} title="Combinations, and when it may not be chosen">
+          <Reveal>
+            <Prose>{machine.combinations}</Prose>
+          </Reveal>
+        </Rail>
+      ) : null}
+
       {machine.approaches?.length ? (
-        <Rail ground="bone" title="Treatment approaches">
+        <Rail ground="white" title="Treatment approaches">
           <Rows
+            ground="white"
             items={machine.approaches.map((approach) => ({
               key: approach._id,
               title: approach.title,
@@ -172,15 +195,6 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
             }))}
           />
         </Rail>
-      ) : null}
-
-      {machine.description ? (
-        <Section ground="white" className="border-t border-brand-gray-muted/20">
-          <Eyebrow ground="white">Technical note</Eyebrow>
-          <p className="mt-6 max-w-2xl text-[0.95rem] leading-[1.8] text-brand-gray-text">
-            {machine.description}
-          </p>
-        </Section>
       ) : null}
 
       <BeginConsultation />

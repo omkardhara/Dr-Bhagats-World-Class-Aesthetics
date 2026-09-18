@@ -5,9 +5,10 @@ import { RESULT_CATEGORIES } from "../lib/categories";
 /**
  * A patient's concern: the primary way the site is organised.
  *
- * Field order mirrors the page, which mirrors the patient journey - the
- * concern is understood and assessed before any approach is described, and
- * technology is referenced last. Keep it that way when adding fields.
+ * Field order mirrors the page, which mirrors the patient journey the doctors
+ * set out: the concern, understanding, how we assess it, your treatment
+ * approach, possible treatments and technologies, then expectations. The
+ * concern always comes before the technology. Keep it that way.
  */
 export const concern = defineType({
   name: "concern",
@@ -30,6 +31,13 @@ export const concern = defineType({
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
     defineField({ name: "summary", title: "Summary", type: "text", rows: 2 }),
     defineField({
+      name: "experience",
+      title: "The concern",
+      description: "What the patient is experiencing, in their terms.",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
       name: "understanding",
       title: "Understanding the concern",
       type: "text",
@@ -43,9 +51,24 @@ export const concern = defineType({
     }),
     defineField({
       name: "approach",
-      title: "Our approach",
+      title: "Your treatment approach",
+      description: "How the treatment plan is personalised.",
       type: "text",
       rows: 5,
+    }),
+    defineField({
+      name: "selection",
+      title: "Before treatment is selected",
+      description:
+        "Introduces the treatment options: what the assessment determines first. Never 'we offer these treatments'.",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "expectations",
+      title: "Results and expectations",
+      type: "text",
+      rows: 4,
     }),
     defineField({
       name: "relatedConditions",

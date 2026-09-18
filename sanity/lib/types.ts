@@ -21,9 +21,12 @@ export type ConcernSummary = Ref & {
 };
 
 export type Concern = ConcernSummary & {
+  experience?: string;
   understanding?: string;
   assessment?: string;
   approach?: string;
+  selection?: string;
+  expectations?: string;
   resultCategory?: string;
   image?: SanityImage | null;
   faqs?: { question: string; answer: string }[];
@@ -44,9 +47,11 @@ export type Approach = Ref & {
   philosophy?: string;
   addresses?: string[];
   considerations?: string[];
+  options?: string;
   expectations?: string;
   downtime?: string;
   combinations?: string;
+  maintenance?: string;
   image?: SanityImage | null;
   modalities?: { _id: string; name: string; description?: string }[];
   concerns?: (Ref & { summary?: string })[];
@@ -63,7 +68,7 @@ export type Programme = ProgrammeSummary & {
   forWhom?: string;
   assessed?: string[];
   sequence?: { _key: string; title: string; description?: string }[];
-  whyProgramme?: string;
+  personalisation?: string;
   objective?: string;
   image?: SanityImage | null;
 };
@@ -75,11 +80,13 @@ export type TechnologyItem = TechnologyRef & {
 export type Machine = TechnologyItem & {
   description?: string;
   whatItIs?: string;
-  helpsWith?: string[];
+  perspective?: string;
   whoMayBenefit?: string;
-  whatItInvolves?: string;
+  helpsWith?: string[];
+  sessionTime?: string;
   downtime?: string;
-  whereItFits?: string;
+  expectations?: string;
+  combinations?: string;
   image?: SanityImage | null;
   approaches?: Ref[];
   concerns?: (Ref & { summary?: string })[];

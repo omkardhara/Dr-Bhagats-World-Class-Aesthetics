@@ -17,6 +17,9 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
+/** Every programme moves through the same six stages; only what happens within them differs. */
+const STAGES = ["Assess", "Prioritise", "Treat", "Reassess", "Refine", "Maintain"];
+
 /** The doctors' own introduction. */
 const INTRODUCTION = [
   "No two faces age in exactly the same way. No two patients have the same skin, anatomy or expectations.",
@@ -34,9 +37,9 @@ function Detail({ title, children }: { title: string; children: React.ReactNode 
 }
 
 /**
- * Technologies are never listed under a programme. What makes each one
- * proprietary shows through its structure - who it is for, what is assessed,
- * how it is sequenced - rather than through philosophy repeated again.
+ * Each programme is a clinical philosophy, never a package: what is assessed,
+ * how treatment is personalised, and how it moves through the same six stages.
+ * Technologies are never listed under a programme, and no prices appear.
  */
 export default async function SignaturePage() {
   let programmes: Programme[] = [];
@@ -75,6 +78,25 @@ export default async function SignaturePage() {
           </div>
         </div>
       </Section>
+
+      <section className="border-t border-brand-gray-muted/30 bg-brand-white">
+        <div className="mx-auto w-full max-w-7xl px-6 py-20 lg:px-10 lg:py-24">
+          <Eyebrow ground="white">The same clinical sequence, for every programme</Eyebrow>
+          <ol className="mt-10 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
+            {STAGES.map((stage, index) => (
+              <li key={stage}>
+                <span className="block text-xs tracking-widest text-brand-champagne-dark">{pad(index + 1)}</span>
+                <span aria-hidden className="mt-4 block h-px w-full bg-champagne-gradient" />
+                <span className="mt-5 block text-xl font-normal tracking-[0.01em] text-brand-black">{stage}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-12 max-w-2xl text-[0.98rem] leading-[1.8] text-brand-gray-text">
+            Treatment happens in stages rather than all at once. Each stage is reviewed before the next is
+            decided, and what happens within it is specific to you.
+          </p>
+        </div>
+      </section>
 
       {programmes.map((programme, index) => (
         <section
@@ -137,6 +159,14 @@ export default async function SignaturePage() {
                   </Detail>
                 ) : null}
 
+                {programme.personalisation ? (
+                  <Detail title="How treatment is personalised">
+                    <p className="max-w-xl text-[1.05rem] leading-[1.8] text-brand-black">
+                      {programme.personalisation}
+                    </p>
+                  </Detail>
+                ) : null}
+
                 {programme.sequence?.length ? (
                   <Detail title="How the programme is sequenced">
                     <ol className="flex flex-col gap-8">
@@ -161,13 +191,6 @@ export default async function SignaturePage() {
                   </Detail>
                 ) : null}
 
-                {programme.whyProgramme ? (
-                  <Detail title="Why it is a programme, not a single treatment">
-                    <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
-                      {programme.whyProgramme}
-                    </p>
-                  </Detail>
-                ) : null}
               </div>
 
               {programme.closing ? (

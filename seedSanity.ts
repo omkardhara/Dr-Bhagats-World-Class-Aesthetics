@@ -191,12 +191,14 @@ async function seed() {
         ...(m.whatItIs ? { whatItIs: m.whatItIs } : {}),
         ...(m.helpsWith ? { helpsWith: m.helpsWith } : {}),
         ...(m.whoMayBenefit ? { whoMayBenefit: m.whoMayBenefit } : {}),
-        ...(m.whatItInvolves ? { whatItInvolves: m.whatItInvolves } : {}),
+        ...(m.perspective ? { perspective: m.perspective } : {}),
+        ...(m.sessionTime ? { sessionTime: m.sessionTime } : {}),
         ...(m.downtime ? { downtime: m.downtime } : {}),
-        ...(m.whereItFits ? { whereItFits: m.whereItFits } : {}),
+        ...(m.expectations ? { expectations: m.expectations } : {}),
+        ...(m.combinations ? { combinations: m.combinations } : {}),
       },
-      // Replaced by `categories` and `dedicatedPage`.
-      ["category", "featured"]
+      // Superseded fields: the old category model, and the page fields the six questions replaced.
+      ["category", "featured", "whatItInvolves", "whereItFits"]
     );
   }
 
@@ -225,9 +227,12 @@ async function seed() {
         slug: slugField(c.slug),
         order,
         summary: c.summary,
+        experience: c.experience,
         understanding: c.understanding,
         assessment: c.assessment,
         approach: c.approach,
+        selection: c.selection,
+        expectations: c.expectations,
         relatedConditions: c.relatedConditions,
         resultCategory: c.resultCategory,
         programmes: c.programmes.map((t) => ref(ids.programme(t))),
@@ -248,9 +253,11 @@ async function seed() {
       philosophy: a.philosophy,
       addresses: a.addresses,
       considerations: a.considerations,
+      options: a.options,
       expectations: a.expectations,
       downtime: a.downtime,
       combinations: a.combinations,
+      maintenance: a.maintenance,
       modalities: a.modalities.map((name) => ref(ids.modality(name))),
       concerns: a.concerns.map((t) => ref(ids.concern(t))),
       technologies: a.technologies.map((name) => ref(ids.machine(name))),
@@ -273,13 +280,13 @@ async function seed() {
         forWhom: p.forWhom,
         assessed: p.assessed,
         sequence: p.sequence.map((stage, index) => ({ _key: "s" + index, ...stage })),
-        whyProgramme: p.whyProgramme,
+        personalisation: p.personalisation,
         objective: p.objective,
         concerns: p.concerns.map((t) => ref(ids.concern(t))),
         approaches: p.approaches.map((t) => ref(ids.approach(t))),
       },
       // The previous programme shape.
-      ["summary", "approach", "stages", ...(p.closing ? [] : ["closing"])]
+      ["summary", "approach", "stages", "whyProgramme", ...(p.closing ? [] : ["closing"])]
     );
   });
 

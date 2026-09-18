@@ -65,7 +65,7 @@ export const LOCATIONS: Location[] = [
     id: "goregaon",
     name: "Goregaon East",
     streetAddress:
-      "H RishabhRaj Serenity Decks, Shop No. 2 and Office No. 102, Sauran CHSL",
+      "Serenity Decks, Ground and First Floor, Aba Karmarkar Road",
     locality: "Goregaon East, Mumbai",
     region: "Maharashtra",
     postalCode: "400063",
@@ -82,7 +82,7 @@ export const LOCATIONS: Location[] = [
     id: "vashi",
     name: "Vashi, Navi Mumbai",
     streetAddress:
-      "Ground Floor, Plot No. 19 and 20, Satra Plaza, Shop No. 63, Palm Beach Road, Sector 19D",
+      "Satra Plaza, Unit No. 63, Ground Floor, Palm Beach Road, Sector 19D",
     locality: "Vashi, Navi Mumbai",
     region: "Maharashtra",
     postalCode: "400703",

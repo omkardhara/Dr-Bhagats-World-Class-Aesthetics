@@ -6,9 +6,8 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { BeginConsultation, Eyebrow, PageHero, Prose, Rail, Rows, Section } from "@/components/ui";
-import { formatDate } from "@/lib/format";
-import { technologyHref } from "@/lib/links";
-import { programmeHref } from "@/lib/links";
+import { formatDate, pad } from "@/lib/format";
+import { programmeHref, technologyHref } from "@/lib/links";
 import { SITE_URL } from "@/lib/site";
 import { journalCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
@@ -48,20 +47,12 @@ export async function generateMetadata({
   };
 }
 
-function Detail({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="border-t border-brand-gray-muted/30 py-8 first:border-t-0 first:pt-0">
-      <h3 className="text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">{title}</h3>
-      <div className="mt-5">{children}</div>
-    </div>
-  );
-}
-
 /**
- * Concise and useful, in the order a patient reads it: what this addresses,
- * what the doctor weighs up, what a plan may include, and then the practical
- * questions - expectations, recovery and how treatments combine. Deliberately
- * no FAQ section.
+ * The doctors' order: 01 what the approach addresses, 02 what we assess,
+ * 03 the possible treatment options, then 04 expectations, 05 downtime,
+ * 06 when combinations are useful and 07 results and maintenance, before
+ * 08 booking. Technology appears inside the treatment options - it is never
+ * the strategy itself.
  */
 export default async function ApproachPage({ params }: PageProps<"/treatment-approaches/[slug]">) {
   const { slug } = await params;
@@ -69,6 +60,13 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
   if (!approach) notFound();
 
   const url = `${SITE_URL}/treatment-approaches/${approach.slug}`;
+
+  const outlook = [
+    { title: "What should you realistically expect?", body: approach.expectations },
+    { title: "Downtime and recovery", body: approach.downtime },
+    { title: "When are combinations useful?", body: approach.combinations },
+    { title: "Results and maintenance", body: approach.maintenance },
+  ].filter((item): item is { title: string; body: string } => Boolean(item.body));
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -97,7 +95,7 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
       <SanityPicture image={approach.image} ratio="21/9" width={2400} priority sizes="100vw" />
 
       {approach.addresses?.length ? (
-        <Rail ground="bone" index={1} title="What it can address">
+        <Rail ground="bone" index={1} title="What this approach addresses">
           <ul className="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
             {approach.addresses.map((item, index) => (
               <li key={item} className="border-t border-brand-gray-muted/30 py-5">
@@ -116,7 +114,7 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
       ) : null}
 
       {approach.considerations?.length ? (
-        <Rail ground="white" index={2} title="What your doctor considers">
+        <Rail ground="white" index={2} title="What we assess">
           <Rows
             ground="white"
             items={approach.considerations.map((consideration) => ({
@@ -127,50 +125,72 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
         </Rail>
       ) : null}
 
-      {approach.modalities?.length ? (
-        <Rail ground="bone" index={3} title="What a plan may include">
-          <Reveal>
-            <Prose>
-              A plan draws on some of the following, in the combination and order your doctor
-              recommends after assessment.
-            </Prose>
-          </Reveal>
-          <div className="mt-10">
-            <Rows
-              items={approach.modalities.map((modality) => ({
-                key: modality._id,
-                title: modality.name,
-                detail: modality.description,
-              }))}
-            />
-          </div>
+      {approach.options || approach.modalities?.length ? (
+        <Rail ground="bone" index={3} title="Possible treatment options">
+          {approach.options ? (
+            <Reveal>
+              <Prose>{approach.options}</Prose>
+            </Reveal>
+          ) : null}
+          {approach.modalities?.length ? (
+            <div className="mt-12">
+              <Eyebrow>What a plan may include</Eyebrow>
+              <div className="mt-6">
+                <Rows
+                  items={approach.modalities.map((modality) => ({
+                    key: modality._id,
+                    title: modality.name,
+                    detail: modality.description,
+                  }))}
+                />
+              </div>
+            </div>
+          ) : null}
+          {/* Technology sits inside the treatment strategy, never in place of it. */}
+          {approach.technologies?.length ? (
+            <div className="mt-12">
+              <Eyebrow>Technology that may be used within the plan</Eyebrow>
+              <p className="mt-4 max-w-xl text-[0.9rem] leading-[1.7] text-brand-gray-text">
+                Selected by your doctor after assessment, and only where it is clinically appropriate.
+              </p>
+              <ul className="mt-6 flex flex-wrap gap-x-8">
+                {approach.technologies.map((technology) => (
+                  <li key={technology._id}>
+                    <Link
+                      href={technologyHref(technology)}
+                      className="inline-flex min-h-11 items-center text-[1rem] text-brand-black transition-colors hover:text-brand-champagne-dark"
+                    >
+                      {technology.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </Rail>
       ) : null}
 
-      {approach.expectations || approach.downtime || approach.combinations ? (
-        <Rail ground="white" index={4} title="What to expect">
-          {approach.expectations ? (
-            <Detail title="Realistic expectations">
-              <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
-                {approach.expectations}
-              </p>
-            </Detail>
-          ) : null}
-          {approach.downtime ? (
-            <Detail title="Downtime and recovery">
-              <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
-                {approach.downtime}
-              </p>
-            </Detail>
-          ) : null}
-          {approach.combinations ? (
-            <Detail title="How treatments may be combined">
-              <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
-                {approach.combinations}
-              </p>
-            </Detail>
-          ) : null}
-        </Rail>
+      {outlook.length > 0 ? (
+        <Section ground="white">
+          <ul className="grid grid-cols-1 gap-14 md:grid-cols-2 md:gap-x-16">
+            {outlook.map((item, index) => (
+              <li key={item.title}>
+                <Reveal index={index % 2}>
+                  <span className="block text-xs tracking-widest text-brand-champagne-dark">
+                    {pad(index + 4)}
+                  </span>
+                  <span aria-hidden className="mt-6 block h-px w-full bg-champagne-gradient" />
+                  <h2 className="mt-8 text-xl font-normal leading-snug tracking-[0.01em] text-brand-black">
+                    {item.title}
+                  </h2>
+                  <p className="mt-5 max-w-xl text-[0.98rem] leading-[1.8] text-brand-gray-text">
+                    {item.body}
+                  </p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Section>
       ) : null}
 
       {approach.programmes?.length ? (
@@ -197,28 +217,6 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
               href: `/concerns/${concern.slug}`,
             }))}
           />
-        </Rail>
-      ) : null}
-
-      {approach.technologies?.length ? (
-        <Rail ground="white" title="Technology that may be used">
-          <Reveal>
-            <Prose ground="white">
-              Technology is selected by your doctor after assessment, and only where it is clinically
-              appropriate.
-            </Prose>
-          </Reveal>
-          <div className="mt-10">
-            <Rows
-              ground="white"
-              items={approach.technologies.map((technology) => ({
-                key: technology._id,
-                title: technology.name,
-                detail: technology.purpose,
-                href: technologyHref(technology),
-              }))}
-            />
-          </div>
         </Rail>
       ) : null}
 

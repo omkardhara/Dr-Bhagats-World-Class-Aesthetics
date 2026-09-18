@@ -7,9 +7,10 @@ const text = (name: string, title: string, description: string, rows = 4) =>
  * How the doctors approach a family of concerns. Replaces the old
  * "core service" type, which listed procedures and read as a menu.
  *
- * The page carries concise, useful detail - what it addresses, what the doctor
- * considers, realistic expectations, downtime and how treatments combine -
- * rather than a long FAQ.
+ * The page follows the doctors' order: what the approach addresses, what we
+ * assess, the possible treatment options, realistic expectations, downtime,
+ * when combinations are useful, then results and maintenance. Technology sits
+ * inside the treatment options - it never becomes the strategy itself.
  */
 export const treatmentApproach = defineType({
   name: "treatmentApproach",
@@ -31,30 +32,32 @@ export const treatmentApproach = defineType({
     }),
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
     defineField({ name: "summary", title: "Summary", type: "text", rows: 2 }),
-    defineField({ name: "philosophy", title: "Philosophy", type: "text", rows: 4 }),
     defineField({
       name: "addresses",
-      title: "What it can address",
+      title: "What concern does this approach address?",
       type: "array",
       of: [defineArrayMember({ type: "string" })],
     }),
+    defineField({ name: "philosophy", title: "Philosophy", type: "text", rows: 4 }),
     defineField({
       name: "considerations",
-      title: "What the doctor considers",
+      title: "What does the doctor assess?",
       type: "array",
       of: [defineArrayMember({ type: "string" })],
     }),
     text(
-      "expectations",
-      "Realistic expectations",
-      "What improvement looks like, and over what timescale. No guarantees.",
+      "options",
+      "What are the possible treatment options?",
+      "The strategy in the patient's terms. Technology belongs inside this, not in place of it.",
       4
     ),
-    text("downtime", "Downtime and recovery", "Specific and honest, where it is relevant.", 4),
-    text("combinations", "How treatments may be combined", "Why a plan layers or stages treatment.", 4),
+    text("expectations", "What should the patient realistically expect?", "No guarantees.", 4),
+    text("downtime", "Downtime and recovery", "Specific and honest, where it is relevant.", 3),
+    text("combinations", "When are combinations useful?", "The selection logic behind combining treatments.", 4),
+    text("maintenance", "Results and maintenance", "How results develop, and how they are maintained.", 3),
     defineField({
       name: "modalities",
-      title: "What a plan may include",
+      title: "Treatments a plan may include",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: [{ type: "treatment" }] })],
     }),

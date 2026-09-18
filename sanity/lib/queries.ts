@@ -40,7 +40,7 @@ export const concernsQuery = defineQuery(`
 
 export const concernBySlugQuery = defineQuery(`
   *[_type == "concern" && slug.current == $slug][0]{
-    _id, title, summary, understanding, assessment, approach,
+    _id, title, summary, experience, understanding, assessment, approach, selection, expectations,
     relatedConditions, resultCategory, image, faqs[]{ question, answer },
     "slug": slug.current,
     "programmes": programmes[]->{ _id, title, tagline, "slug": slug.current },
@@ -74,7 +74,7 @@ export const approachesQuery = defineQuery(`{
 export const approachBySlugQuery = defineQuery(`
   *[_type == "treatmentApproach" && slug.current == $slug][0]{
     _id, title, summary, philosophy, considerations, image,
-    addresses, expectations, downtime, combinations,
+    addresses, options, expectations, downtime, combinations, maintenance,
     "slug": slug.current,
     "modalities": modalities[]->{ _id, name, description },
     "concerns": concerns[]->{ _id, title, summary, "slug": slug.current },
@@ -97,7 +97,7 @@ export const approachSlugsQuery = defineQuery(`
 export const programmesQuery = defineQuery(`
   *[_type == "signatureProgramme"] | order(order asc){
     _id, title, shortTitle, tagline, body, closing, image, "slug": slug.current,
-    forWhom, assessed, whyProgramme, objective,
+    forWhom, assessed, personalisation, objective,
     sequence[]{ _key, title, description }
   }
 `);
@@ -114,7 +114,7 @@ export const technologyQuery = defineQuery(`
 export const machineBySlugQuery = defineQuery(`
   *[_type == "machine" && slug.current == $slug][0]{
     _id, name, purpose, description, categories, dedicatedPage, image,
-    whatItIs, helpsWith, whoMayBenefit, whatItInvolves, downtime, whereItFits,
+    whatItIs, perspective, whoMayBenefit, helpsWith, sessionTime, downtime, expectations, combinations,
     "slug": slug.current,
     "concerns": *[_type == "concern" && references(^._id)] | order(order asc){
       _id, title, summary, "slug": slug.current

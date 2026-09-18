@@ -6,9 +6,11 @@ import { defineArrayMember, defineField, defineType } from "sanity";
  * technologies are never listed under a programme, only that they "may be
  * selected according to individual assessment".
  *
- * The methodology is meant to show through the structure - who it is for, what
- * is assessed, how it is sequenced - rather than being described again as
- * philosophy. All five render as sections of the single /signature page.
+ * Each must read as a Dr Bhagat's clinical philosophy, never a package: what
+ * is assessed, how treatment is personalised, and how it is sequenced through
+ * the same six stages - Assess, Prioritise, Treat, Reassess, Refine, Maintain.
+ * No prices, no "treatment A + treatment B". All five render as sections of
+ * the single /signature page.
  */
 export const signatureProgramme = defineType({
   name: "signatureProgramme",
@@ -66,7 +68,8 @@ export const signatureProgramme = defineType({
     defineField({
       name: "sequence",
       title: "How the programme is sequenced",
-      description: "The stages, in order. This is what makes it a programme rather than a treatment.",
+      description:
+        "The six stages, in order: Assess, Prioritise, Treat, Reassess, Refine, Maintain. What each means for this programme.",
       type: "array",
       of: [
         defineArrayMember({
@@ -85,8 +88,10 @@ export const signatureProgramme = defineType({
       ],
     }),
     defineField({
-      name: "whyProgramme",
-      title: "Why it is a programme, not a single treatment",
+      name: "personalisation",
+      title: "How treatment is personalised",
+      description:
+        "The treatment philosophy - how the doctors decide the combination for this patient. Not a list of procedures.",
       type: "text",
       rows: 4,
     }),

@@ -32,12 +32,15 @@ export const slug = (value: string) =>
 /* Technology                                                          */
 /* ------------------------------------------------------------------ */
 /**
- * The technology portfolio. `dedicatedPage` technologies carry a full page,
- * written patient-facing and doctor-led: what it is, what it helps with, who
- * may benefit, what treatment involves, downtime and where it fits in a plan.
+ * The technology portfolio. `dedicatedPage` technologies carry a full page
+ * built around the doctors' six patient questions: what does it do, who is it
+ * suitable for, what concerns can it address, how long is a session, what is
+ * the downtime, and what can it be combined with - and when might it not be
+ * chosen - with realistic expectations alongside. `perspective` gives the three
+ * major lifting and tightening technologies more editorial depth.
  *
- * Every clinical statement below - especially downtime and suitability - is a
- * draft for the doctors to verify before launch. Nothing claims a result.
+ * Written as what each technology allows the doctors to do, never as a
+ * specification. Every clinical statement is a draft for the doctors to verify.
  */
 export type SeedMachine = {
   name: string;
@@ -47,13 +50,16 @@ export type SeedMachine = {
   dedicatedPage: boolean;
   /** The one line on its card. */
   purpose: string;
+  /** Internal technical note; not shown on the site. */
   description: string;
   whatItIs?: string;
-  helpsWith?: string[];
+  perspective?: string;
   whoMayBenefit?: string;
-  whatItInvolves?: string;
+  helpsWith?: string[];
+  sessionTime?: string;
   downtime?: string;
-  whereItFits?: string;
+  expectations?: string;
+  combinations?: string;
 };
 
 export const MACHINES: SeedMachine[] = [
@@ -61,172 +67,203 @@ export const MACHINES: SeedMachine[] = [
     name: "Thermage FLX",
     categories: ["energy-based", "lifting"],
     dedicatedPage: true,
-    purpose: "Monopolar radiofrequency for non-surgical skin tightening.",
+    purpose:
+      "Non-surgical skin tightening for the face, eyes and body.",
     description:
       "Monopolar radiofrequency platform with AccuREP technology for non-surgical skin tightening.",
     whatItIs:
-      "A monopolar radiofrequency platform. It heats the deeper layers of the skin in a controlled way while the surface is cooled, prompting the skin to produce and remodel its own collagen.",
+      "Thermage FLX allows us to firm the skin without surgery or injections. It gently heats the deeper layers of the skin while protecting the surface, prompting the skin to rebuild and tighten its own collagen over the months that follow.",
+    perspective:
+      "Many patients who ask for a lift are in fact describing a loss of firmness. Thermage is selected when the assessment shows that the skin itself has lost its tension - and when that, rather than volume or deeper tissue descent, is the change that matters most to the face.",
+    whoMayBenefit:
+      "Patients with early to moderate laxity whose skin has begun to lose firmness, and who would prefer a gradual, natural change with little disruption. Where laxity is advanced or the deeper tissues have descended significantly, a different or combined approach is usually more appropriate.",
     helpsWith: [
       "Loss of firmness along the jawline and neck",
-      "Laxity of the skin around the eyes",
-      "Crepey skin on the face and body",
-      "Early changes in facial definition",
+      "Crepey or loosening skin around the eyes",
+      "Softening facial definition",
+      "Crepey skin on the arms, abdomen or knees",
     ],
-    whoMayBenefit:
-      "Patients with mild to moderate laxity who would like firmer skin without surgery, and who are content for the change to appear gradually. It is not a substitute for surgical lifting where laxity is advanced.",
-    whatItInvolves:
-      "Usually one treatment per area. The area is mapped, comfort is agreed beforehand, and the handpiece is passed over the skin in a grid. A session commonly takes from forty-five minutes to around two hours, depending on the area treated.",
+    sessionTime:
+      "Usually a single session per area. A full face commonly takes around sixty to ninety minutes; the eyes or a smaller area take less, and body areas can take longer.",
     downtime:
-      "Most patients return to their usual activities straight away. Mild redness or swelling can occur and typically settles within a day or two.",
-    whereItFits:
-      "Selected when firmness is the main issue rather than volume or surface quality. It is often planned alongside treatment for the skin itself, and the result develops over the following months as collagen remodels.",
+      "Most patients return to their usual activities the same day. Mild redness or swelling can occur and usually settles within a day or two.",
+    expectations:
+      "Some firmness may be noticed early, but the main change develops gradually over two to six months as collagen remodels. The aim is firmer, better-supported skin - a refreshed look rather than a surgical lift.",
+    combinations:
+      "It is often combined with skin-quality treatment, or with ultrasound tightening of the deeper layers, planned in sequence rather than on the same day. It may not be chosen where laxity is advanced, where volume loss is the main issue, or where the skin surface needs attention first.",
   },
   {
     name: "Fotona SP Dynamis Max",
     categories: ["energy-based", "lasers"],
     dedicatedPage: true,
-    purpose: "A versatile laser workstation for resurfacing, pigmentation and hair reduction.",
+    purpose:
+      "Laser treatment for texture, fine lines, pigmentation, acne and unwanted hair.",
     description:
       "Combined Nd:YAG and Er:YAG laser workstation for resurfacing, pigmentation and hair reduction.",
     whatItIs:
-      "A laser workstation combining two wavelengths, Nd:YAG and Er:YAG, so several different laser treatments can be performed on one platform with settings chosen for each patient.",
+      "Fotona SP Dynamis Max allows us to perform several different laser treatments on one platform - from gentle skin rejuvenation to deeper resurfacing - with the settings chosen for each patient's skin. In practice it is used to refine texture, soften fine lines, treat pigmentation and acne, and reduce unwanted hair.",
+    whoMayBenefit:
+      "Patients whose plan calls for laser treatment of texture, fine lines, sun damage, acne or scarring, and those who need more than one laser effect within the same plan. The intensity is matched to the skin type, which matters particularly for darker skin.",
     helpsWith: [
-      "Fine lines, texture and sun damage",
+      "Fine lines and uneven texture",
+      "Sun damage and pigmentation",
       "Acne and acne scarring",
-      "Pigmentation",
-      "Laxity, through controlled non-ablative heating",
+      "Enlarged pores and dull skin",
+      "Early laxity, through gentle heating",
       "Unwanted hair",
     ],
-    whoMayBenefit:
-      "Patients whose plan calls for laser treatment matched precisely to their skin type, and those who need more than one laser effect within the same plan.",
-    whatItInvolves:
-      "Wavelength, pulse length and intensity are selected for the concern and the skin. Treatment ranges from a gentle session with no visible change afterwards to a resurfacing procedure that needs recovery time.",
+    sessionTime:
+      "From around twenty minutes for gentle treatments to about an hour for resurfacing, depending on the treatment chosen and the area.",
     downtime:
-      "Entirely dependent on the mode chosen: from none, to several days of redness and flaking after resurfacing. Your doctor will explain what to expect before treatment begins.",
-    whereItFits:
-      "The workhorse of many plans. Used at lower intensity for maintenance and skin quality, or at higher intensity where visible resurfacing is the clinical objective.",
+      "Depends on the treatment selected: none after gentle rejuvenation, and several days of redness and flaking after resurfacing. Your doctor will explain what to expect before treatment begins.",
+    expectations:
+      "Gentle treatments improve the skin gradually across a course; resurfacing produces a more visible change once the skin has recovered. The aim is healthier-looking skin, not a changed face.",
+    combinations:
+      "It is often combined with medical skincare, peels or microneedling within skin-quality and scar plans. It may not be chosen where the skin is inflamed, where recent sun exposure raises the risk of pigmentation, or where another treatment would achieve the same result more gently.",
   },
   {
     name: "Fotona StarWalker",
     categories: ["lasers"],
     dedicatedPage: true,
-    purpose: "A Q-switched laser for pigmentation, laser toning and tattoo removal.",
+    purpose:
+      "Laser treatment for sun spots, uneven tone, post-acne marks and tattoos.",
     description:
       "Q-switched Nd:YAG laser platform for pigment clearance, tattoo removal and laser toning.",
     whatItIs:
-      "A Q-switched Nd:YAG laser. It delivers energy in extremely short pulses that break pigment into smaller particles the body can clear, with little heat to the surrounding skin.",
+      "Fotona StarWalker allows us to treat unwanted pigment precisely. It breaks pigment into particles the body can clear, while leaving the surrounding skin largely undisturbed - which is why it can be used gently on Indian skin within a careful plan.",
+    whoMayBenefit:
+      "Patients with sun spots, freckling, uneven tone, post-acne marks or unwanted tattoos, once the type of pigmentation has been properly diagnosed. For melasma it is used cautiously, and only as part of a wider plan.",
     helpsWith: [
       "Sun spots and freckling",
-      "Post-inflammatory pigmentation",
-      "Melasma, within a measured plan",
+      "Post-inflammatory pigmentation and acne marks",
       "Uneven tone and dullness",
+      "Melasma, within a measured plan",
       "Unwanted tattoos",
     ],
-    whoMayBenefit:
-      "Patients whose pigmentation has been properly diagnosed first, including Indian skin types, where the risk of provoking further pigmentation has to be managed carefully.",
-    whatItInvolves:
-      "Short sessions, usually between ten and thirty minutes, planned as a course. Toning treatments are gentle and gradual; treatment of individual marks or tattoos is more targeted.",
+    sessionTime:
+      "Usually ten to thirty minutes, planned as a course. Toning sessions are short and gentle; treatment of individual marks or tattoos is more targeted.",
     downtime:
-      "Toning usually involves none. More targeted treatment can leave temporary darkening or crusting of the pigment, which lifts over one to two weeks.",
-    whereItFits:
-      "Used within a pigmentation plan that also includes medical skincare and daily sun protection, because laser alone rarely holds the result.",
+      "Toning usually involves none. More targeted treatment can leave temporary darkening or light crusting of the pigment, which settles over one to two weeks.",
+    expectations:
+      "Pigment typically lightens gradually over the course. Because pigmentation can return, maintenance and sun protection are part of the plan from the start.",
+    combinations:
+      "It is used alongside medical skincare and daily sun protection, and sometimes with peels or radiofrequency microneedling. It may not be chosen where pigmentation is inflamed or worsening, or where a gentler approach is safer for the skin.",
   },
   {
     name: "Ultraformer MPT",
     categories: ["energy-based", "lifting"],
     dedicatedPage: true,
-    purpose: "Focused ultrasound for the deeper supporting layers of the face and body.",
+    purpose:
+      "Focused ultrasound to lift and tighten the deeper supporting layers.",
     description:
       "Micro-pulsed HIFU system delivering focused ultrasound to the deeper supporting layers of the face and body.",
     whatItIs:
-      "A micro-pulsed focused ultrasound platform. Energy is delivered to precise depths beneath the skin, including the deeper supporting layer, without breaking the surface.",
-    helpsWith: [
-      "Laxity along the jawline and lower face",
-      "A softening neck contour",
-      "Heaviness around the brow and eyes",
-      "Firmness on the body",
-    ],
+      "Ultraformer MPT allows us to treat the deeper supporting layers of the face and neck without surgery. Focused ultrasound reaches the layers that hold the face up, encouraging them to tighten and remodel while the surface of the skin is left undisturbed.",
+    perspective:
+      "Ultraformer is chosen when the assessment shows that the supporting layers beneath the skin have begun to descend. It works at a depth that other non-surgical treatments do not reach - which is why it is so often one part of a plan rather than the whole of it.",
     whoMayBenefit:
-      "Patients with mild to moderate laxity who would like lifting and tightening of the deeper tissues with little interruption to daily life.",
-    whatItInvolves:
-      "The depths and lines of treatment are planned for your anatomy, then delivered with different transducers. A facial treatment commonly takes between forty-five and ninety minutes.",
+      "Patients with early to moderate laxity along the jawline, neck or brow who would like lifting and tightening of the deeper tissues with little interruption to daily life. It is less suited to advanced laxity, or where the main concern is the skin surface.",
+    helpsWith: [
+      "Softening of the jawline and lower face",
+      "Laxity beneath the chin and along the neck",
+      "Heaviness around the brow and upper eyelids",
+      "Loss of definition in the mid-face",
+      "Selected areas on the body",
+    ],
+    sessionTime:
+      "A full face and neck commonly takes around sixty to ninety minutes; smaller areas take less. Many patients need a single session, with maintenance considered later.",
     downtime:
-      "Usually none beyond temporary redness. Mild tenderness or a feeling of tightness can last a few days.",
-    whereItFits:
-      "Chosen where the supporting tissues need attention rather than the skin surface. It is often sequenced with skin-quality treatment, and the effect builds over two to three months.",
+      "Usually none beyond temporary redness. Mild tenderness, swelling or a feeling of tightness can last a few days.",
+    expectations:
+      "The change builds gradually over two to three months as the tissue remodels. Patients typically describe a firmer, more defined contour rather than a dramatic change.",
+    combinations:
+      "It is frequently paired with skin-quality or radiofrequency treatment, because the deeper layers and the skin surface age differently. It may not be chosen where laxity is advanced, where the skin is very thin, or where a minimally invasive approach such as Endolift is more appropriate.",
   },
   {
     name: "Sylfirm X",
     categories: ["energy-based", "lifting", "rejuvenation"],
     dedicatedPage: true,
-    purpose: "Radiofrequency microneedling for pigmentation, scarring and skin remodelling.",
+    purpose:
+      "Radiofrequency microneedling for skin remodelling, firmness and pigmentation.",
     description:
       "Dual-wave radiofrequency microneedling platform for pigmentation, vascular concerns and skin remodelling.",
     whatItIs:
-      "A radiofrequency microneedling platform. Very fine needles deliver radiofrequency energy at adjustable depths, in either pulsed or continuous mode, so treatment can be matched to the concern.",
+      "Sylfirm X allows us to remodel the skin from within. Very fine needles deliver radiofrequency energy into the skin, stimulating collagen and firmness while also treating pigmentation, redness and texture. Within our lifting and tightening work, it is the technology that strengthens the quality and firmness of the skin itself.",
+    whoMayBenefit:
+      "Patients whose skin needs strengthening and remodelling - early laxity, crepey texture, scarring, or pigmentation that has not tolerated more aggressive treatment. Its measured approach makes it suitable for many Indian skin types.",
     helpsWith: [
+      "Early laxity and loss of skin firmness",
+      "Crepey or thinning skin",
       "Melasma and stubborn pigmentation",
-      "Acne scarring and textural change",
+      "Acne scarring and uneven texture",
       "Redness and visible vessels",
       "Enlarged pores",
-      "Early skin laxity",
     ],
-    whoMayBenefit:
-      "Patients who need the skin itself remodelled, including those whose pigmentation has not tolerated more aggressive treatment, and darker skin types where a measured approach matters.",
-    whatItInvolves:
-      "Topical anaesthetic is applied, then the handpiece is passed over the area with the depth and mode chosen for the concern. Treatment usually takes thirty to sixty minutes and is planned as a course.",
+    sessionTime:
+      "Usually thirty to sixty minutes, including time for topical anaesthetic. It is typically planned as a course of sessions spaced several weeks apart.",
     downtime:
-      "Redness and mild swelling for one to three days is usual, with a fine sandpaper texture as the skin recovers.",
-    whereItFits:
-      "Often the choice where pigmentation, scarring and skin quality overlap. Sessions are spaced across a course and reviewed in between.",
+      "Redness and mild swelling for one to three days is usual, with a slightly rough texture as the skin recovers.",
+    expectations:
+      "Improvement is gradual and cumulative across the course, with firmer, smoother and more even skin developing over several months.",
+    combinations:
+      "It complements deeper lifting treatments such as ultrasound or Endolift by addressing the skin those treatments do not, and it is often part of pigmentation and scar programmes. It may not be chosen during active inflammation or infection, or where deeper laxity is the main concern.",
   },
   {
     name: "Endolift X",
     categories: ["lasers", "lifting"],
     dedicatedPage: true,
-    purpose: "A fine laser fibre beneath the skin, for tightening and definition along the lower face.",
+    purpose:
+      "Minimally invasive laser tightening and definition beneath the skin.",
     description:
       "Minimally invasive endolaser using micro-optical fibres beneath the skin for tightening and localised fat reduction.",
     whatItIs:
-      "A minimally invasive endolaser. A micro-optical fibre, finer than a needle, is introduced just beneath the skin to deliver laser energy directly to the tissue.",
+      "Endolift X allows us to tighten and define from beneath the skin without surgery. A laser fibre finer than a needle is placed just under the skin, where it tightens the tissue and can reduce small areas of localised fat.",
+    perspective:
+      "Endolift sits between non-surgical tightening and surgery. It is selected when the assessment shows that definition along the lower face and neck is what matters most, and when a less invasive option is unlikely to achieve a result the patient would be happy with.",
+    whoMayBenefit:
+      "Patients who want more definition than surface treatments can offer, but who are not seeking surgery - particularly those with laxity or small pockets of fat along the lower face, jawline and neck. It is not prescribed simply because a patient asks for a lift.",
     helpsWith: [
-      "Laxity of the lower face and jawline",
-      "Small pockets of localised fat, such as beneath the chin",
-      "Definition of the neck",
+      "Laxity along the jawline and lower face",
+      "Jowling",
+      "Fullness beneath the chin",
+      "Loss of definition in the neck",
       "Selected areas on the body",
     ],
-    whoMayBenefit:
-      "Patients who want more definition than surface treatments can give but are not seeking surgery. Suitability is decided at assessment; it is not prescribed simply because a patient asks for a lift.",
-    whatItInvolves:
-      "Performed by the doctor under local anaesthetic, usually in one session of roughly thirty to sixty minutes. The fibre enters through a tiny entry point, so no stitches are needed.",
+    sessionTime:
+      "Performed by the doctor under local anaesthetic, usually in a single session of around thirty to sixty minutes, depending on the areas treated.",
     downtime:
-      "Swelling or bruising for several days is common, and a support garment may be advised. Most patients plan a quiet few days afterwards.",
-    whereItFits:
-      "Considered when the objective includes both laxity and contour. It may be combined with skin tightening or skin-quality treatment, and the result continues to refine over several months.",
+      "Swelling and occasional bruising for several days is common, and a support garment may be advised. Most patients plan a quieter few days afterwards; the entry points are tiny and need no stitches.",
+    expectations:
+      "Some tightening may be seen early, with the result continuing to refine over three to six months. The aim is a more defined contour that still looks natural.",
+    combinations:
+      "It may be combined with skin-quality treatment or with non-surgical tightening elsewhere on the face. It may not be chosen where laxity is mild enough for non-invasive tightening, where it is too advanced for a non-surgical approach, or where volume loss rather than laxity is the main concern.",
   },
   {
     name: "GentleYAG",
     categories: ["lasers"],
     dedicatedPage: true,
-    purpose: "A long-pulse laser for hair reduction, with settings chosen for the skin type.",
+    purpose:
+      "Laser hair reduction suited to darker skin types.",
     description:
       "Long-pulse 1064 nm Nd:YAG laser with cryogen cooling, suited to hair reduction on darker skin types.",
     whatItIs:
-      "A long-pulse Nd:YAG laser with cryogen cooling of the skin surface. Its wavelength passes safely through more deeply pigmented skin, which is why it is widely used on Indian skin types.",
+      "GentleYAG allows us to reduce unwanted hair safely across a wide range of skin types. It reaches the hair follicle through more deeply pigmented skin, with cooling that protects the surface - which is why it is well suited to Indian skin.",
+    whoMayBenefit:
+      "Patients seeking long-term reduction of unwanted hair on the face or body, particularly those with darker skin types. Very fine, light or grey hair responds poorly to any laser.",
     helpsWith: [
       "Unwanted facial hair",
-      "Unwanted hair on the body",
-      "Areas prone to ingrowing hairs or folliculitis",
-      "Selected vascular lesions",
+      "Underarms, arms and legs",
+      "Back, chest and other body areas",
+      "Ingrowing hairs and folliculitis",
     ],
-    whoMayBenefit:
-      "Patients seeking long-term hair reduction, particularly those with darker skin types for whom this wavelength is generally the safer choice.",
-    whatItInvolves:
-      "A course of sessions timed to the hair growth cycle, usually four to eight weeks apart. Each session takes from a few minutes to about an hour depending on the area.",
+    sessionTime:
+      "From a few minutes for a small area to around an hour for larger areas, as a course of sessions spaced four to eight weeks apart.",
     downtime:
-      "None in most cases. Redness and slight swelling around the follicles usually settles within hours.",
-    whereItFits:
-      "Part of a hair-removal plan rather than a single appointment. Where hair growth suggests a hormonal cause, that is assessed alongside the course.",
+      "None in most cases. Redness and slight swelling around the follicles usually settles within a few hours.",
+    expectations:
+      "Hair reduces progressively over the course, because only hair in its active growth phase responds at each session. Laser reduces hair rather than removing it permanently, and occasional maintenance sessions are usual.",
+    combinations:
+      "Where unwanted hair growth suggests a hormonal cause, medical assessment runs alongside the course. It may not be chosen for very fine or light hair, over recently tanned skin, or where a hormonal cause needs addressing first.",
   },
   {
     name: "Venus Bliss Max",
@@ -241,21 +278,24 @@ export const MACHINES: SeedMachine[] = [
     categories: ["energy-based"],
     dedicatedPage: false,
     purpose: "Electromagnetic muscle stimulation for body toning.",
-    description: "Electromagnetic muscle stimulation platform for body toning.",
+    description:
+      "Electromagnetic muscle stimulation platform for body toning.",
   },
   {
     name: "Dermapen 4",
     categories: ["rejuvenation"],
     dedicatedPage: false,
     purpose: "Medical microneedling to stimulate collagen.",
-    description: "Medical microneedling device with adjustable depth for collagen induction.",
+    description:
+      "Medical microneedling device with adjustable depth for collagen induction.",
   },
   {
     name: "SkinPen",
     categories: ["rejuvenation"],
     dedicatedPage: false,
     purpose: "Microneedling for texture and scarring.",
-    description: "Microneedling device for controlled collagen induction.",
+    description:
+      "Microneedling device for controlled collagen induction.",
   },
   {
     name: "Hydrafacial",
@@ -270,14 +310,16 @@ export const MACHINES: SeedMachine[] = [
     categories: ["rejuvenation"],
     dedicatedPage: false,
     purpose: "An exfoliation, infusion and oxygenation facial.",
-    description: "Oxygenation, exfoliation and infusion facial system.",
+    description:
+      "Oxygenation, exfoliation and infusion facial system.",
   },
   {
     name: "GFC",
     categories: ["regenerative"],
     dedicatedPage: false,
     purpose: "Growth factor concentrate, prepared from your own blood, for hair and skin.",
-    description: "Autologous growth factor concentrate for hair and skin regeneration.",
+    description:
+      "Autologous growth factor concentrate for hair and skin regeneration.",
   },
   {
     // Added at the doctors' request. Regulatory position to be confirmed before launch.
@@ -285,7 +327,8 @@ export const MACHINES: SeedMachine[] = [
     categories: ["regenerative"],
     dedicatedPage: false,
     purpose: "A regenerative treatment, used alongside in-clinic procedures.",
-    description: "Exosome-based regenerative treatment for skin and hair.",
+    description:
+      "Exosome-based regenerative treatment for skin and hair.",
   },
   {
     name: "Plasmapen",
@@ -301,7 +344,8 @@ export const MACHINES: SeedMachine[] = [
     categories: [],
     dedicatedPage: false,
     purpose: "Precision cryotherapy for benign lesions such as warts and skin tags.",
-    description: "Precision cryotherapy device for benign lesions.",
+    description:
+      "Precision cryotherapy device for benign lesions.",
   },
 ];
 
@@ -404,9 +448,12 @@ export type SeedConcern = {
   title: string;
   slug: string;
   summary: string;
+  experience: string;
   understanding: string;
   assessment: string;
   approach: string;
+  selection: string;
+  expectations: string;
   relatedConditions: string[];
   resultCategory: ResultCategory;
   programmes: string[];
@@ -420,12 +467,18 @@ export const CONCERNS: SeedConcern[] = [
     slug: "facial-ageing",
     summary:
       "Loss of firmness, volume and definition happens gradually, and differently for every face.",
+    experience:
+      "You may notice that your face looks more tired than you feel, that your jawline has softened, or that skin which was once firm now feels looser or crepey. Often the change is hard to pin down - only that the face looks less defined than it did.",
     understanding:
       "Facial ageing is not a single change. Collagen and elastin decline, fat compartments shift and thin, bone support gradually recedes, and the skin itself alters with sun exposure and time. How these combine is individual, which is why two people of the same age can need entirely different approaches.",
     assessment:
       "We look at the whole face before any single feature: skin thickness and quality, where laxity sits and how much there is, volume distribution, muscle activity and facial proportions. We also discuss how you would like to look, your timeline, and what you are and are not comfortable with.",
     approach:
       "The aim is refinement, not change. Most plans combine treatments that work at different depths, from the quality of the skin to the support beneath it, sequenced over time rather than delivered at once. Just as important is knowing when not to treat, and when a lighter intervention will look more natural.",
+    selection:
+      "Facial ageing has several causes, and they combine differently in every face. Our assessment determines which changes are contributing most before any treatment is selected.",
+    expectations:
+      "Improvement is gradual and natural. Most patients see the change develop over several months, and the aim is a rested, refreshed face that is still recognisably yours.",
     relatedConditions: [
       "Fine lines and wrinkles",
       "Loss of firmness",
@@ -450,12 +503,18 @@ export const CONCERNS: SeedConcern[] = [
     slug: "pigmentation",
     summary:
       "Uneven tone has many causes. Identifying the right one matters more than the strength of the treatment.",
+    experience:
+      "You may notice patches of darker skin, marks that linger after acne, spots that have appeared with sun exposure, or a complexion that looks uneven and dull despite good skincare.",
     understanding:
       "Pigmentation can come from sun exposure, hormonal influences, inflammation after acne or injury, or conditions such as melasma, which tends to be persistent and can worsen with the wrong treatment. Darker skin types in particular need a careful, measured approach, because aggressive treatment can itself trigger further pigmentation.",
     assessment:
       "We identify the type and depth of the pigmentation, its likely triggers and your skin type, and look at what has and has not worked for you before. Melasma is assessed as a long-term condition to be managed, rather than a mark to be removed.",
     approach:
       "Plans usually combine medical skincare and sun protection with carefully selected in-clinic treatment, introduced gradually. The emphasis is on control and maintenance, and on avoiding the rebound that follows treatment too aggressive for the skin.",
+    selection:
+      "Pigmentation has different causes and patterns. Our assessment determines what is driving it before treatment is selected.",
+    expectations:
+      "Pigmentation usually improves gradually over months. Some types, particularly melasma, are managed rather than cured, so maintenance is part of the plan from the start.",
     relatedConditions: [
       "Melasma",
       "Sun spots and sun damage",
@@ -474,12 +533,18 @@ export const CONCERNS: SeedConcern[] = [
     slug: "acne",
     summary:
       "Active acne and the scarring it leaves are different problems, treated in a particular order.",
+    experience:
+      "You may be dealing with breakouts that keep returning, marks that remain after spots have healed, or scarring that changes the texture of your skin and how you feel about it.",
     understanding:
       "Active acne is a medical condition influenced by hormones, oil production, bacteria and inflammation. Scarring is its aftermath, and scars vary widely, from shallow changes in texture to deeper depressions, each responding to different treatment.",
     assessment:
       "We first establish whether acne is still active, because scar treatment works best once the skin is under control. We then assess the type, depth and distribution of scarring, alongside your skin type and any tendency to pigment.",
     approach:
       "Control comes before correction. Active acne is treated medically first; scarring is then addressed in stages, often combining treatments that resurface, remodel and lift scar tissue. Progress is reviewed between sessions and the plan adjusted.",
+    selection:
+      "Active acne and scarring need different treatment, in a particular order. Our assessment determines whether acne is still active, and what type of scarring is present, before treatment is selected.",
+    expectations:
+      "Acne can usually be brought under control with medical treatment. Scar treatment aims for meaningful improvement in texture over several months - not perfectly smooth skin.",
     relatedConditions: [
       "Active acne",
       "Acne marks",
@@ -496,12 +561,18 @@ export const CONCERNS: SeedConcern[] = [
     title: "Skin Quality, Texture & Pores",
     slug: "skin-quality",
     summary: "Healthy skin is the foundation every other treatment depends on.",
+    experience:
+      "Your skin may look dull or tired, feel rough or dehydrated, or show enlarged pores and uneven texture - even without lines or obvious ageing.",
     understanding:
       "Dullness, enlarged pores, uneven texture and dehydration are often the first changes people notice. They reflect the health of the skin barrier, cell turnover and collagen, and they respond best to consistent, well-judged care rather than occasional intensive treatment.",
     assessment:
       "We assess hydration, oil balance, pore size, texture, sensitivity and sun damage, and review your current skincare. Often the most valuable change is simplifying a routine rather than adding to it.",
     approach:
       "Plans combine medical skincare with treatment that renews the surface and stimulates collagen beneath it, paced to suit your skin. The goal is skin that looks healthy, without looking treated.",
+    selection:
+      "Texture, tone, hydration and firmness each have different causes. Our assessment identifies which of them matter most for your skin before treatment is selected.",
+    expectations:
+      "Some improvement can be seen within days; firmer, smoother skin develops over two to three months and is maintained with a simple routine.",
     relatedConditions: [
       "Dull or tired skin",
       "Enlarged pores",
@@ -520,12 +591,18 @@ export const CONCERNS: SeedConcern[] = [
     slug: "eyes",
     summary:
       "The skin around the eyes is the thinnest on the face, and it asks for particular precision.",
+    experience:
+      "You may feel that your eyes look tired, hollow or heavy - dark circles, bags, fine lines or hooding that make you look less rested than you are.",
     understanding:
       "Hollowing, dark circles, puffiness, fine lines and hooding can each make the eyes look tired, and they often occur together. Their causes differ, from volume loss and laxity to pigmentation and fluid, so a treatment that helps one can make another more noticeable.",
     assessment:
       "We look closely at what is producing the tired appearance: skin thickness and laxity, the tear trough, pigmentation, brow position and the surrounding face. This is an area where restraint and anatomical understanding matter most.",
     approach:
       "Treatment is conservative and carefully sequenced, often addressing skin quality and laxity before any volume. Where a non-surgical option is unlikely to give a result you would be happy with, we will say so.",
+    selection:
+      "Tired-looking eyes can be caused by volume loss, laxity, pigmentation or fluid, and treating the wrong one can make another more noticeable. Our assessment determines what is producing the change before treatment is selected.",
+    expectations:
+      "Treatment around the eyes is conservative and gradual. Where a non-surgical option is unlikely to give a result you would be happy with, we will tell you so.",
     relatedConditions: [
       "Dark circles",
       "Under-eye bags",
@@ -543,12 +620,18 @@ export const CONCERNS: SeedConcern[] = [
     title: "Facial Contouring",
     slug: "facial-contouring",
     summary: "Proportion and balance, refined subtly and in harmony with your features.",
+    experience:
+      "You may feel that your jawline lacks definition, that your profile looks out of balance, or that one feature draws attention in a way you would like to soften.",
     understanding:
       "Facial contour is shaped by bone structure, fat, muscle and skin. Small changes in definition along the jawline, chin, cheeks or lips can change how balanced a face appears, which is exactly why they need to be judged carefully.",
     assessment:
       "We assess facial proportions, symmetry, profile and underlying structure, and discuss what you would like to change and why. The best contouring respects the individual face rather than following a trend.",
     approach:
       "A plan may combine volume restoration, subdermal tightening and muscle refinement, used sparingly and built up gradually, so that the result reads as a refined version of you.",
+    selection:
+      "Facial contour depends on structure, volume, muscle and skin. Our assessment looks at your proportions as a whole before deciding what, if anything, to change.",
+    expectations:
+      "Contouring changes are deliberately subtle and built up gradually. The intention is balance and definition, not a different face.",
     relatedConditions: [
       "Jawline definition",
       "Chin",
@@ -566,12 +649,18 @@ export const CONCERNS: SeedConcern[] = [
     title: "Hair & Scalp",
     slug: "hair",
     summary: "Hair loss has a cause. Treatment begins with finding it.",
+    experience:
+      "You may be noticing more hair on your pillow or in the shower, a widening parting, thinning at the crown, patches of hair loss, or a scalp that is itchy, flaky or oily.",
     understanding:
       "Thinning and hair loss can be driven by genetics, hormones, nutrition, stress, thyroid function, scalp conditions or autoimmune causes such as alopecia areata. Scalp health, from dandruff to excess oil, also affects how hair grows.",
     assessment:
       "As dermatologists, we assess the pattern of loss, the scalp itself and your medical history, and where appropriate request investigations, before recommending treatment. Treating hair loss without understanding its cause rarely gives lasting results.",
     approach:
       "Plans typically combine medical treatment with regenerative in-clinic therapy and follow-up over months, because hair responds slowly. Progress is tracked so the plan can be refined rather than simply repeated.",
+    selection:
+      "Hair loss has many possible causes. Our assessment - with investigations where they are needed - determines what is driving it before treatment is selected.",
+    expectations:
+      "Hair responds slowly. Reduced hair fall is usually noticed first; improvement in density is assessed over three to six months.",
     relatedConditions: [
       "Hair thinning",
       "Hair fall",
@@ -590,12 +679,18 @@ export const CONCERNS: SeedConcern[] = [
     slug: "body-contouring",
     summary:
       "Contour, firmness and skin quality on the body, approached with the same care as the face.",
+    experience:
+      "You may have areas of stubborn fat that persist despite diet and exercise, skin that has become loose, or cellulite that affects how clothes fit and feel.",
     understanding:
       "Stubborn areas of fat, loose skin and cellulite often persist despite diet and exercise. They differ in cause and depth, and each responds to different forms of treatment.",
     assessment:
       "We assess the areas you are concerned about, skin laxity, fat distribution and your overall goals, and are clear about what non-surgical body treatment can and cannot achieve.",
     approach:
       "A plan may combine treatment that reduces localised fat, tightens skin and improves texture, delivered as a course and reviewed along the way. We recommend body treatment only where it is likely to make a difference you will notice.",
+    selection:
+      "Fat, laxity and skin texture each respond to different treatment. Our assessment determines which are contributing, and whether non-surgical treatment is likely to help, before anything is selected.",
+    expectations:
+      "Non-surgical body treatment offers refinement for people close to a stable weight, not weight loss. Results develop gradually over a course of treatment.",
     relatedConditions: ["Abdomen", "Arms", "Thighs", "Chin and neck", "Loose skin", "Cellulite"],
     resultCategory: "body",
     programmes: [],
@@ -606,12 +701,18 @@ export const CONCERNS: SeedConcern[] = [
     title: "Hair Removal",
     slug: "hair-removal",
     summary: "Long-term hair reduction, with every setting chosen for your skin.",
+    experience:
+      "You may be tired of shaving, waxing or threading, dealing with ingrowing hairs, or noticing unwanted hair growth that has increased over time.",
     understanding:
       "Laser hair reduction works by targeting pigment in the hair follicle. Skin tone, hair colour and hair thickness all affect which technology is safe and effective, which matters especially for darker skin types.",
     assessment:
       "We assess your skin type, your hair and any hormonal factors that can drive unwanted hair growth, before recommending a course of treatment.",
     approach:
       "Treatment is delivered as a series of sessions timed around the hair growth cycle, using settings chosen for your skin. Where a hormonal cause is suspected, we look at that too.",
+    selection:
+      "Skin type, hair colour and any hormonal factors all affect which treatment is safe and effective. Our assessment considers each before a course is planned.",
+    expectations:
+      "Hair reduces progressively over a course of sessions. Laser reduces hair rather than removing it permanently, and occasional maintenance is usual.",
     relatedConditions: ["Face", "Underarms", "Arms and legs", "Body", "Hormonal hair growth"],
     resultCategory: "body",
     programmes: [],
@@ -633,9 +734,11 @@ export type SeedApproach = {
   philosophy: string;
   addresses: string[];
   considerations: string[];
+  options: string;
   expectations: string;
   downtime: string;
   combinations: string;
+  maintenance: string;
   modalities: string[];
   concerns: string[];
   technologies: string[];
@@ -661,12 +764,16 @@ export const APPROACHES: SeedApproach[] = [
       "Downtime and timeline",
       "How results will be maintained",
     ],
+    options:
+      "Depending on your anatomy and your ageing pattern, a plan may involve lifting, tightening, collagen stimulation, skin-quality improvement or contour refinement - rarely all of them, and never decided before the assessment. Technology is one of the ways these are delivered, alongside injectable treatment and medical skincare.",
     expectations:
-      "Change is gradual and cumulative. Most plans are judged over two to three months rather than at the end of a single appointment, and the aim is that you look rested rather than treated.",
+      "Change is gradual and cumulative. Most plans are judged over two to six months rather than after a single appointment, and the aim is that you look rested and well - not treated.",
     downtime:
-      "Most treatments here allow a return to normal activities the same day. Where resurfacing or a minimally invasive procedure forms part of the plan, expect a few quieter days, scheduled around your calendar.",
+      "Most treatments allow a return to normal activities the same day, with temporary redness or swelling. Minimally invasive tightening, or deeper resurfacing, usually needs a few quieter days, which we plan around your calendar.",
     combinations:
-      "Treatments are layered rather than stacked: support for the deeper tissues, collagen stimulation within the skin, then refinement of the surface, each spaced so its effect can be assessed before the next.",
+      "Combinations are useful because the face ages in layers: the deeper support, the firmness of the skin and the quality of its surface change separately. Treatments are sequenced rather than stacked, so each result can be assessed before the next step is decided.",
+    maintenance:
+      "Collagen-led results develop over months and are maintained with periodic review, good skincare and, where appropriate, occasional maintenance treatment. Ageing continues, so the plan is revisited over time.",
     modalities: [
       "Radiofrequency Skin Tightening",
       "Ultrasound Skin Tightening",
@@ -698,12 +805,16 @@ export const APPROACHES: SeedApproach[] = [
       "Previous treatments and reactions",
       "Long-term maintenance",
     ],
+    options:
+      "Treatment depends on the type of pigmentation and what drives it. It may include medical skincare, topical treatment, peels, laser toning or radiofrequency microneedling - introduced gradually, and always alongside sun protection.",
     expectations:
-      "Pigmentation is managed rather than cured. Improvement is measured over months, and maintenance is part of the plan from the beginning, because pigmentation can return.",
+      "Pigmentation is managed rather than cured. Improvement is gradual over months, and some types, particularly melasma, need ongoing care to hold the result.",
     downtime:
-      "Medical skincare and toning treatments usually involve none. More targeted laser treatment can leave temporary darkening or flaking for one to two weeks.",
+      "Medical skincare and toning usually involve none. More targeted laser treatment can cause temporary darkening or flaking for one to two weeks.",
     combinations:
-      "Medical skincare and daily sun protection run throughout. In-clinic treatment is introduced gradually, and paused if the skin shows any sign of irritation.",
+      "Combinations are useful when pigmentation has more than one cause, or when skin quality needs improving alongside it. In-clinic treatment is always combined with medical skincare and sun protection, and paused if the skin becomes irritated.",
+    maintenance:
+      "Maintenance is planned from the beginning, because pigmentation can return with sun, heat or hormonal change. Most patients continue with a skincare routine and periodic review.",
     modalities: [
       "Medical Treatment",
       "Laser Toning",
@@ -733,12 +844,16 @@ export const APPROACHES: SeedApproach[] = [
       "Downtime you can accommodate",
       "Skincare and maintenance",
     ],
+    options:
+      "Active acne is treated medically first. Scar treatment may then include microneedling, radiofrequency microneedling, laser resurfacing, peels or dermal fillers for selected scars - matched to the type of scarring rather than applied uniformly.",
     expectations:
-      "Active acne is brought under control first. Scar treatment is staged over months and aims at meaningful improvement in texture rather than perfectly smooth skin.",
+      "Scar treatment aims for meaningful improvement in texture and evenness, not perfectly smooth skin. Progress is staged over several months and reviewed between sessions.",
     downtime:
-      "Medical treatment and medical facials involve none. Microneedling, radiofrequency microneedling and laser resurfacing involve redness and, in some cases, a few days of recovery.",
+      "Medical treatment involves none. Microneedling and radiofrequency microneedling cause redness for one to three days; laser resurfacing may need up to a week.",
     combinations:
-      "Different scar types respond to different treatments, so a plan often combines two or three, staged and reviewed between sessions.",
+      "Combinations are useful because most patients have more than one type of scar, and each responds to a different treatment. They are staged and spaced to allow the skin to recover between sessions.",
+    maintenance:
+      "Once scarring has improved, the focus is on keeping acne controlled so that new scarring does not form, with skincare and review.",
     modalities: [
       "Medical Treatment",
       "Medical Peels",
@@ -769,12 +884,16 @@ export const APPROACHES: SeedApproach[] = [
       "Your current skincare",
       "Sun exposure and lifestyle",
     ],
+    options:
+      "Plans usually combine medical skincare with in-clinic treatment such as medical facials, peels, microneedling, laser rejuvenation or regenerative treatment - paced to what your skin tolerates.",
     expectations:
-      "Skin quality responds to consistency. Some changes are visible within days; collagen-led improvement develops over two to three months.",
+      "Some improvement in brightness and texture can be seen within days; collagen-led changes in firmness and pores develop over two to three months.",
     downtime:
-      "Most treatments here involve little or none. Deeper resurfacing, where it is appropriate, needs a few quieter days.",
+      "Most treatments involve little or none. Deeper resurfacing, where it is appropriate, needs a few quieter days.",
     combinations:
-      "Medical skincare is the foundation; in-clinic treatment is added at a pace the barrier tolerates, then spaced out for maintenance.",
+      "Combinations are useful because texture, tone, hydration and firmness respond to different treatments. Medical skincare forms the foundation, and in-clinic treatment is added to it rather than replacing it.",
+    maintenance:
+      "Skin quality is maintained rather than completed. A simple routine and periodic treatment hold the improvement over time.",
     modalities: [
       "Hydrafacial & Medical Facials",
       "Medical Peels",
@@ -805,12 +924,16 @@ export const APPROACHES: SeedApproach[] = [
       "Nutritional and hormonal factors",
       "Realistic timelines",
     ],
+    options:
+      "Treatment is directed at the cause, and may include medical treatment, regenerative therapy such as growth factor concentrate, and scalp care. Investigations are requested where they will change the plan.",
     expectations:
-      "Hair responds slowly. Progress is generally assessed at three to six months with photography, and treatment continues in order to maintain the response.",
+      "Hair responds slowly. The first change is usually reduced hair fall; improvement in density is assessed at three to six months, with photography.",
     downtime:
-      "In-clinic regenerative treatment usually allows normal activity the same day, with mild scalp tenderness for a day or so.",
+      "Regenerative scalp treatment usually allows normal activity the same day, with mild tenderness for a day or so.",
     combinations:
-      "Medical treatment addresses the cause, in-clinic therapy supports growth, and scalp care and review run alongside over months.",
+      "Combinations are useful because medical treatment addresses the cause while in-clinic therapy supports the follicles. Both are reviewed together as the hair responds.",
+    maintenance:
+      "Many causes of hair loss are ongoing, so treatment continues in order to maintain the response, with periodic review.",
     modalities: ["Medical Treatment", "PRP & GFC"],
     concerns: ["Hair & Scalp"],
     technologies: ["GFC"],
@@ -834,12 +957,16 @@ export const APPROACHES: SeedApproach[] = [
       "Symmetry",
       "What you want to change, and why",
     ],
+    options:
+      "Depending on your proportions, a plan may involve volume restoration, refinement of muscle activity, or subdermal tightening such as Endolift - used sparingly and built up gradually.",
     expectations:
-      "Changes are deliberately small and built up over more than one visit. The intention is balance, not alteration of the features you are recognised by.",
+      "Changes are deliberately subtle and made over more than one visit. The intention is balance, not a change to the features you are recognised by.",
     downtime:
       "Injectable treatment may cause swelling or bruising for a few days. Subdermal tightening involves a quieter week.",
     combinations:
-      "Contouring is judged alongside skin quality and laxity, since definition depends on all three rather than on volume alone.",
+      "Combinations are useful because definition depends on skin quality and laxity as well as volume. We assess all three before deciding what, if anything, to change.",
+    maintenance:
+      "Injectable results last months rather than years and are maintained with review; tightening develops and holds over a longer period.",
     modalities: [
       "Dermal Fillers",
       "Botulinum Toxin",
@@ -868,12 +995,16 @@ export const APPROACHES: SeedApproach[] = [
       "Expected timelines",
       "Whether hair reduction is also wanted",
     ],
+    options:
+      "Depending on the area and the concern, a plan may involve localised fat reduction, skin tightening or muscle toning, delivered as a course.",
     expectations:
-      "Non-surgical body treatment suits people close to a stable weight who want refinement; it is not a weight-loss treatment. Results are gradual and best judged after a full course.",
+      "Non-surgical body treatment suits people close to a stable weight who are looking for refinement, not weight loss. Results are gradual and best judged after the full course.",
     downtime:
-      "Most body treatments allow normal activity immediately, with temporary redness, tenderness or firmness in the treated area.",
+      "Most body treatments allow normal activity straight away, with temporary redness, tenderness or firmness in the treated area.",
     combinations:
-      "Fat reduction, skin tightening and muscle stimulation are often combined across a course, in an order decided at assessment.",
+      "Combinations are useful when fat, laxity and tone all contribute to the concern. The order is decided at assessment.",
+    maintenance:
+      "Results are maintained with a stable weight and lifestyle, and occasional maintenance sessions where appropriate.",
     modalities: ["Body Contouring", "Radiofrequency Skin Tightening", "Laser Hair Reduction"],
     concerns: ["Body Contouring"],
     technologies: ["Venus Bliss Max", "Ultraformer MPT", "Endolift X", "Fotona StarFormer", "GentleYAG"],
@@ -897,12 +1028,16 @@ export const APPROACHES: SeedApproach[] = [
       "Previous hair removal and any reactions",
       "Timing around the hair growth cycle",
     ],
+    options:
+      "Laser hair reduction is delivered as a course, with the wavelength and settings chosen for your skin and hair. Where hormonal factors are suspected, medical assessment runs alongside.",
     expectations:
-      "Laser reduces hair rather than removing it permanently. A course is needed because only hair in its active growth phase responds, and occasional maintenance is usual.",
+      "Laser reduces hair rather than removing it permanently. Hair becomes finer and sparser over the course, because only hair in its active growth phase responds at each session.",
     downtime:
       "None in most cases. Redness and slight swelling around the follicles settles within hours.",
     combinations:
-      "Sessions are timed to the growth cycle. Where a hormonal cause is suspected, medical assessment runs alongside the course.",
+      "Combinations are rarely needed, except where a hormonal cause of unwanted hair is treated medically alongside the laser course.",
+    maintenance:
+      "Occasional maintenance sessions are usual, particularly where hormonal factors are involved.",
     modalities: ["Laser Hair Reduction", "Medical Treatment"],
     concerns: ["Hair Removal"],
     technologies: ["GentleYAG", "Fotona SP Dynamis Max"],
@@ -913,13 +1048,14 @@ export const APPROACHES: SeedApproach[] = [
 /* The Dr Bhagat's Signature — the doctors' own copy                   */
 /* ------------------------------------------------------------------ */
 /**
- * The signature programmes. The doctors asked that the methodology show
- * through the structure - who it is for, what is assessed, how it is sequenced
- * and why it is a programme - rather than being described again as philosophy.
+ * The signature programmes: Dr Bhagat's clinical philosophies, never packages.
+ * Each makes three things explicit - what is assessed, how treatment is
+ * personalised, and how it is sequenced through the same six stages: Assess,
+ * Prioritise, Treat, Reassess, Refine, Maintain. No technologies are listed and
+ * no prices appear.
  *
- * The introduction and closing lines are the doctors' own words; the structure
- * below is drafted from the way they describe their practice and needs their
- * sign-off.
+ * The tagline, description and closing line are the doctors' own words; the
+ * structure beneath them is drafted for the doctors' sign-off.
  */
 export type SeedProgramme = {
   title: string;
@@ -930,8 +1066,8 @@ export type SeedProgramme = {
   closing?: string;
   forWhom: string;
   assessed: string[];
+  personalisation: string;
   sequence: { title: string; description: string }[];
-  whyProgramme: string;
   objective: string;
   concerns: string[];
   approaches: string[];
@@ -952,42 +1088,55 @@ export const PROGRAMMES: SeedProgramme[] = [
     forWhom:
       "Patients noticing a softening jawline, a loss of definition, or skin that no longer feels firm, who would like a refreshed result rather than an obviously treated one.",
     assessed: [
-      "Skin quality, thickness and elasticity",
-      "Where laxity sits, and how much there is",
-      "Volume distribution and facial proportion",
-      "Muscle activity and expression",
-      "The individual pattern of ageing",
+      "The degree and pattern of laxity",
+      "Facial proportions",
+      "Skin quality",
+      "Tissue descent",
+      "Volume and fat distribution",
+      "The degree of correction you would like",
     ],
+    personalisation:
+      "We determine which combination of lifting, tightening, collagen stimulation and refinement is appropriate for your face - and in what order. Two patients with the same concern rarely receive the same plan.",
     sequence: [
       {
-        title: "Assessment and plan",
+        title:
+          "Assess",
         description:
-          "A full facial assessment, photography where appropriate, and a plan setting out what will be treated, in what order, and why.",
+          "A full facial assessment, with photography, to understand what has changed and why.",
       },
       {
-        title: "Structural support",
+        title:
+          "Prioritise",
         description:
-          "Treatment of the deeper supporting tissues, selected for your anatomy - typically ultrasound, radiofrequency or a subdermal approach.",
+          "Deciding which change matters most to your appearance, and addressing that first.",
       },
       {
-        title: "Collagen and skin quality",
+        title:
+          "Treat",
         description:
-          "Treatment within the skin itself, so the surface matches the improvement underneath.",
+          "The first stage of treatment, usually directed at the deeper support or the firmness of the skin.",
       },
       {
-        title: "Refinement",
+        title:
+          "Reassess",
         description:
-          "Where appropriate, small adjustments to volume or muscle activity, once the earlier stages have settled.",
+          "Reviewing how the face has responded once the tissue has had time to remodel.",
       },
       {
-        title: "Review and maintenance",
+        title:
+          "Refine",
         description:
-          "Progress reviewed against the starting photographs, and a plan to hold the result.",
+          "Where appropriate, further treatment to refine skin quality, contour or volume.",
+      },
+      {
+        title:
+          "Maintain",
+        description:
+          "A plan to maintain the result as the face continues to age.",
       },
     ],
-    whyProgramme:
-      "Facial ageing happens at several levels at once, and no single treatment reaches all of them. The sequence matters: treating the deeper tissues before the surface, and letting each stage settle, gives a more natural result than combining everything in one visit.",
-    objective: "Definition and freshness restored, while the face remains recognisably your own.",
+    objective:
+      "Definition and freshness restored, while the face remains recognisably your own.",
     concerns: ["Facial Ageing & Skin Laxity", "Eyes & Periorbital Ageing", "Facial Contouring"],
     approaches: ["Facial Rejuvenation", "Facial Contouring"],
   },
@@ -1000,40 +1149,60 @@ export const PROGRAMMES: SeedProgramme[] = [
       "Texture, pores, pigmentation, hydration, firmness and collagen all contribute to the way skin looks and feels.",
       "Our approach combines medical skincare and appropriate in-clinic treatments to improve the overall quality of the skin rather than chasing one isolated concern.",
     ],
-    closing: "Healthy-looking skin first. Aesthetic refinement follows.",
+    closing:
+      "Healthy-looking skin first. Aesthetic refinement follows.",
     forWhom:
       "Patients with dull, congested or uneven skin, and anyone who wants a strong foundation before or alongside other treatment.",
     assessed: [
       "Barrier health and sensitivity",
-      "Hydration and oil balance",
       "Texture, pores and tone",
+      "Hydration and oil balance",
       "Pigmentation and sun damage",
-      "The skincare routine you follow now",
+      "Firmness and elasticity",
+      "Your current skincare",
     ],
+    personalisation:
+      "We determine which aspects of skin quality matter most for you - texture, tone, hydration or firmness - and build treatment around them, at a pace your skin tolerates.",
     sequence: [
       {
-        title: "Assessment and routine",
+        title:
+          "Assess",
         description:
-          "The skin is assessed and the routine simplified to what the barrier actually needs - often fewer products rather than more.",
+          "An assessment of your skin, your routine and your lifestyle.",
       },
       {
-        title: "Barrier and preparation",
+        title:
+          "Prioritise",
         description:
-          "Medical skincare to strengthen and prepare the skin, which also makes in-clinic treatment safer.",
+          "Identifying whether the barrier, texture, tone or firmness needs attention first.",
       },
       {
-        title: "Renewal",
+        title:
+          "Treat",
         description:
-          "In-clinic treatment to refine texture and stimulate collagen, introduced at a pace the skin tolerates.",
+          "Medical skincare to prepare the skin, then in-clinic treatment introduced gradually.",
       },
       {
-        title: "Maintenance",
-        description: "Treatment spaced out and the routine adjusted to hold the improvement.",
+        title:
+          "Reassess",
+        description:
+          "Reviewing how the skin has responded to the first treatments.",
+      },
+      {
+        title:
+          "Refine",
+        description:
+          "Adjusting treatment and skincare to the next priority.",
+      },
+      {
+        title:
+          "Maintain",
+        description:
+          "A simple routine and periodic treatment to hold the improvement.",
       },
     ],
-    whyProgramme:
-      "Skin quality is cumulative. A single facial does not change how skin behaves; a sequence of well-judged treatments, with the right care in between, does.",
-    objective: "Skin that looks healthy and even, and stays that way.",
+    objective:
+      "Skin that looks healthy and even, and stays that way.",
     concerns: ["Skin Quality, Texture & Pores", "Facial Ageing & Skin Laxity"],
     approaches: ["Skin Quality"],
   },
@@ -1051,36 +1220,54 @@ export const PROGRAMMES: SeedProgramme[] = [
     forWhom:
       "Patients with melasma, sun damage, post-acne marks or uneven tone, particularly where previous treatment gave only temporary improvement.",
     assessed: [
-      "The type and depth of the pigmentation",
-      "Triggers, including sun, heat, hormones and inflammation",
-      "Skin type and tendency to pigment",
+      "The type and depth of pigmentation",
+      "Its likely triggers - sun, heat, hormones or inflammation",
+      "Your skin type and tendency to pigment",
       "How previous treatment behaved",
-      "Daily sun exposure and protection",
+      "Daily sun exposure",
     ],
+    personalisation:
+      "We determine what is driving your pigmentation before any treatment is chosen, then select a combination of medical skincare, in-clinic treatment and technology that controls it without provoking more.",
     sequence: [
       {
-        title: "Diagnosis",
+        title:
+          "Assess",
         description:
-          "Identifying which kind of pigmentation is present, because melasma and post-inflammatory pigmentation behave differently.",
+          "Diagnosing the type of pigmentation present, since melasma and post-inflammatory pigmentation behave differently.",
       },
       {
-        title: "Stabilisation",
+        title:
+          "Prioritise",
         description:
-          "Medical skincare and sun protection to calm the skin and reduce pigment production before any procedure.",
+          "Deciding whether calming the skin, clearing pigment or controlling a trigger comes first.",
       },
       {
-        title: "Gradual clearance",
+        title:
+          "Treat",
         description:
-          "Carefully selected in-clinic treatment, introduced slowly and adjusted to how the skin responds.",
+          "Stabilising the skin with medical care, then introducing in-clinic treatment gradually.",
       },
       {
-        title: "Maintenance",
-        description: "A long-term plan, because pigmentation can return.",
+        title:
+          "Reassess",
+        description:
+          "Reviewing the response, and whether the skin is tolerating treatment.",
+      },
+      {
+        title:
+          "Refine",
+        description:
+          "Adjusting the intensity or approach as pigmentation clears.",
+      },
+      {
+        title:
+          "Maintain",
+        description:
+          "A long-term plan, because pigmentation can return.",
       },
     ],
-    whyProgramme:
-      "Pigmentation behaves over time rather than being a mark to remove. Treating it too aggressively usually provokes it, so improvement and maintenance are planned together from the start.",
-    objective: "A clearer, more even complexion, and a plan that keeps it that way.",
+    objective:
+      "A clearer, more even complexion, and a plan that keeps it that way.",
     concerns: ["Pigmentation & Melasma"],
     approaches: ["Pigmentation", "Skin Quality"],
   },
@@ -1088,46 +1275,65 @@ export const PROGRAMMES: SeedProgramme[] = [
     title: "The Signature Acne Scar Programme",
     shortTitle: "Acne Scars",
     slug: "acne-scar-programme",
-    tagline: "Because every scar has a history\u2014and a different structure.",
+    tagline: "Because every scar has a history—and a different structure.",
     body: [
       "Acne scars vary considerably in their depth, shape and underlying changes.",
       "We assess the type of scarring, skin quality, pigmentation and any ongoing acne before creating a treatment strategy. Depending on the individual, different technologies and techniques may be combined or staged over time.",
     ],
     closing:
-      "The goal is meaningful improvement in texture and confidence\u2014not unrealistic perfection.",
+      "The goal is meaningful improvement in texture and confidence—not unrealistic perfection.",
     forWhom:
       "Patients with textural or depressed scarring and post-acne marks, including those whose acne is still active.",
     assessed: [
       "Whether acne is still active",
       "Scar type, depth and distribution",
       "Skin type and tendency to pigment",
+      "Skin quality around the scars",
       "Previous treatment and how the skin responded",
       "The recovery time you can accommodate",
     ],
+    personalisation:
+      "We match each type of scarring to the treatment most likely to improve it, and decide how to combine and space those treatments for your skin.",
     sequence: [
       {
-        title: "Control",
+        title:
+          "Assess",
         description:
-          "Active acne is treated medically first, because treating scars on inflamed skin risks further scarring.",
+          "Establishing whether acne is active, and mapping the types of scarring present.",
       },
       {
-        title: "Scar mapping",
+        title:
+          "Prioritise",
         description:
-          "The types of scarring present are identified and matched to what actually improves each of them.",
+          "Controlling active acne first, then deciding which scars to address first.",
       },
       {
-        title: "Staged revision",
+        title:
+          "Treat",
         description:
-          "Combined treatment to resurface, remodel and lift scar tissue, spaced to allow the skin to recover.",
+          "Staged treatment to resurface, remodel or lift scar tissue.",
       },
       {
-        title: "Review",
-        description: "Progress compared with the starting photographs, and the plan refined.",
+        title:
+          "Reassess",
+        description:
+          "Comparing progress with the starting photographs.",
+      },
+      {
+        title:
+          "Refine",
+        description:
+          "Adjusting the combination as the texture improves.",
+      },
+      {
+        title:
+          "Maintain",
+        description:
+          "Keeping acne controlled so new scarring does not form.",
       },
     ],
-    whyProgramme:
-      "Most patients have more than one type of scar, and each responds to something different. Repeating a single procedure rarely achieves what a staged combination can.",
-    objective: "Meaningful improvement in texture and evenness, and skin you feel comfortable in.",
+    objective:
+      "Meaningful improvement in texture and evenness, and skin you feel comfortable in.",
     concerns: ["Acne & Acne Scars"],
     approaches: ["Acne & Scarring"],
   },
@@ -1143,35 +1349,54 @@ export const PROGRAMMES: SeedProgramme[] = [
     forWhom:
       "Patients with thinning, increased hair fall, patterned or patchy loss, or scalp conditions affecting the hair.",
     assessed: [
-      "The pattern and duration of the loss",
+      "The pattern and duration of hair loss",
       "The condition of the scalp",
       "Medical history, including thyroid and nutritional factors",
       "Investigations, where they will change the plan",
       "Family history",
     ],
+    personalisation:
+      "We determine the cause of your hair loss before recommending treatment, then combine medical treatment, regenerative therapy and scalp care according to what that cause requires.",
     sequence: [
       {
-        title: "Diagnosis",
+        title:
+          "Assess",
         description:
-          "Assessment of the scalp and the pattern of loss, with blood tests or other investigations where appropriate.",
+          "Examining the scalp and the pattern of loss, with investigations where appropriate.",
       },
       {
-        title: "Medical foundation",
+        title:
+          "Prioritise",
         description:
-          "Treatment directed at the cause, which is what protects the hair you still have.",
+          "Treating the underlying cause first, which protects the hair you still have.",
       },
       {
-        title: "Regenerative therapy",
-        description: "In-clinic treatment to support the follicles, delivered as a course.",
+        title:
+          "Treat",
+        description:
+          "Medical treatment, with regenerative therapy delivered as a course where helpful.",
       },
       {
-        title: "Review",
-        description: "Response tracked with photography at intervals, and the plan adjusted.",
+        title:
+          "Reassess",
+        description:
+          "Reviewing the response with photography at three to six months.",
+      },
+      {
+        title:
+          "Refine",
+        description:
+          "Adjusting the plan to how the hair has responded.",
+      },
+      {
+        title:
+          "Maintain",
+        description:
+          "Continuing treatment to hold the response.",
       },
     ],
-    whyProgramme:
-      "Hair grows slowly, and treating the symptom without the cause rarely holds. Months of consistent, reviewed treatment is what produces a result.",
-    objective: "Denser, healthier hair, and a plan that maintains it.",
+    objective:
+      "Denser, healthier hair, and a plan that maintains it.",
     concerns: ["Hair & Scalp"],
     approaches: ["Hair & Scalp"],
   },
