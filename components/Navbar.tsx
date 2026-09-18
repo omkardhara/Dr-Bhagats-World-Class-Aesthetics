@@ -37,7 +37,12 @@ export default function Navbar() {
     };
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const covered = [document.getElementById("main"), document.querySelector("footer")].filter(
+    // The skip link is included: it jumps to content the menu is covering.
+    const covered = [
+      document.getElementById("main"),
+      document.querySelector("footer"),
+      document.querySelector(".skip-link"),
+    ].filter(
       (el): el is HTMLElement => el instanceof HTMLElement
     );
     covered.forEach((el) => {
