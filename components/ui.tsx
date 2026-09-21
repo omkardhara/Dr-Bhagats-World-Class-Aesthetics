@@ -331,8 +331,7 @@ export const JOURNEY = [
   },
   {
     title: "Diagnose",
-    description:
-      "Identifying what is actually causing the concern, rather than treating only what can be seen.",
+    description: "A clinical diagnosis of what is causing the concern, not only of what can be seen.",
   },
   {
     title: "Personalise",
@@ -340,12 +339,11 @@ export const JOURNEY = [
   },
   {
     title: "Treat",
-    description:
-      "Delivered with precision, using only the treatments and technology your plan calls for.",
+    description: "Treatment delivered with precision, using only what your plan calls for.",
   },
   {
     title: "Refine",
-    description: "Progress is reviewed and the plan adjusted, with refined, natural results in mind.",
+    description: "A review of your progress, and the adjustments that keep the result natural.",
   },
 ];
 

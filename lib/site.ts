@@ -37,7 +37,7 @@ export const SUPPORTING_LINE =
 export const PHILOSOPHY_LINE = "Considered care. Never a menu.";
 
 export const PHILOSOPHY_TEXT = [
-  "We don’t believe in one treatment for everyone.",
+  "Every face is different, and so is every plan.",
   "We believe in understanding the individual, identifying what needs to change, and choosing the right combination of treatments to achieve refined, natural results.",
 ] as const;
 

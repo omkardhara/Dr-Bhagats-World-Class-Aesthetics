@@ -12,6 +12,7 @@ export const homeQuery = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{ heroImage, philosophyImage, clinicImage },
   "doctors": *[_type == "doctor"] | order(order asc){
     _id, name, degree, institution, credential, role, specialty, position, shortBio, portrait,
+    headline, domains, quote,
     "slug": slug.current
   },
   "concerns": *[_type == "concern"] | order(order asc){
@@ -137,6 +138,7 @@ export const machineSlugsQuery = defineQuery(`
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc){
     _id, name, degree, institution, credential, role, specialty, position,
+    headline, domains, principle, perspectiveTitle, perspective, closing,
     shortBio, biography, quote, practisingSince, expertise,
     foundations[]{ _key, title, detail },
     qualifications, conferences, publications, achievements, memberships,

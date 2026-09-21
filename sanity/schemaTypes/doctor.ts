@@ -78,6 +78,48 @@ export const doctor = defineType({
       group: "profile",
     }),
     defineField({
+      name: "headline",
+      title: "Positioning line",
+      description:
+        "Three qualities, in the doctor's own register. For example: Clinical depth. Surgical precision. Aesthetic judgement.",
+      type: "string",
+      group: "profile",
+    }),
+    list(
+      "domains",
+      "Domains",
+      "The ground this doctor owns, in two or three words each. Both doctors carry the same number, so neither reads as senior."
+    ),
+    defineField({
+      name: "principle",
+      title: "Guiding principle",
+      description: "One line. For example: Before treating the skin, understand it.",
+      type: "string",
+      group: "profile",
+    }),
+    defineField({
+      name: "perspectiveTitle",
+      title: "Perspective - title",
+      type: "string",
+      group: "profile",
+    }),
+    defineField({
+      name: "perspective",
+      title: "Perspective - body",
+      description: "How this doctor thinks about aesthetic medicine. One paragraph per line.",
+      type: "text",
+      rows: 6,
+      group: "profile",
+    }),
+    defineField({
+      name: "closing",
+      title: "Closing line",
+      description: "The thought the profile ends on.",
+      type: "text",
+      rows: 2,
+      group: "profile",
+    }),
+    defineField({
       name: "position",
       title: "Position in the practice",
       description: "For example: Co-Founder",

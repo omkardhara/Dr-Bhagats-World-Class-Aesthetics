@@ -110,6 +110,14 @@ export type Doctor = {
   position?: string;
   role?: string;
   specialty?: string;
+  /** Three qualities: the doctor's own register, shown beneath the name. */
+  headline?: string;
+  /** The ground this doctor owns. Both carry the same number. */
+  domains?: string[];
+  principle?: string;
+  perspectiveTitle?: string;
+  perspective?: string;
+  closing?: string;
   shortBio?: string;
   biography?: string;
   quote?: string;

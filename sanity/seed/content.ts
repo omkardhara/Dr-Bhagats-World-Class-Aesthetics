@@ -1520,6 +1520,14 @@ export type SeedDoctor = {
   specialty: string;
   position: string;
   order: number;
+  /** Three qualities. Parallel in form for both doctors, so neither reads as senior. */
+  headline: string;
+  /** Five domains each: the ground each doctor owns, without hierarchy. */
+  domains: string[];
+  principle: string;
+  perspectiveTitle: string;
+  perspective: string[];
+  closing: string;
   shortBio: string;
   biography: string[];
   quote: string;
@@ -1540,6 +1548,23 @@ export const DOCTORS: SeedDoctor[] = [
     specialty: "Aesthetic & Cosmetic Dermatology | Laser & Energy-Based Medicine",
     position: "Co-Founder",
     order: 0,
+    headline: "Aesthetic vision. Scientific precision. Refinement.",
+    domains: [
+      "Aesthetic vision",
+      "Lasers",
+      "Energy-based medicine",
+      "Skin rejuvenation",
+      "Refinement",
+    ],
+    principle: "Enhance the individual. Never override them.",
+    perspectiveTitle: "A refined approach to aesthetics",
+    perspective: [
+      "Dr Bhagat's work sits where dermatology meets aesthetic medicine: skin ageing, pigmentation, skin quality, and the technologies that address them.",
+      "A laser is only as precise as the judgement behind it.",
+      "Her aim is not a different face, but your own, looking rested, even and well - which usually asks for less treatment than expected, chosen more carefully.",
+    ],
+    closing:
+      "The most refined result is often the one no one can point to. It simply looks like you, at your best.",
     shortBio:
       "A dermatologist with a distinguished academic foundation and extensive experience in aesthetic and cosmetic dermatology.",
     biography: [
@@ -1577,9 +1602,21 @@ export const DOCTORS: SeedDoctor[] = [
     degree: "MD, Dermatology",
     institution: KEM,
     role: "Consultant Dermatologist & Dermatosurgeon",
-    specialty: "Clinical & Aesthetic Dermatology",
+    specialty: "Clinical Dermatology & Dermatosurgery | Diagnosis & Aesthetic Medicine",
     position: "Co-Founder",
     order: 1,
+    headline: "Clinical depth. Surgical precision. Aesthetic judgement.",
+    domains: ["Clinical depth", "Dermatosurgery", "Diagnosis", "Precision", "Judgement"],
+    principle: "Before treating the skin, understand it.",
+    perspectiveTitle: "A measured approach to aesthetics",
+    perspective: [
+      "Dr Bhagat brings a thoughtful, clinically grounded approach to dermatology, dermatosurgery and aesthetic medicine, drawing on extensive experience in diagnosis and procedural dermatology.",
+      "He looks beyond the immediate concern, considering the skin, the underlying structure, the proportions and the long-term health of each patient.",
+      "Technology can provide possibilities. Experience determines which possibility is appropriate.",
+      "His aim is not to change a face, but to understand what has changed, and to determine what, if anything, should be refined.",
+    ],
+    closing:
+      "The most sophisticated treatment is not necessarily the most elaborate one. It is the one that is right for the patient.",
     shortBio:
       "A dermatologist and dermatosurgeon with extensive clinical experience across medical, surgical and aesthetic dermatology.",
     biography: [
@@ -1597,10 +1634,10 @@ export const DOCTORS: SeedDoctor[] = [
     expertise: [
       "Clinical Dermatology",
       "Dermatosurgery",
+      "Aesthetic Medicine",
       "Hair & Scalp Disorders",
       "Acne & Pigmentation",
       "Paediatric Dermatology",
-      "Aesthetic Dermatology",
     ],
     foundations: [
       { title: "MD Dermatology", detail: KEM },

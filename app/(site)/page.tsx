@@ -178,8 +178,10 @@ export default async function Home() {
               {home.doctors.map((doctor) => doctor.name).join(" & ")}
             </Display>
             <Prose ground="black" className="mt-8">
-              Dermatology, grounded in medicine. Aesthetic medicine, refined through experience. Both
-              doctors hold an MD in Dermatology from Seth GS Medical College &amp; KEM Hospital, Mumbai.
+              Two dermatologists, both with an MD in Dermatology from Seth GS Medical College &amp;
+              KEM Hospital, Mumbai, and complementary expertise: clinical depth, dermatosurgery and
+              diagnosis on one side; aesthetic medicine, lasers and energy-based technology on the
+              other. Every plan at Dr Bhagat&rsquo;s is decided by one of them.
             </Prose>
           </Reveal>
           <div className="mt-20 grid grid-cols-1 gap-16 md:grid-cols-2">
@@ -211,8 +213,13 @@ export default async function Home() {
                   {doctor.credential ? (
                     <p className="mt-2 text-[0.9rem] text-brand-champagne-light">{doctor.credential}</p>
                   ) : null}
+                  {doctor.headline ? (
+                    <p className="mt-6 max-w-md text-[1.15rem] leading-[1.5] tracking-[0.01em] text-brand-champagne-light">
+                      {doctor.headline}
+                    </p>
+                  ) : null}
                   {doctor.role ? (
-                    <Eyebrow ground="black" className="mt-5">
+                    <Eyebrow ground="black" className="mt-6">
                       {doctor.role}
                     </Eyebrow>
                   ) : null}
@@ -220,6 +227,17 @@ export default async function Home() {
                     <p className="mt-6 max-w-md text-[1rem] leading-[1.8] text-brand-gray-muted">
                       {doctor.shortBio}
                     </p>
+                  ) : null}
+                  {doctor.domains?.length ? (
+                    <p className="mt-6 max-w-md text-[0.65rem] uppercase leading-[2] tracking-widest text-brand-champagne-dark">
+                      {doctor.domains.join(" · ")}
+                    </p>
+                  ) : null}
+                  {/* The doctors in their own words, on the home page rather than only deeper in. */}
+                  {doctor.quote ? (
+                    <blockquote className="mt-8 max-w-md border-l border-brand-champagne-dark pl-6 text-[1.05rem] leading-[1.7] text-brand-cream">
+                      {doctor.quote}
+                    </blockquote>
                   ) : null}
                   <TextLink href={`/about#${doctor.slug}`} ground="black" className="mt-8">
                     Read profile
@@ -273,7 +291,8 @@ export default async function Home() {
             A plan, not a procedure.
           </Display>
           <Prose ground="white" className="mt-8">
-            Every patient follows the same five steps. What happens within them is entirely personal.
+            Every patient begins with the same thoughtful process. What follows is entirely
+            personal.
           </Prose>
         </Reveal>
         <JourneySteps ground="white" />
@@ -331,8 +350,9 @@ export default async function Home() {
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal index={1}>
               <Prose>
-                We don’t choose treatments because a technology is available. We select technology
-                according to the patient’s anatomy, skin condition, goals and clinical needs.
+                Technology is selected for the patient: for their anatomy, their skin condition,
+                their goals and what the assessment calls for. Each platform here earns its place by
+                doing one thing better than the alternatives.
               </Prose>
               <p className="mt-8 text-[0.65rem] uppercase leading-[2] tracking-widest text-brand-champagne-dark">
                 {TECHNOLOGY_CATEGORIES.map((category) => category.label).join(" · ")}

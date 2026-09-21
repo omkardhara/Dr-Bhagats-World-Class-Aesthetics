@@ -47,7 +47,7 @@ export default async function TechnologyPage() {
       <PageHero
         eyebrow="Technology"
         title="Technology, selected with purpose."
-        lead="We don’t choose treatments because a technology is available. We select technology according to the patient’s anatomy, skin condition, goals and clinical needs."
+        lead="Technology is selected for the patient: for their anatomy, their skin condition, their goals and what the assessment calls for. Each platform here earns its place by doing one thing better than the alternatives."
       />
 
       {groups.length > 0 ? (

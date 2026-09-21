@@ -53,7 +53,7 @@ const INTRODUCTION: Line[] = [
   },
   { text: "Our approach is deliberately personal.", lead: true },
   {
-    text: "We do not believe that every patient needs the same treatment, or that the latest technology is automatically the best choice. We begin by listening, assessing and understanding what the patient would like to improve.",
+    text: "We begin by listening, assessing and understanding what the patient would like to improve. The right treatment is the one that fits the individual, which is rarely the newest, and never the same for two people.",
   },
   { text: "Only then do we decide how best to approach it.", lead: true },
   {
@@ -213,6 +213,12 @@ function DoctorProfile({ doctor, flip, shots }: { doctor: Doctor; flip: boolean;
       <h2 className="mt-8 text-4xl font-normal leading-[1.04] tracking-[0.005em] text-brand-cream sm:text-5xl lg:text-6xl">
         {doctor.name}
       </h2>
+      {/* The positioning line: what this doctor is the authority on. */}
+      {doctor.headline ? (
+        <p className="mt-8 text-xl font-normal leading-[1.4] tracking-[0.01em] text-brand-champagne-light lg:text-2xl">
+          {doctor.headline}
+        </p>
+      ) : null}
       {/* The qualification sits directly beneath the name, as the doctors asked. */}
       {doctor.degree ? (
         <p className="mt-8 text-xl font-normal tracking-[0.02em] text-brand-cream lg:text-2xl">
@@ -233,6 +239,11 @@ function DoctorProfile({ doctor, flip, shots }: { doctor: Doctor; flip: boolean;
       ) : null}
       {doctor.specialty ? (
         <p className="mt-2 text-[0.95rem] leading-[1.6] text-brand-gray-muted">{doctor.specialty}</p>
+      ) : null}
+      {doctor.domains?.length ? (
+        <p className="mt-6 text-[0.65rem] uppercase leading-[2] tracking-widest text-brand-champagne-light">
+          {doctor.domains.join(" · ")}
+        </p>
       ) : null}
     </div>
   );
@@ -264,6 +275,13 @@ function DoctorProfile({ doctor, flip, shots }: { doctor: Doctor; flip: boolean;
 
         <div className="mt-24 grid grid-cols-1 gap-16 lg:mt-20 lg:grid-cols-12">
           <div className="lg:col-span-7">
+            {doctor.principle ? (
+              <Reveal>
+                <p className="mb-12 max-w-2xl border-l border-brand-champagne-dark pl-6 text-[1.3rem] leading-[1.5] text-brand-cream lg:text-[1.5rem]">
+                  {doctor.principle}
+                </p>
+              </Reveal>
+            ) : null}
             <Reveal>
               {paragraphs(doctor.biography).map((paragraph) => (
                 <p
@@ -274,6 +292,31 @@ function DoctorProfile({ doctor, flip, shots }: { doctor: Doctor; flip: boolean;
                 </p>
               ))}
             </Reveal>
+            {/* How this doctor thinks, given the same space on both profiles. */}
+            {doctor.perspective ? (
+              <Reveal index={1}>
+                <div className="mt-16 border-t border-brand-gray-muted/25 pt-12">
+                  {doctor.perspectiveTitle ? (
+                    <h3 className="text-2xl font-normal tracking-[0.01em] text-brand-cream">
+                      {doctor.perspectiveTitle}
+                    </h3>
+                  ) : null}
+                  {paragraphs(doctor.perspective).map((paragraph) => (
+                    <p
+                      key={paragraph}
+                      className="mt-6 max-w-2xl text-[1.05rem] leading-[1.85] text-brand-gray-muted"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                  {doctor.closing ? (
+                    <p className="mt-10 max-w-2xl text-[1.15rem] leading-[1.7] text-brand-champagne-light">
+                      {doctor.closing}
+                    </p>
+                  ) : null}
+                </div>
+              </Reveal>
+            ) : null}
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9">
