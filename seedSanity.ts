@@ -111,6 +111,13 @@ const text = (paragraphs: string[]) => paragraphs.join("\n\n");
  * are never included, so a reseed leaves uploaded photography intact. Fields
  * to unset are skipped in additive mode.
  */
+/** The Journal attributes each piece to a doctor by name; ids follow their own slug. */
+function doctorSlug(name: string): string {
+  const doctor = DOCTORS.find((d) => d.name === name);
+  if (!doctor) throw new Error(`Unknown doctor: ${name}`);
+  return doctor.slug;
+}
+
 function upsert(
   tx: Transaction,
   id: string,
@@ -375,7 +382,7 @@ async function seed() {
         body: blocks(a.paragraphs),
         ...(a.concern ? { concern: ref(ids.concern(a.concern)) } : {}),
         ...(a.approach ? { approach: ref(ids.approach(a.approach)) } : {}),
-        doctor: ref(`doctor.${slug(a.doctor)}`),
+        doctor: ref(`doctor.${doctorSlug(a.doctor)}`),
       },
       [...(a.concern ? [] : ["concern"]), ...(a.approach ? [] : ["approach"])]
     );
