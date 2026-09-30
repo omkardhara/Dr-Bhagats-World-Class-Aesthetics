@@ -21,6 +21,8 @@ export type ConcernSummary = Ref & {
 };
 
 export type Concern = ConcernSummary & {
+  /** The doctor's note beside the technology list. */
+  technologyNote?: string;
   experience?: string;
   understanding?: string;
   assessment?: string;
@@ -45,6 +47,7 @@ export type ApproachSummary = Ref & {
 
 export type Approach = Ref & {
   summary?: string;
+  technologyNote?: string;
   focus?: string;
   related?: { _key: string; note?: string; approach: Ref | null }[];
   /** Every approach in display order, for the page's position and the next approach. */
@@ -68,6 +71,7 @@ export type Approach = Ref & {
 export type ProgrammeSummary = ProgrammeRef & { shortTitle?: string };
 
 export type Programme = ProgrammeSummary & {
+  technologyNote?: string;
   /** What the programme is, and is not. */
   positioning?: string;
   technologies?: TechnologyRef[];

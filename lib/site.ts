@@ -64,8 +64,10 @@ export type Location = {
   whatsapp: string | null;
   email: string | null;
   mapsUrl: string | null;
-  /** TODO(client): opening hours, in schema.org format e.g. "Mo-Sa 10:00-19:00". */
+  /** schema.org format, for structured data: "Mo-Sa 10:00-20:00". */
   openingHours: string[] | null;
+  /** The same hours as a patient reads them. */
+  hours: string | null;
   geo: { latitude: number; longitude: number } | null;
 };
 
@@ -79,12 +81,14 @@ export const LOCATIONS: Location[] = [
     region: "Maharashtra",
     postalCode: "400063",
     country: "IN",
-    // Premises have changed; the previous number is not carried over.
-    phone: null,
-    whatsapp: null,
+    phone: "+919833022264",
+    // TODO(client): confirm WhatsApp reaches the same number.
+    whatsapp: "+919833022264",
+    // TODO(client): the enquiry email address.
     email: null,
     mapsUrl: null,
-    openingHours: null,
+    openingHours: ["Mo-Sa 10:00-20:00"],
+    hours: "Monday to Saturday, 10am to 8pm \u00b7 Closed Sunday",
     geo: null,
   },
   {
@@ -97,11 +101,13 @@ export const LOCATIONS: Location[] = [
     postalCode: "400703",
     country: "IN",
     // TODO(client): confirm this survived the rebrand.
-    phone: "+912240048149",
-    whatsapp: null,
+    phone: "+919820766016",
+    // TODO(client): confirm WhatsApp reaches the same number.
+    whatsapp: "+919820766016",
     email: null,
     mapsUrl: null,
-    openingHours: null,
+    openingHours: ["Mo-We 09:00-19:00", "Fr-Su 09:00-19:00"],
+    hours: "Friday to Wednesday, 9am to 7pm \u00b7 Closed Thursday",
     geo: null,
   },
 ];
@@ -113,10 +119,10 @@ export const SOCIALS = {
 
 /** Formats a phone number for display: +912240048149 -> +91 22 4004 8149 */
 export function formatPhone(phone: string): string {
-  const match = phone.match(/^\+(\d{2})(\d{2})(\d{4})(\d{4})$/);
-  return match
-    ? `+${match[1]} ${match[2]} ${match[3]} ${match[4]}`
-    : phone;
+  const mobile = phone.match(/^\+(91)(\d{5})(\d{5})$/);
+  if (mobile) return `+${mobile[1]} ${mobile[2]} ${mobile[3]}`;
+  const landline = phone.match(/^\+(\d{2})(\d{2})(\d{4})(\d{4})$/);
+  return landline ? `+${landline[1]} ${landline[2]} ${landline[3]} ${landline[4]}` : phone;
 }
 
 /**

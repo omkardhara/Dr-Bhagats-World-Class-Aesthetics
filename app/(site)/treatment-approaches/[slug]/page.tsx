@@ -204,6 +204,14 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
                   </li>
                 ))}
               </ul>
+              {approach.technologyNote ? (
+                <Reveal>
+                  {/* The doctor's own note on choosing a technology here. */}
+                  <blockquote className="mt-10 max-w-xl border-l border-brand-champagne-dark pl-6 text-[0.98rem] leading-[1.8] text-brand-black">
+                    {approach.technologyNote}
+                  </blockquote>
+                </Reveal>
+              ) : null}
             </div>
           ) : null}
         </Rail>

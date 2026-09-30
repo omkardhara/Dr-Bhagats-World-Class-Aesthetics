@@ -198,6 +198,11 @@ export default async function SignaturePage() {
                       Alongside medical skincare and skin-quality treatment, where these are part of
                       the plan. Nothing here is included as standard.
                     </p>
+                    {programme.technologyNote ? (
+                      <blockquote className="mt-8 max-w-xl border-l border-brand-champagne-dark pl-6 text-[0.98rem] leading-[1.8] text-brand-black">
+                        {programme.technologyNote}
+                      </blockquote>
+                    ) : null}
                   </Detail>
                 ) : null}
 

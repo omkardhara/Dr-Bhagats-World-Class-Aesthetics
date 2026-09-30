@@ -46,6 +46,14 @@ export const signatureProgramme = defineType({
       type: "string",
     }),
     defineField({
+      name: "technologyNote",
+      title: "The doctor's note on technology",
+      description:
+        "Why a technology may or may not be chosen here, in the doctor's own voice. Sits beside the technology list.",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
       name: "technologies",
       title: "Technology a plan may draw on",
       description:

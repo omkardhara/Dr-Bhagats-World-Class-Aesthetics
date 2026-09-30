@@ -42,6 +42,7 @@ export const concernsQuery = defineQuery(`
 export const concernBySlugQuery = defineQuery(`
   *[_type == "concern" && slug.current == $slug][0]{
     _id, title, summary, experience, understanding, assessment, approach, selection, expectations,
+    technologyNote,
     relatedConditions, resultCategory, image, faqs[]{ question, answer },
     "slug": slug.current,
     "programmes": programmes[]->{ _id, title, tagline, "slug": slug.current },
@@ -74,7 +75,7 @@ export const approachesQuery = defineQuery(`{
 
 export const approachBySlugQuery = defineQuery(`
   *[_type == "treatmentApproach" && slug.current == $slug][0]{
-    _id, title, summary, focus, philosophy, considerations, image,
+    _id, title, summary, focus, philosophy, considerations, image, technologyNote,
     addresses, options, expectations, downtime, combinations, maintenance,
     "slug": slug.current,
     "related": related[]{ _key, note, "approach": approach->{ _id, title, "slug": slug.current } },
@@ -99,7 +100,7 @@ export const approachSlugsQuery = defineQuery(`
 
 export const programmesQuery = defineQuery(`
   *[_type == "signatureProgramme"] | order(order asc){
-    _id, title, shortTitle, tagline, positioning, body, closing, image, "slug": slug.current,
+    _id, title, shortTitle, tagline, positioning, body, closing, image, technologyNote, "slug": slug.current,
     forWhom, assessed, personalisation, objective,
     "technologies": technologies[]->{ _id, name, dedicatedPage, "slug": slug.current },
     sequence[]{ _key, title, description }

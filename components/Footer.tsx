@@ -115,9 +115,9 @@ export default function Footer() {
                   <br />
                   {location.region} {location.postalCode}
                 </p>
-                {location.openingHours ? (
+                {location.hours ? (
                   <p className="mt-3 text-[0.8rem] leading-[1.7] text-brand-gray-muted">
-                    {location.openingHours.join(", ")}
+                    {location.hours}
                   </p>
                 ) : null}
                 <div className="mt-2 flex flex-wrap gap-x-6">
@@ -151,9 +151,17 @@ export default function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col gap-6 border-t lg:mt-16 border-brand-gray-muted/25 py-10 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">
-            &copy; {new Date().getFullYear()} {BRAND.legalName}
-          </p>
+          <div className="flex flex-wrap items-center gap-x-8">
+            <p className="text-[0.65rem] uppercase tracking-widest text-brand-gray-muted">
+              &copy; {new Date().getFullYear()} {BRAND.legalName}
+            </p>
+            <Link
+              href="/privacy"
+              className="inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest text-brand-gray-muted transition-colors hover:text-brand-cream"
+            >
+              Privacy Policy
+            </Link>
+          </div>
           <ul className="flex gap-8">
             {Object.entries(SOCIALS).map(([name, href]) => (
               <li key={name}>

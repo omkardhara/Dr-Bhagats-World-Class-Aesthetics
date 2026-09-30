@@ -22,7 +22,7 @@ export default function ClinicDetails({ columns = 1 }: { columns?: 1 | 2 }) {
             ? { label: "WhatsApp", value: formatPhone(location.whatsapp), href: whatsappHref(location.whatsapp) }
             : null,
           location.email ? { label: "Email", value: location.email, href: `mailto:${location.email}` } : null,
-          location.openingHours ? { label: "Opening hours", value: location.openingHours.join(", ") } : null,
+          location.hours ? { label: "Opening hours", value: location.hours } : null,
         ].filter((row): row is Row => row !== null);
 
         return (

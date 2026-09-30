@@ -80,7 +80,7 @@ export const MACHINES: SeedMachine[] = [
     whatItIs:
       "Thermage FLX may be considered when the clinical objective is to improve firmness and the appearance of skin laxity without an invasive procedure. It heats the deeper layers of the skin while protecting the surface, prompting the skin to rebuild its own collagen over the months that follow.",
     whyWeUse:
-      "Not every patient asking for a lift needs the same treatment. I use Thermage when the assessment shows that the skin itself has lost its tension, and when firmness - rather than deeper descent or lost volume - is what is changing the face. It is one of several options I may select, decided by tissue characteristics and by what the patient wants to change.",
+      "Thermage is one of the technologies I may consider when the primary concern is skin quality and selected degrees of laxity, particularly when a patient is looking for a non-invasive treatment. I do not recommend Thermage simply because a patient wants tightening: I first assess skin quality, laxity, facial structure and the degree of change that is realistically achievable. In some faces, another technology may be more appropriate. The decision is based on what I see clinically, not on the machine available.",
     whyWeUseBy: "Dr Priyam Bhagat",
     considerWhen: [
       "Firmness and the appearance of laxity are the clinical objective",
@@ -124,7 +124,7 @@ export const MACHINES: SeedMachine[] = [
     whatItIs:
       "The versatility of the platform allows different wavelengths and treatment approaches to be selected according to the clinical indication - from gentle rejuvenation to deeper resurfacing - with the settings chosen for each patient's skin.",
     whyWeUse:
-      "The platform matters less than the decision of how to use it. At Dr Bhagat's, Fotona is used across pigmentation, skin quality, acne and acne scars, vascular concerns, rejuvenation and selected resurfacing indications - and the same patient may need a different wavelength six months later, as their skin changes.",
+      "Fotona gives me access to different laser wavelengths and treatment approaches, which means its role is not limited to one concern. I consider laser treatment only after assessing what is contributing to the patient’s concern \u2014 pigmentation, vascular change, texture, rejuvenation or another indication. The important part is choosing the appropriate wavelength, delivery and strategy for the individual skin rather than treating every patient with the same laser approach. Laser treatment should be precise, purposeful and indication-led.",
     whyWeUseBy: "Dr Priyam Bhagat",
     considerWhen: [
       "The plan calls for laser treatment of texture, pigment or scarring",
@@ -167,6 +167,9 @@ export const MACHINES: SeedMachine[] = [
       "Q-switched Nd:YAG laser platform for pigment clearance, tattoo removal and laser toning.",
     whatItIs:
       "Fotona StarWalker allows us to treat unwanted pigment precisely. It breaks pigment into particles the body can clear, while leaving the surrounding skin largely undisturbed - which is why it can be used gently on Indian skin within a careful plan.",
+    whyWeUse:
+      "Pigmentation and vascular concerns require diagnosis before treatment. I first assess the type and pattern of pigmentation, skin type, associated redness or vascular change, previous treatment and the likelihood of recurrence. StarWalker may be considered when its laser capabilities are appropriate for the specific indication, and the wavelength and treatment approach are selected according to the patient’s skin and the clinical problem. A laser is a tool. The diagnosis and treatment plan come first.",
+    whyWeUseBy: "Dr Kamlesh V. Bhagat",
     whoMayBenefit:
       "Patients with sun spots, freckling, uneven tone, post-acne marks or unwanted tattoos, once the type of pigmentation has been properly diagnosed. For melasma it is used cautiously, and only as part of a wider plan.",
     helpsWith: [
@@ -196,7 +199,7 @@ export const MACHINES: SeedMachine[] = [
     whatItIs:
       "Treatment depth and area are selected according to facial anatomy and the intended clinical objective. Focused ultrasound reaches the layers that hold the face up, encouraging them to tighten and remodel while the surface of the skin is left undisturbed.",
     whyWeUse:
-      "I select Ultraformer when the assessment shows that the deeper supporting layers, rather than the skin itself, have begun to descend. The depth is chosen for the anatomy in front of me - which is why it is so often one part of a plan rather than the whole of it.",
+      "Ultraformer is considered when focused ultrasound energy is appropriate for the patient’s anatomy and treatment goal. Before recommending it, I assess where the laxity is, the quality and thickness of the tissue, facial structure, and whether the patient needs lifting, contouring or another form of treatment. Not every face that asks for tightening needs ultrasound: in some patients RF, laser, Endolift or a combination makes more sense. The treatment is selected according to the face, not according to a fixed protocol.",
     whyWeUseBy: "Dr Priyam Bhagat",
     considerWhen: [
       "The supporting layers beneath the skin have begun to descend",
@@ -231,51 +234,49 @@ export const MACHINES: SeedMachine[] = [
       "It is frequently paired with skin-quality or radiofrequency treatment, because the deeper layers and the skin surface age differently. It may not be chosen where laxity is advanced, where the skin is very thin, or where a minimally invasive approach such as Endolift is more appropriate.",
   },
   {
-    name: "Sylfirm X",
+name: "Sylfirm X",
     categories: ["lifting", "pigmentation", "skin-quality", "acne-scarring"],
     dedicatedPage: true,
-    purpose:
-      "Advanced pulsed and continuous-wave RF, selected according to the concern.",
+    purpose: "Precision RF for complex skin concerns.",
     description:
-      "Dual-wave radiofrequency microneedling platform for pigmentation, vascular concerns and skin remodelling.",
+      "Dual-wave radiofrequency microneedling platform. Internal reference only: modes, depths and parameters are never published.",
     whatItIs:
-      "Sylfirm X combines microneedling RF technology with different RF delivery modes, allowing treatment to be tailored to the clinical indication. At Dr Bhagat's, the choice is not simply about treating tightness: we consider the skin's quality, vascular and pigmentary concerns, degree of laxity, anatomical area and desired outcome before deciding how the technology should be used. The technology is the same. The treatment strategy is not.",
+      "Sylfirm X is a radiofrequency microneedling platform that we use selectively for concerns where conventional microneedling, or a single-mode approach, may not be enough. What makes it particularly interesting clinically is the ability to work with different RF delivery modes. In our practice, this allows us to approach concerns such as pigmentation, redness, acne scarring and selected skin-quality changes with greater consideration of the underlying skin condition. The treatment is not chosen simply because Sylfirm X is available: we first assess the skin, the concern, its severity and the patient\u2019s tolerance, and then decide whether Sylfirm X is the right technology, and how we want to use it.",
     whyWeUse:
-      "I use Sylfirm X when I want to address skin quality and certain pigmentary concerns while also working on firmness. It is not my default treatment for every patient who asks for tightening.",
+      "I don\u2019t use Sylfirm X simply as a skin-tightening treatment. What interests me about Sylfirm X is its versatility. When I assess a patient, I am rarely looking at just one problem: pigmentation may coexist with redness, acne scars with enlarged pores. Sylfirm X gives me the ability to approach different skin concerns using radiofrequency in different ways, rather than treating every patient with one standard protocol.",
     whyWeUseBy: "Dr Priyam Bhagat",
+    perspective:
+      "Sylfirm X offers different RF delivery characteristics, and I use that flexibility according to the clinical problem rather than following one universal protocol. For some patients the objective may be to address pigmentary or vascular components; for others the priority may be texture, acne scarring or overall skin quality. The same machine can therefore have a very different role in two different patients.",
+    whoMayBenefit:
+      "Selected patients, decided one at a time. Before treatment I look at the skin type, the primary concern, the depth and nature of the problem, previous treatments and how the skin is likely to respond. I then decide whether Sylfirm X is appropriate \u2014 and if it is, which mode and treatment approach make sense for that particular patient. The important part is not the machine. It is the clinical decision behind it.",
+    helpsWith: [
+      "Pigmentation and melasma",
+      "Redness and selected vascular concerns",
+      "Acne and acne scarring",
+      "Uneven texture and enlarged pores",
+      "Selected skin-quality concerns",
+      "Selected periorbital concerns",
+    ],
     considerWhen: [
-      "Selected pigmentary concerns",
-      "Rosacea and vascular concerns",
-      "Skin texture and quality",
-      "Selected acne and acne-scar concerns",
-      "Periorbital skin concerns",
-      "Selected cases of laxity and rejuvenation",
-      "Underarm hyperhidrosis, where clinically appropriate",
+      "The clinical assessment suggests RF microneedling can meaningfully address the concern",
+      "The skin can tolerate the treatment appropriately",
+      "More than one concern coexists, such as pigmentation with redness, or scarring with pores",
+      "A carefully controlled intervention suits the skin better than more energy",
     ],
     notWhen: [
-      "There is active inflammation or infection in the area",
-      "Deeper laxity is the main concern, and depth matters more than skin quality",
-      "The skin needs medical settling before any device is used",
-      "A single session is expected to carry the result",
-    ],
-    whoMayBenefit:
-      "Patients whose skin needs strengthening and remodelling - early laxity, crepey texture, scarring, or pigmentation that has not tolerated more aggressive treatment. Its measured approach makes it suitable for many Indian skin types.",
-    helpsWith: [
-      "Early laxity and loss of skin firmness",
-      "Crepey or thinning skin",
-      "Melasma and stubborn pigmentation",
-      "Acne scarring and uneven texture",
-      "Redness and visible vessels",
-      "Enlarged pores",
+      "The dominant problem is better addressed with a laser, ultrasound or non-invasive RF",
+      "Resurfacing, topical therapy or another modality is the more appropriate answer",
+      "The skin needs medical treatment to settle before any device is used",
+      "It would be chosen only because the platform is available",
     ],
     sessionTime:
-      "Usually thirty to sixty minutes, including time for topical anaesthetic. It is typically planned as a course of sessions spaced several weeks apart.",
+      "Usually thirty to sixty minutes, including time for topical anaesthetic, and typically planned as a course of sessions spaced several weeks apart.",
     downtime:
       "Redness and mild swelling for one to three days is usual, with a slightly rough texture as the skin recovers.",
     expectations:
-      "Improvement is gradual and cumulative across the course, with firmer, smoother and more even skin developing over several months.",
+      "Change is gradual and cumulative across the course, and what improves depends on what was treated: evenness of tone, the appearance of redness, texture and scarring, or the overall quality of the skin. Improvement is assessed between sessions rather than promised in advance.",
     combinations:
-      "It complements deeper lifting treatments such as ultrasound or Endolift by addressing the skin those treatments do not, and it is often part of pigmentation and scar programmes. It may not be chosen during active inflammation or infection, or where deeper laxity is the main concern.",
+      "I don\u2019t treat the machine. I treat the skin. Sylfirm X is not a fixed protocol in my practice: it is one of several technologies I can consider after assessing what the patient\u2019s skin actually needs, and it is often planned alongside medical treatment and skincare. Where the dominant problem belongs to another modality, that modality is chosen instead.",
   },
   {
     name: "Endolift X",
@@ -288,7 +289,7 @@ export const MACHINES: SeedMachine[] = [
     whatItIs:
       "Endolift X is a minimally invasive laser-assisted procedure in which a fine optical fibre is introduced beneath the skin to deliver energy precisely within the targeted tissue planes. It is fundamentally different from external energy-based treatments, because the energy is delivered from within the tissue. Suitability is determined after assessing facial anatomy, tissue laxity, skin quality, fat distribution and the degree of correction required.",
     whyWeUse:
-      "The goal is not simply tighter skin. It is improved definition and a more refined facial contour, while preserving the character of the face. Because Endolift is a minimally invasive procedure, patient selection, technique and aftercare matter as much as the technology, which is why I discuss it in person rather than prescribe it on request.",
+      "Endolift is not a treatment I recommend simply because a patient asks for lifting. I first assess the degree and pattern of laxity, skin quality, facial structure, tissue position and the patient’s expectations. I then decide whether Endolift is likely to provide a meaningful improvement, or whether another approach would be more appropriate. The technology is chosen after the face is assessed \u2014 not the other way around.",
     whyWeUseBy: "Dr Kamlesh V. Bhagat",
     considerWhen: [
       "There is appropriate tissue laxity",
@@ -303,7 +304,7 @@ export const MACHINES: SeedMachine[] = [
       "Laxity is mild enough for a non-invasive approach, or advanced enough to need surgery",
     ],
     perspective:
-      "Endolift sits between non-surgical tightening and surgery. It is selected when the assessment shows that definition along the lower face and neck is what matters most, and when a less invasive option is unlikely to achieve a result the patient would be happy with.",
+      "For selected patients, Endolift can provide a minimally invasive approach to lifting and contouring. The treatment plan is individualised according to the anatomy and the degree of correction required. Because it is a procedure, patient selection, technique and aftercare matter as much as the technology itself.",
     whoMayBenefit:
       "Patients who want more definition than surface treatments can offer, but who are not seeking surgery - particularly those with laxity or small pockets of fat along the lower face, jawline and neck. It is not prescribed simply because a patient asks for a lift.",
     helpsWith: [
@@ -387,7 +388,7 @@ export const MACHINES: SeedMachine[] = [
     dedicatedPage: false,
     purpose: "Cleansing, exfoliation, extraction and hydration in a single treatment.",
     whyWeUse:
-      "A facial is not a treatment plan, but it is often where one sensibly begins. I use it to settle congestion and restore the barrier, so that the treatments that follow work on skin that is ready for them.",
+      "I use Hydrafacial as a skin-conditioning treatment within a medical dermatology practice, not simply as a spa facial. Before recommending it, I consider the patient’s skin condition, sensitivity, congestion, hydration and immediate skin goals. For some patients it may be useful on its own; for others it forms part of a broader skin-quality programme. Even a maintenance treatment should begin with an understanding of the skin.",
     whyWeUseBy: "Dr Priyam Bhagat",
     description:
       "Vortex-fusion system that cleanses, exfoliates, extracts and hydrates in a single treatment.",
@@ -542,6 +543,8 @@ export type SeedConcern = {
   selection: string;
   expectations: string;
   relatedConditions: string[];
+  /** The doctor's note on how a technology is chosen for this concern. */
+  technologyNote?: string;
   resultCategory: ResultCategory;
   programmes: string[];
   approaches: string[];
@@ -587,6 +590,8 @@ export const CONCERNS: SeedConcern[] = [
   },
   {
     title: "Pigmentation & Melasma",
+    technologyNote:
+      "Pigmentation is rarely just a surface problem. When I assess pigmentation, I first try to understand its pattern, depth, triggers, associated redness and the patient’s history of previous treatments. In selected patients, Sylfirm X can be considered as part of a broader pigmentation strategy, particularly when I want to address pigmentary change while also working on aspects of skin quality. It is not a universal treatment for melasma, and I do not use one protocol for every pigmentation patient. The diagnosis comes first. The technology follows.",
     slug: "pigmentation",
     summary:
       "Uneven tone has many causes. Identifying the right one matters more than the strength of the treatment.",
@@ -617,6 +622,8 @@ export const CONCERNS: SeedConcern[] = [
   },
   {
     title: "Acne & Acne Scars",
+    technologyNote:
+      "Acne scars are not all the same. Before selecting a treatment, I look at the type of scar, skin texture, active acne, pigmentation and the overall condition of the skin. In selected patients, Sylfirm X can be useful when I want to combine controlled RF delivery with microneedling to address aspects of texture and scarring. There is no single acne-scar protocol, and no single technology that works for every scar.",
     slug: "acne",
     summary:
       "Active acne and the scarring it leaves are different problems, treated in a particular order.",
@@ -646,6 +653,8 @@ export const CONCERNS: SeedConcern[] = [
   },
   {
     title: "Skin Quality, Texture & Pores",
+    technologyNote:
+      "When patients say their skin looks dull, uneven or not as smooth as it used to, I first determine what is contributing to that appearance: texture, pores, pigmentation, previous acne, early laxity or simply a change in overall skin quality. Sylfirm X may be considered in selected patients when controlled RF microneedling can address that particular combination of concerns. The objective is not simply to make the skin tighter. It is to improve the quality and appearance of the skin in a way that is appropriate for that individual face.",
     slug: "skin-quality",
     summary: "Healthy skin is the foundation every other treatment depends on.",
     experience:
@@ -839,6 +848,8 @@ export type SeedApproach = {
   modalities: string[];
   concerns: string[];
   technologies: string[];
+  /** The doctor's note beside the technology list. */
+  technologyNote?: string;
 };
 
 export const APPROACHES: SeedApproach[] = [
@@ -846,6 +857,8 @@ export const APPROACHES: SeedApproach[] = [
     title: "Facial Rejuvenation",
     summary:
       "Addressing how the face changes with time - its firmness, support and volume - so you look rested, not different.",
+    technologyNote:
+      "Facial rejuvenation does not always mean lifting. Sometimes the face looks tired because of pigmentation, uneven texture, enlarged pores or a deterioration in skin quality rather than significant laxity. In these situations, Sylfirm X may form part of a rejuvenation plan when the skin assessment supports its use. I decide between RF, ultrasound, laser, microneedling or other approaches based on what is actually contributing to the appearance. The goal is not to use more technology. The goal is to use the right technology.",
     focus:
       "Facial Rejuvenation is about time: how the support, firmness and volume of the face change as it ages, and how to restore them without changing who you are.",
     related: [
@@ -1261,6 +1274,8 @@ export type SeedProgramme = {
   approaches: string[];
   /** The technology a plan may draw on. Selected at assessment, never in advance. */
   technologies: string[];
+  /** The doctor's note beside that list. */
+  technologyNote?: string;
 };
 
 export const PROGRAMMES: SeedProgramme[] = [
@@ -1337,6 +1352,8 @@ export const PROGRAMMES: SeedProgramme[] = [
     title: "The Signature Skin Quality Programme",
     shortTitle: "Skin Quality",
     slug: "skin-quality-programme",
+    technologyNote:
+      "For selected patients, Sylfirm X may form part of a personalised skin-quality programme where texture, pores, pigmentation or other changes in skin quality are contributing to the overall appearance. It is used only when the clinical assessment indicates that it adds meaningful value to the treatment plan.",
     positioning: "Not a facial. A programme for the skin itself.",
     tagline: "Because beautiful skin is the foundation of every aesthetic result.",
     body: [
@@ -1405,6 +1422,8 @@ export const PROGRAMMES: SeedProgramme[] = [
     title: "The Signature Pigmentation Programme",
     shortTitle: "Pigmentation",
     slug: "pigmentation-programme",
+    technologyNote:
+      "In selected pigmentation patients, Sylfirm X may be incorporated into a broader, personalised treatment plan. The choice depends on the type of pigmentation, skin characteristics, previous treatments and the other factors identified during assessment. Pigmentation is treated according to its cause and behaviour, not according to a fixed machine protocol.",
     positioning: "Not a quick fix. A long-term strategy.",
     tagline: "A long-term approach to clearer, more even skin.",
     body: [
@@ -1472,6 +1491,8 @@ export const PROGRAMMES: SeedProgramme[] = [
     title: "The Signature Acne Scar Programme",
     shortTitle: "Acne Scars",
     slug: "acne-scar-programme",
+    technologyNote:
+      "For selected acne-scar patients, Sylfirm X may be considered when the combination of RF microneedling and controlled energy delivery is appropriate for the type and condition of the scars. The treatment is individualised and may be combined with other modalities when clinically indicated.",
     positioning: "Not one treatment. A staged plan.",
     tagline: "Because every scar has a history—and a different structure.",
     body: [
