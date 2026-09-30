@@ -80,6 +80,9 @@ export type Programme = ProgrammeSummary & {
 
 export type TechnologyItem = TechnologyRef & {
   categories?: string[];
+  /** The doctor's own reason for using it, in the first person. */
+  whyWeUse?: string;
+  whyWeUseBy?: string;
 };
 
 export type Machine = TechnologyItem & {
@@ -92,6 +95,8 @@ export type Machine = TechnologyItem & {
   downtime?: string;
   expectations?: string;
   combinations?: string;
+  considerWhen?: string[];
+  notWhen?: string[];
   image?: SanityImage | null;
   approaches?: Ref[];
   concerns?: (Ref & { summary?: string })[];

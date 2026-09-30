@@ -95,6 +95,34 @@ export const machine = defineType({
       "The selection logic: combinations, and when another approach is better.",
       4
     ),
+    text(
+      "whyWeUse",
+      "Why we use it",
+      "The doctor's own clinical perspective, in the first person. Never a manufacturer's explanation.",
+      4
+    ),
+    defineField({
+      name: "whyWeUseBy",
+      title: "Whose perspective",
+      description: "The doctor the passage above belongs to.",
+      type: "string",
+      group: "page",
+    }),
+    defineField({
+      name: "considerWhen",
+      title: "May be considered when",
+      type: "array",
+      group: "page",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({
+      name: "notWhen",
+      title: "May not be appropriate when",
+      description: "Being clear about this is part of the practice, not a disclaimer.",
+      type: "array",
+      group: "page",
+      of: [defineArrayMember({ type: "string" })],
+    }),
     defineField({
       name: "description",
       title: "Technical note",

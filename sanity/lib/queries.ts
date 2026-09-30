@@ -110,7 +110,7 @@ export const programmesQuery = defineQuery(`
 /** Uncategorised technologies are held back from the page until a category is chosen. */
 export const technologyQuery = defineQuery(`
   *[_type == "machine" && count(categories) > 0] | order(name asc){
-    _id, name, purpose, categories, dedicatedPage, "slug": slug.current
+    _id, name, purpose, categories, dedicatedPage, whyWeUse, whyWeUseBy, "slug": slug.current
   }
 `);
 
@@ -118,6 +118,7 @@ export const machineBySlugQuery = defineQuery(`
   *[_type == "machine" && slug.current == $slug][0]{
     _id, name, purpose, description, categories, dedicatedPage, image,
     whatItIs, perspective, whoMayBenefit, helpsWith, sessionTime, downtime, expectations, combinations,
+    whyWeUse, whyWeUseBy, considerWhen, notWhen,
     "slug": slug.current,
     "concerns": *[_type == "concern" && references(^._id)] | order(order asc){
       _id, title, summary, "slug": slug.current

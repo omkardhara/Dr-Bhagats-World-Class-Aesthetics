@@ -60,19 +60,40 @@ export type SeedMachine = {
   downtime?: string;
   expectations?: string;
   combinations?: string;
+  /** The doctors' own reason for using it, in the first person. Draft for sign-off. */
+  whyWeUse?: string;
+  whyWeUseBy?: string;
+  /** When it may be considered, and when it may not be appropriate. */
+  considerWhen?: string[];
+  notWhen?: string[];
 };
 
 export const MACHINES: SeedMachine[] = [
   {
     name: "Thermage FLX",
-    categories: ["energy-based", "lifting"],
+    categories: ["lifting", "body"],
     dedicatedPage: true,
     purpose:
-      "Non-surgical skin tightening for the face, eyes and body.",
+      "Non-invasive monopolar RF for selected skin-firming and contouring goals.",
     description:
       "Monopolar radiofrequency platform with AccuREP technology for non-surgical skin tightening.",
     whatItIs:
-      "Thermage FLX allows us to firm the skin without surgery or injections. It gently heats the deeper layers of the skin while protecting the surface, prompting the skin to rebuild and tighten its own collagen over the months that follow.",
+      "Thermage FLX may be considered when the clinical objective is to improve firmness and the appearance of skin laxity without an invasive procedure. It heats the deeper layers of the skin while protecting the surface, prompting the skin to rebuild its own collagen over the months that follow.",
+    whyWeUse:
+      "Not every patient asking for a lift needs the same treatment. I use Thermage when the assessment shows that the skin itself has lost its tension, and when firmness - rather than deeper descent or lost volume - is what is changing the face. It is one of several options I may select, decided by tissue characteristics and by what the patient wants to change.",
+    whyWeUseBy: "Dr Priyam Bhagat",
+    considerWhen: [
+      "Firmness and the appearance of laxity are the clinical objective",
+      "An invasive procedure is not wanted",
+      "The skin still has reasonable thickness and quality",
+      "A gradual change over several months is acceptable",
+    ],
+    notWhen: [
+      "Laxity is advanced, or the deeper tissues have descended",
+      "Volume loss is the main change in the face",
+      "The concern is the skin surface: texture, pores or pigment",
+      "A single, immediate result is expected",
+    ],
     perspective:
       "Many patients who ask for a lift are in fact describing a loss of firmness. Thermage is selected when the assessment shows that the skin itself has lost its tension - and when that, rather than volume or deeper tissue descent, is the change that matters most to the face.",
     whoMayBenefit:
@@ -94,14 +115,29 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Fotona SP Dynamis Max",
-    categories: ["energy-based", "lasers"],
+    categories: ["pigmentation", "skin-quality", "acne-scarring", "hair-removal"],
     dedicatedPage: true,
     purpose:
-      "Laser treatment for texture, fine lines, pigmentation, acne and unwanted hair.",
+      "One laser platform, several wavelengths, selected according to the clinical indication.",
     description:
       "Combined Nd:YAG and Er:YAG laser workstation for resurfacing, pigmentation and hair reduction.",
     whatItIs:
-      "Fotona SP Dynamis Max allows us to perform several different laser treatments on one platform - from gentle skin rejuvenation to deeper resurfacing - with the settings chosen for each patient's skin. In practice it is used to refine texture, soften fine lines, treat pigmentation and acne, and reduce unwanted hair.",
+      "The versatility of the platform allows different wavelengths and treatment approaches to be selected according to the clinical indication - from gentle rejuvenation to deeper resurfacing - with the settings chosen for each patient's skin.",
+    whyWeUse:
+      "The platform matters less than the decision of how to use it. At Dr Bhagat's, Fotona is used across pigmentation, skin quality, acne and acne scars, vascular concerns, rejuvenation and selected resurfacing indications - and the same patient may need a different wavelength six months later, as their skin changes.",
+    whyWeUseBy: "Dr Priyam Bhagat",
+    considerWhen: [
+      "The plan calls for laser treatment of texture, pigment or scarring",
+      "More than one laser effect is needed within the same plan",
+      "The skin type requires settings chosen with care",
+      "Resurfacing is indicated and the recovery can be accommodated",
+    ],
+    notWhen: [
+      "The skin is inflamed, infected or recently sun-exposed",
+      "Pigmentation is better settled with medical treatment first",
+      "The concern is laxity of the deeper supporting tissue",
+      "The downtime that a given setting requires cannot be planned for",
+    ],
     whoMayBenefit:
       "Patients whose plan calls for laser treatment of texture, fine lines, sun damage, acne or scarring, and those who need more than one laser effect within the same plan. The intensity is matched to the skin type, which matters particularly for darker skin.",
     helpsWith: [
@@ -123,7 +159,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Fotona StarWalker",
-    categories: ["lasers"],
+    categories: ["pigmentation", "skin-quality"],
     dedicatedPage: true,
     purpose:
       "Laser treatment for sun spots, uneven tone, post-acne marks and tattoos.",
@@ -151,14 +187,29 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Ultraformer MPT",
-    categories: ["energy-based", "lifting"],
+    categories: ["lifting", "body"],
     dedicatedPage: true,
     purpose:
-      "Focused ultrasound to lift and tighten the deeper supporting layers.",
+      "Micro- and macro-focused ultrasound for selected lifting and contouring indications.",
     description:
       "Micro-pulsed HIFU system delivering focused ultrasound to the deeper supporting layers of the face and body.",
     whatItIs:
-      "Ultraformer MPT allows us to treat the deeper supporting layers of the face and neck without surgery. Focused ultrasound reaches the layers that hold the face up, encouraging them to tighten and remodel while the surface of the skin is left undisturbed.",
+      "Treatment depth and area are selected according to facial anatomy and the intended clinical objective. Focused ultrasound reaches the layers that hold the face up, encouraging them to tighten and remodel while the surface of the skin is left undisturbed.",
+    whyWeUse:
+      "I select Ultraformer when the assessment shows that the deeper supporting layers, rather than the skin itself, have begun to descend. The depth is chosen for the anatomy in front of me - which is why it is so often one part of a plan rather than the whole of it.",
+    whyWeUseBy: "Dr Priyam Bhagat",
+    considerWhen: [
+      "The supporting layers beneath the skin have begun to descend",
+      "Definition along the jawline, neck or brow is the objective",
+      "Little interruption to daily life is important",
+      "A gradual result over two to three months is acceptable",
+    ],
+    notWhen: [
+      "Laxity is advanced and a surgical opinion is more honest",
+      "The skin is very thin, or volume loss dominates",
+      "The concern is the surface of the skin",
+      "The patient is expecting the result of a facelift",
+    ],
     perspective:
       "Ultraformer is chosen when the assessment shows that the supporting layers beneath the skin have begun to descend. It works at a depth that other non-surgical treatments do not reach - which is why it is so often one part of a plan rather than the whole of it.",
     whoMayBenefit:
@@ -181,14 +232,32 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Sylfirm X",
-    categories: ["energy-based", "lifting", "rejuvenation"],
+    categories: ["lifting", "pigmentation", "skin-quality", "acne-scarring"],
     dedicatedPage: true,
     purpose:
-      "Radiofrequency microneedling for skin remodelling, firmness and pigmentation.",
+      "Advanced pulsed and continuous-wave RF, selected according to the concern.",
     description:
       "Dual-wave radiofrequency microneedling platform for pigmentation, vascular concerns and skin remodelling.",
     whatItIs:
-      "Sylfirm X allows us to remodel the skin from within. Very fine needles deliver radiofrequency energy into the skin, stimulating collagen and firmness while also treating pigmentation, redness and texture. Within our lifting and tightening work, it is the technology that strengthens the quality and firmness of the skin itself.",
+      "Sylfirm X combines microneedling RF technology with different RF delivery modes, allowing treatment to be tailored to the clinical indication. At Dr Bhagat's, the choice is not simply about treating tightness: we consider the skin's quality, vascular and pigmentary concerns, degree of laxity, anatomical area and desired outcome before deciding how the technology should be used. The technology is the same. The treatment strategy is not.",
+    whyWeUse:
+      "I use Sylfirm X when I want to address skin quality and certain pigmentary concerns while also working on firmness. It is not my default treatment for every patient who asks for tightening.",
+    whyWeUseBy: "Dr Priyam Bhagat",
+    considerWhen: [
+      "Selected pigmentary concerns",
+      "Rosacea and vascular concerns",
+      "Skin texture and quality",
+      "Selected acne and acne-scar concerns",
+      "Periorbital skin concerns",
+      "Selected cases of laxity and rejuvenation",
+      "Underarm hyperhidrosis, where clinically appropriate",
+    ],
+    notWhen: [
+      "There is active inflammation or infection in the area",
+      "Deeper laxity is the main concern, and depth matters more than skin quality",
+      "The skin needs medical settling before any device is used",
+      "A single session is expected to carry the result",
+    ],
     whoMayBenefit:
       "Patients whose skin needs strengthening and remodelling - early laxity, crepey texture, scarring, or pigmentation that has not tolerated more aggressive treatment. Its measured approach makes it suitable for many Indian skin types.",
     helpsWith: [
@@ -210,14 +279,29 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Endolift X",
-    categories: ["lasers", "lifting"],
+    categories: ["lifting", "body"],
     dedicatedPage: true,
     purpose:
-      "Minimally invasive laser tightening and definition beneath the skin.",
+      "Precision laser-assisted lifting for selected facial and contour concerns.",
     description:
       "Minimally invasive endolaser using micro-optical fibres beneath the skin for tightening and localised fat reduction.",
     whatItIs:
-      "Endolift X allows us to tighten and define from beneath the skin without surgery. A laser fibre finer than a needle is placed just under the skin, where it tightens the tissue and can reduce small areas of localised fat.",
+      "Endolift X is a minimally invasive laser-assisted procedure in which a fine optical fibre is introduced beneath the skin to deliver energy precisely within the targeted tissue planes. It is fundamentally different from external energy-based treatments, because the energy is delivered from within the tissue. Suitability is determined after assessing facial anatomy, tissue laxity, skin quality, fat distribution and the degree of correction required.",
+    whyWeUse:
+      "The goal is not simply tighter skin. It is improved definition and a more refined facial contour, while preserving the character of the face. Because Endolift is a minimally invasive procedure, patient selection, technique and aftercare matter as much as the technology, which is why I discuss it in person rather than prescribe it on request.",
+    whyWeUseBy: "Dr Kamlesh V. Bhagat",
+    considerWhen: [
+      "There is appropriate tissue laxity",
+      "The patient wants more definition along the lower face, jawline or neck",
+      "A minimally invasive approach is acceptable",
+      "A quieter few days afterwards can be planned for",
+    ],
+    notWhen: [
+      "The concern is primarily skin quality",
+      "Expectations are unrealistic",
+      "The anatomy does not support the desired outcome",
+      "Laxity is mild enough for a non-invasive approach, or advanced enough to need surgery",
+    ],
     perspective:
       "Endolift sits between non-surgical tightening and surgery. It is selected when the assessment shows that definition along the lower face and neck is what matters most, and when a less invasive option is unlikely to achieve a result the patient would be happy with.",
     whoMayBenefit:
@@ -240,7 +324,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "GentleYAG",
-    categories: ["lasers"],
+    categories: ["hair-removal"],
     dedicatedPage: true,
     purpose:
       "Laser hair reduction suited to darker skin types.",
@@ -267,7 +351,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Venus Bliss Max",
-    categories: ["energy-based"],
+    categories: ["body"],
     dedicatedPage: false,
     purpose: "Body contouring, combining localised fat reduction with muscle toning.",
     description:
@@ -275,7 +359,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Fotona StarFormer",
-    categories: ["energy-based"],
+    categories: ["body"],
     dedicatedPage: false,
     purpose: "Electromagnetic muscle stimulation for body toning.",
     description:
@@ -283,7 +367,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Dermapen 4",
-    categories: ["rejuvenation"],
+    categories: ["skin-quality", "acne-scarring"],
     dedicatedPage: false,
     purpose: "Medical microneedling to stimulate collagen.",
     description:
@@ -291,7 +375,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "SkinPen",
-    categories: ["rejuvenation"],
+    categories: ["skin-quality", "acne-scarring"],
     dedicatedPage: false,
     purpose: "Microneedling for texture and scarring.",
     description:
@@ -299,15 +383,18 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Hydrafacial",
-    categories: ["rejuvenation"],
+    categories: ["skin-quality"],
     dedicatedPage: false,
     purpose: "Cleansing, exfoliation, extraction and hydration in a single treatment.",
+    whyWeUse:
+      "A facial is not a treatment plan, but it is often where one sensibly begins. I use it to settle congestion and restore the barrier, so that the treatments that follow work on skin that is ready for them.",
+    whyWeUseBy: "Dr Priyam Bhagat",
     description:
       "Vortex-fusion system that cleanses, exfoliates, extracts and hydrates in a single treatment.",
   },
   {
     name: "OxyGeneo",
-    categories: ["rejuvenation"],
+    categories: ["skin-quality"],
     dedicatedPage: false,
     purpose: "An exfoliation, infusion and oxygenation facial.",
     description:
@@ -315,7 +402,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "GFC",
-    categories: ["regenerative"],
+    categories: ["hair-scalp", "skin-quality"],
     dedicatedPage: false,
     purpose: "Growth factor concentrate, prepared from your own blood, for hair and skin.",
     description:
@@ -324,7 +411,7 @@ export const MACHINES: SeedMachine[] = [
   {
     // Added at the doctors' request. Regulatory position to be confirmed before launch.
     name: "Exosomes",
-    categories: ["regenerative"],
+    categories: ["skin-quality", "hair-scalp"],
     dedicatedPage: false,
     purpose: "A regenerative treatment, used alongside in-clinic procedures.",
     description:
@@ -332,7 +419,7 @@ export const MACHINES: SeedMachine[] = [
   },
   {
     name: "Plasmapen",
-    categories: ["energy-based"],
+    categories: ["skin-quality"],
     dedicatedPage: false,
     purpose: "Plasma energy for small lesions and delicate areas such as the eyelids.",
     description:

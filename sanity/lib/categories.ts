@@ -24,11 +24,41 @@ export function resultCategoryLabel(value: string | null | undefined): string {
  * and a lifting technology - so machines hold an array of these values.
  */
 export const TECHNOLOGY_CATEGORIES = [
-  { value: "energy-based", label: "Energy-based technology" },
-  { value: "lasers", label: "Lasers" },
-  { value: "lifting", label: "Lifting & tightening" },
-  { value: "rejuvenation", label: "Skin rejuvenation" },
-  { value: "regenerative", label: "Regenerative dermatology" },
+  {
+    value: "lifting",
+    label: "Facial lifting & rejuvenation",
+    note: "Which technology is chosen depends on where the change sits: the skin's own firmness, the deeper support, or the contour beneath it.",
+  },
+  {
+    value: "pigmentation",
+    label: "Pigmentation",
+    note: "The type and depth of pigment, and the skin type it sits in, decide which wavelength is appropriate - and how gently it is used.",
+  },
+  {
+    value: "skin-quality",
+    label: "Skin quality & texture",
+    note: "Texture, pores, hydration and radiance respond to different treatments, layered over time rather than delivered at once.",
+  },
+  {
+    value: "acne-scarring",
+    label: "Acne & scarring",
+    note: "Active acne is settled first. Scar treatment is then matched to the type of scar, which is rarely only one.",
+  },
+  {
+    value: "hair-scalp",
+    label: "Hair & scalp",
+    note: "In-clinic treatment supports the follicles while the cause of the hair loss is treated medically.",
+  },
+  {
+    value: "hair-removal",
+    label: "Hair removal",
+    note: "The wavelength and settings are chosen for the skin type and the hair, which matters most in darker skin.",
+  },
+  {
+    value: "body",
+    label: "Body & contour",
+    note: "Fat, laxity and skin texture contribute differently in each patient, so the order of treatment is decided at assessment.",
+  },
 ] as const;
 
 export type TechnologyCategory = (typeof TECHNOLOGY_CATEGORIES)[number]["value"];

@@ -195,6 +195,10 @@ async function seed() {
         ...(m.sessionTime ? { sessionTime: m.sessionTime } : {}),
         ...(m.downtime ? { downtime: m.downtime } : {}),
         ...(m.expectations ? { expectations: m.expectations } : {}),
+        ...(m.whyWeUse ? { whyWeUse: m.whyWeUse } : {}),
+        ...(m.whyWeUseBy ? { whyWeUseBy: m.whyWeUseBy } : {}),
+        ...(m.considerWhen ? { considerWhen: m.considerWhen } : {}),
+        ...(m.notWhen ? { notWhen: m.notWhen } : {}),
         ...(m.combinations ? { combinations: m.combinations } : {}),
       },
       // Superseded fields: the old category model, and the page fields the six questions replaced.

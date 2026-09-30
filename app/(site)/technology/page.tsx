@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { BeginConsultation, Display, PageHero, Prose, Rail, Section, type Ground } from "@/components/ui";
+import Reveal from "@/components/Reveal";
+import {
+  BeginConsultation,
+  Display,
+  Eyebrow,
+  PageHero,
+  Prose,
+  Rail,
+  Section,
+  type Ground,
+} from "@/components/ui";
 import { technologyHref } from "@/lib/links";
 import { TECHNOLOGY_CATEGORIES } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
@@ -11,7 +21,7 @@ import type { TechnologyItem } from "@/sanity/lib/types";
 export const metadata: Metadata = {
   title: "Technology",
   description:
-    "Technology, selected with purpose. We select technology according to the patient's anatomy, skin condition, goals and clinical needs.",
+    "The right technology for the right indication. At Dr Bhagat's, technology is organised by what it is chosen to treat, and selected after assessment.",
   alternates: { canonical: "/technology" },
 };
 
@@ -27,9 +37,10 @@ async function getTechnology(): Promise<TechnologyItem[]> {
 }
 
 /**
- * Every technology is a small card of equal size. Only the few signature
- * technologies with a dedicated page carry a link, so nothing competes for
- * attention as a hero.
+ * Technology organised by clinical indication rather than as a catalogue of
+ * machines: the question a patient arrives with comes first, the platforms that
+ * may answer it come second, and the doctors' reasons sit with them. A
+ * technology appears under every indication it is genuinely selected for.
  */
 export default async function TechnologyPage() {
   const items = await getTechnology();
@@ -38,7 +49,7 @@ export default async function TechnologyPage() {
     items: items.filter((item) => item.categories?.includes(category.value)),
   })).filter((group) => group.items.length > 0);
 
-  // A technology can appear in more than one category. Only its first card
+  // A technology appears under several indications. Only its first appearance
   // carries the id that /technology#slug links point to.
   const anchored = new Set<string>();
 
@@ -46,12 +57,12 @@ export default async function TechnologyPage() {
     <main className="flex-1 bg-brand-bone">
       <PageHero
         eyebrow="Technology"
-        title="Technology, selected with purpose."
-        lead="Technology is selected for the patient: for their anatomy, their skin condition, their goals and what the assessment calls for. Each platform here earns its place by doing one thing better than the alternatives."
+        title="The right technology for the right indication."
+        lead="Technology is never the starting point. The concern is assessed, the strategy is decided, and only then is the platform chosen - which is why the same technology appears under more than one indication here, and why two patients asking for the same thing rarely receive the same treatment."
       />
 
       {groups.length > 0 ? (
-        <nav aria-label="Technology categories" className="border-b border-brand-gray-muted/20 bg-brand-bone">
+        <nav aria-label="Indications" className="border-b border-brand-gray-muted/20 bg-brand-bone">
           <ul className="mx-auto flex w-full max-w-7xl flex-wrap gap-x-8 px-6 py-4 lg:px-10">
             {groups.map((group) => (
               <li key={group.value}>
@@ -71,30 +82,50 @@ export default async function TechnologyPage() {
         const ground: Ground = index % 2 === 0 ? "bone" : "white";
         return (
           <Rail key={group.value} id={group.value} ground={ground} title={group.label}>
-            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {group.items.map((item) => {
+            <Reveal>
+              <p className="max-w-2xl text-[1.05rem] leading-[1.8] text-brand-gray-text">{group.note}</p>
+            </Reveal>
+            <ul className="mt-12">
+              {group.items.map((item, itemIndex) => {
                 const id = anchored.has(item.slug) ? undefined : item.slug;
                 anchored.add(item.slug);
                 return (
                   <li
-                    key={item._id}
+                    key={`${group.value}-${item._id}`}
                     id={id}
-                    className={`flex scroll-mt-28 flex-col border p-6 ${
-                      item.dedicatedPage ? "border-brand-champagne-dark/60" : "border-brand-gray-muted/30"
-                    }`}
+                    className="scroll-mt-28 border-t border-brand-gray-muted/30 py-8 first:border-t-0 first:pt-0"
                   >
-                    <h3 className="text-lg font-normal tracking-[0.01em] text-brand-black">{item.name}</h3>
-                    {item.purpose ? (
-                      <p className="mt-3 text-[0.9rem] leading-[1.7] text-brand-gray-text">{item.purpose}</p>
-                    ) : null}
-                    {item.dedicatedPage ? (
-                      <Link
-                        href={technologyHref(item)}
-                        className="mt-auto inline-flex min-h-11 items-end self-start border-b border-brand-champagne-dark pb-1.5 pt-6 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark transition-colors hover:text-brand-black"
-                      >
-                        Discover {item.name}
-                      </Link>
-                    ) : null}
+                    <Reveal index={itemIndex % 3}>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+                        <h3 className="text-xl font-normal tracking-[0.01em] text-brand-black lg:text-2xl">
+                          {item.name}
+                        </h3>
+                        {item.dedicatedPage ? (
+                          <Link
+                            href={technologyHref(item)}
+                            className="inline-flex min-h-11 items-center text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark transition-colors hover:text-brand-black"
+                          >
+                            How we use it
+                          </Link>
+                        ) : null}
+                      </div>
+                      {item.purpose ? (
+                        <p className="mt-3 max-w-2xl text-[0.95rem] leading-[1.75] text-brand-gray-text">
+                          {item.purpose}
+                        </p>
+                      ) : null}
+                      {/* The doctors' own reason, so a platform never stands alone. */}
+                      {item.whyWeUse ? (
+                        <blockquote className="mt-5 max-w-2xl border-l border-brand-champagne-dark pl-6">
+                          <p className="text-[0.95rem] leading-[1.8] text-brand-black">{item.whyWeUse}</p>
+                          {item.whyWeUseBy ? (
+                            <footer className="mt-3 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                              {item.whyWeUseBy}
+                            </footer>
+                          ) : null}
+                        </blockquote>
+                      ) : null}
+                    </Reveal>
                   </li>
                 );
               })}
@@ -104,7 +135,8 @@ export default async function TechnologyPage() {
       })}
 
       <Section ground={groups.length % 2 === 0 ? "bone" : "white"}>
-        <Display ground={groups.length % 2 === 0 ? "bone" : "white"} className="max-w-3xl">
+        <Eyebrow ground={groups.length % 2 === 0 ? "bone" : "white"}>How we decide</Eyebrow>
+        <Display ground={groups.length % 2 === 0 ? "bone" : "white"} className="mt-8 max-w-3xl">
           The doctor decides. Technology supports.
         </Display>
         <Prose ground={groups.length % 2 === 0 ? "bone" : "white"} className="mt-8">

@@ -122,6 +122,28 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
         </Rail>
       ) : null}
 
+      {machine.whyWeUse ? (
+        <Section ground="black">
+          <Reveal>
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+              <div className="lg:col-span-4">
+                <Eyebrow ground="black">Why we use it</Eyebrow>
+              </div>
+              <div className="lg:col-span-7 lg:col-start-6">
+                <blockquote className="text-2xl font-normal leading-[1.4] tracking-[0.005em] text-brand-cream lg:text-3xl">
+                  {machine.whyWeUse}
+                </blockquote>
+                {machine.whyWeUseBy ? (
+                  <p className="mt-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
+                    {machine.whyWeUseBy}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </Reveal>
+        </Section>
+      ) : null}
+
       {machine.whoMayBenefit ? (
         <Rail ground="white" index={2} title="Who is it suitable for?">
           <Reveal>
@@ -130,8 +152,47 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
         </Rail>
       ) : null}
 
+      {machine.considerWhen?.length || machine.notWhen?.length ? (
+        <Rail ground="bone" title={`Is ${machine.name} right for you?`}>
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-10">
+            {machine.considerWhen?.length ? (
+              <div>
+                <Eyebrow>May be considered when</Eyebrow>
+                <ul className="mt-6">
+                  {machine.considerWhen.map((item, index) => (
+                    <li key={item} className="border-t border-brand-gray-muted/30 py-4">
+                      <Reveal index={index % 3}>
+                        <span className="text-[1rem] leading-[1.6] text-brand-black">{item}</span>
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {machine.notWhen?.length ? (
+              <div>
+                <Eyebrow>May not be appropriate when</Eyebrow>
+                <ul className="mt-6">
+                  {machine.notWhen.map((item, index) => (
+                    <li key={item} className="border-t border-brand-gray-muted/30 py-4">
+                      <Reveal index={index % 3}>
+                        <span className="text-[1rem] leading-[1.6] text-brand-gray-text">{item}</span>
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+          <p className="mt-10 max-w-2xl text-[0.85rem] leading-[1.7] text-brand-gray-text">
+            This is decided at assessment, not in advance. Suitability depends on your anatomy, your
+            skin and what you would like to change.
+          </p>
+        </Rail>
+      ) : null}
+
       {machine.helpsWith?.length ? (
-        <Rail ground="bone" index={3} title="What concerns can it address?">
+        <Rail ground="white" index={3} title="What concerns can it address?">
           <ul className="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
             {machine.helpsWith.map((item, index) => (
               <li key={item} className="border-t border-brand-gray-muted/30 py-5">
@@ -143,9 +204,10 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
           </ul>
           {machine.concerns?.length ? (
             <div className="mt-14">
-              <Eyebrow>Start with the concern</Eyebrow>
+              <Eyebrow ground="white">Start with the concern</Eyebrow>
               <div className="mt-6">
                 <Rows
+                  ground="white"
                   items={machine.concerns.map((concern) => ({
                     key: concern._id,
                     title: concern.title,
@@ -160,7 +222,7 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
       ) : null}
 
       {practical.length > 0 ? (
-        <Section ground="white">
+        <Section ground="bone">
           <ul className="grid grid-cols-1 gap-14 md:grid-cols-3 md:gap-10">
             {practical.map((item, index) => (
               <li key={item.title}>
@@ -185,17 +247,17 @@ export default async function MachinePage({ params }: PageProps<"/technology/[sl
       ) : null}
 
       {machine.combinations ? (
-        <Rail ground="bone" index={7} title="Combinations, and when it may not be chosen">
+        <Rail ground="white" index={7} title="Combinations, and when it may not be chosen">
           <Reveal>
-            <Prose>{machine.combinations}</Prose>
+            <Prose ground="white">{machine.combinations}</Prose>
           </Reveal>
         </Rail>
       ) : null}
 
       {machine.approaches?.length ? (
-        <Rail ground="white" title="Treatment approaches">
+        <Rail ground="bone" title="Treatment approaches">
           <Rows
-            ground="white"
+            ground="bone"
             items={machine.approaches.map((approach) => ({
               key: approach._id,
               title: approach.title,
