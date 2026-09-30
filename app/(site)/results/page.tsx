@@ -71,7 +71,7 @@ export default async function ResultsPage() {
       <PageHero
         eyebrow="Results"
         title="Results, organised by concern."
-        lead="Every result begins with an assessment and a plan designed for one person."
+        lead="Every result begins with an assessment and a plan designed for one person. What follows is what that person's skin allowed, photographed under the same conditions each time, and published only with their written consent."
       />
 
       <Section ground="bone">
@@ -105,8 +105,34 @@ export default async function ResultsPage() {
         </div>
       </Section>
 
+      <Rail ground="white" title="What a result depends on">
+        <ul className="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
+          {[
+            "What was actually causing the concern, and whether it was diagnosed correctly",
+            "The quality and thickness of the skin being treated",
+            "Anatomy: what can be improved, and what cannot",
+            "Whether the plan was followed, and given the months it needs",
+            "Maintenance, and the daily care between treatments",
+            "Realistic expectations, agreed before treatment begins",
+          ].map((item, index) => (
+            <li key={item} className="border-t border-brand-gray-muted/30 py-5">
+              <Reveal index={index % 2}>
+                <span className="text-[1.05rem] leading-[1.6] text-brand-black">{item}</span>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+        <Reveal>
+          <p className="mt-12 max-w-2xl text-[0.95rem] leading-[1.8] text-brand-gray-text">
+            Photographs are taken in the same position, the same light and the same conditions each
+            time, because a change of angle can flatter a result more than any treatment. Nothing here
+            is retouched, and nothing is published without written consent.
+          </p>
+        </Reveal>
+      </Rail>
+
       {groups.map((group, groupIndex) => {
-        const ground: Ground = groupIndex % 2 === 0 ? "white" : "bone";
+        const ground: Ground = groupIndex % 2 === 0 ? "bone" : "white";
         const p = palette(ground);
 
         return (

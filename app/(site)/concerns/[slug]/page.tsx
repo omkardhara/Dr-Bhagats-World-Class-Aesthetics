@@ -242,9 +242,14 @@ export default async function ConcernPage({ params }: PageProps<"/concerns/[slug
         <Rail ground="white" index={6} title="Results and expectations">
           <Reveal>
             <Prose ground="white">{concern.expectations}</Prose>
-            <div className="mt-12">
+            <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6">
+              {concern.resultCategory ? (
+                <TextLink href={`/results#${concern.resultCategory}`} ground="white">
+                  See results for this concern →
+                </TextLink>
+              ) : null}
               <TextLink href="/book" ground="white">
-                Book a consultation →
+                Request a consultation →
               </TextLink>
             </div>
           </Reveal>
