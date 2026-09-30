@@ -7,6 +7,7 @@ import {
   ART_DIRECTION,
   ARTICLE_SHOTS,
   CONCERN_SHOTS,
+  EXPERIENCE_SHOTS,
   DOCTOR_SHOTS,
   FORMAT,
   PROGRAMME_SHOTS,
@@ -68,6 +69,12 @@ const GROUPS: { title: string; shots: Shot[] }[] = [
       ),
       shot(SITE_SHOTS.team, "3/4", "About - the team (one per team member)", "/about#the-clinic"),
     ],
+  },
+  {
+    title: "The Dr Bhagat’s Experience",
+    shots: Object.values(EXPERIENCE_SHOTS).map((brief) =>
+      shot(brief, "4/3", "The Experience - one per stage", "/experience")
+    ),
   },
   {
     title: "Concerns",

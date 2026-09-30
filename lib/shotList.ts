@@ -72,6 +72,39 @@ export const SITE_SHOTS = {
   },
 } satisfies Record<string, Brief>;
 
+/** The experience, stage by stage: the sequence a patient actually moves through. */
+export const EXPERIENCE_SHOTS: Record<string, Brief> = {
+  arrival: {
+    title: "The Experience - arrival",
+    direction:
+      "The entrance as a patient first sees it, in the best light of the day. Discreet, calm, no signage clutter.",
+  },
+  reception: {
+    title: "The Experience - reception",
+    direction: "A team member greeting a model at the desk, seen from behind. Warm, unhurried.",
+  },
+  consultation: {
+    title: "The Experience - consultation",
+    direction: "Doctor and model in conversation across the desk, the doctor listening, pen down.",
+  },
+  assessment: {
+    title: "The Experience - assessment",
+    direction: "The skin being examined: dermatoscope, good light, the doctor's hands.",
+  },
+  treatment: {
+    title: "The Experience - treatment",
+    direction: "A treatment in progress on a model: gloved hands, eyewear, the room calm.",
+  },
+  aftercare: {
+    title: "The Experience - aftercare",
+    direction: "Aftercare being explained, or the written aftercare and skincare laid out on a tray.",
+  },
+  followUp: {
+    title: "The Experience - follow-up",
+    direction: "Doctor and model reviewing progress photographs side by side on screen.",
+  },
+};
+
 export const DOCTOR_SHOTS: Record<string, Brief> = {
   "dr-priyam-bhagat": {
     title: "Dr Priyam Bhagat - portrait",

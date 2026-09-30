@@ -435,9 +435,14 @@ export default async function Home() {
               ))}
             </div>
             <div className="mt-12">
-              <TextLink href="/about#the-clinic" ground="black">
-                The Clinic
-              </TextLink>
+              <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
+                <TextLink href="/experience" ground="black">
+                  The Dr Bhagat’s Experience
+                </TextLink>
+                <TextLink href="/about#the-clinic" ground="black">
+                  The Clinic
+                </TextLink>
+              </div>
             </div>
           </div>
           {hasClinicImage ? (
