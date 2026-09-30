@@ -40,6 +40,20 @@ export const signatureProgramme = defineType({
     }),
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
     defineField({
+      name: "positioning",
+      title: "What it is, and is not",
+      description: "For example: Not a protocol. A clinical strategy.",
+      type: "string",
+    }),
+    defineField({
+      name: "technologies",
+      title: "Technology a plan may draw on",
+      description:
+        "Listed as possibilities, never as an inclusion. Selected at assessment, and only where appropriate.",
+      type: "array",
+      of: [defineArrayMember({ type: "reference", to: [{ type: "machine" }] })],
+    }),
+    defineField({
       name: "tagline",
       title: "Tagline",
       description: "For example: A refined approach to facial ageing and laxity.",

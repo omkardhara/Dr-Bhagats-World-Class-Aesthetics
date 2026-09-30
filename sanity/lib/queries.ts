@@ -99,8 +99,9 @@ export const approachSlugsQuery = defineQuery(`
 
 export const programmesQuery = defineQuery(`
   *[_type == "signatureProgramme"] | order(order asc){
-    _id, title, shortTitle, tagline, body, closing, image, "slug": slug.current,
+    _id, title, shortTitle, tagline, positioning, body, closing, image, "slug": slug.current,
     forWhom, assessed, personalisation, objective,
+    "technologies": technologies[]->{ _id, name, dedicatedPage, "slug": slug.current },
     sequence[]{ _key, title, description }
   }
 `);

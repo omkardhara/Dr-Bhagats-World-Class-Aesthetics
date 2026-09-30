@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { PROGRAMME_SHOTS } from "@/lib/shotList";
 import { Eyebrow, PageHero, PrimaryLink, Prose, Section, Statement, TextLink } from "@/components/ui";
 import { pad, paragraphs } from "@/lib/format";
+import { technologyHref } from "@/lib/links";
 import { getClient } from "@/sanity/lib/client";
 import { programmesQuery } from "@/sanity/lib/queries";
 import type { Programme } from "@/sanity/lib/types";
@@ -123,6 +125,12 @@ export default async function SignaturePage() {
 
             <div className="lg:col-span-7 lg:col-start-6">
               <Reveal>
+                {/* What it is, and is not: a strategy rather than a package. */}
+                {programme.positioning ? (
+                  <p className="mb-8 text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark">
+                    {programme.positioning}
+                  </p>
+                ) : null}
                 {programme.tagline ? <Statement>{programme.tagline}</Statement> : null}
                 <SanityPicture
                   image={programme.image}
@@ -165,6 +173,30 @@ export default async function SignaturePage() {
                   <Detail title="How treatment is personalised">
                     <p className="max-w-xl text-[1.05rem] leading-[1.8] text-brand-black">
                       {programme.personalisation}
+                    </p>
+                  </Detail>
+                ) : null}
+
+                {programme.technologies?.length ? (
+                  <Detail title="Your treatment plan">
+                    <p className="max-w-xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                      Decided after assessment, a plan may incorporate:
+                    </p>
+                    <ul className="mt-6 flex flex-wrap gap-x-8">
+                      {programme.technologies.map((technology) => (
+                        <li key={technology._id}>
+                          <Link
+                            href={technologyHref(technology)}
+                            className="inline-flex min-h-11 items-center text-[1rem] text-brand-black transition-colors hover:text-brand-champagne-dark"
+                          >
+                            {technology.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-6 max-w-xl text-[0.9rem] leading-[1.7] text-brand-gray-text">
+                      Alongside medical skincare and skin-quality treatment, where these are part of
+                      the plan. Nothing here is included as standard.
                     </p>
                   </Detail>
                 ) : null}

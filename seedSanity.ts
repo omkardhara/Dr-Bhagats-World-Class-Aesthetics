@@ -284,7 +284,9 @@ async function seed() {
         shortTitle: p.shortTitle,
         slug: slugField(p.slug),
         order,
+        positioning: p.positioning,
         tagline: p.tagline,
+        technologies: p.technologies.map((name) => ref(ids.machine(name))),
         body: text(p.body),
         ...(p.closing ? { closing: p.closing } : {}),
         forWhom: p.forWhom,
@@ -373,6 +375,7 @@ async function seed() {
         body: blocks(a.paragraphs),
         ...(a.concern ? { concern: ref(ids.concern(a.concern)) } : {}),
         ...(a.approach ? { approach: ref(ids.approach(a.approach)) } : {}),
+        doctor: ref(`doctor.${slug(a.doctor)}`),
       },
       [...(a.concern ? [] : ["concern"]), ...(a.approach ? [] : ["approach"])]
     );

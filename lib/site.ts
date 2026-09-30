@@ -36,6 +36,15 @@ export const SUPPORTING_LINE =
  */
 export const PHILOSOPHY_LINE = "Considered care. Never a menu.";
 
+/** The doctors' opening statement, in their words. */
+export const INTRO_TITLE = "Aesthetic medicine, guided by dermatological expertise.";
+
+export const INTRO_TEXT = [
+  "At Dr Bhagat’s World Class Aesthetics, every treatment begins with understanding your skin, your facial structure, your concerns and what you want to achieve.",
+  "Dr Priyam Bhagat and Dr Kamlesh Bhagat bring decades of dermatological experience together with advanced aesthetic technology to create treatments that are considered, personalised and never one-size-fits-all.",
+  "Because the goal is not to change how you look. It is to help you look like the best version of yourself.",
+] as const;
+
 export const PHILOSOPHY_TEXT = [
   "Every face is different, and so is every plan.",
   "We believe in understanding the individual, identifying what needs to change, and choosing the right combination of treatments to achieve refined, natural results.",

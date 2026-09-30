@@ -1,3 +1,13 @@
+/**
+ * The Journal is written by the doctors, not published by the clinic, so each
+ * piece is attributed to a desk: "Dr Priyam Bhagat" becomes "From Dr Priyam's desk".
+ */
+export function desk(name: string | null | undefined): string {
+  if (!name) return "";
+  const [title, first] = name.split(" ");
+  return first ? `From ${title} ${first}’s desk` : `From ${title}’s desk`;
+}
+
 export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-IN", {
     day: "numeric",

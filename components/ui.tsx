@@ -369,7 +369,7 @@ export function JourneySteps({ ground = "white" }: { ground?: Ground }) {
 export function BeginConsultation({
   eyebrow = PHILOSOPHY_LINE,
   title = "Begin with a consultation.",
-  lead = "Tell us what you’d like to improve. Our team will help you schedule a consultation with the appropriate dermatologist.",
+  lead = "Every treatment at Dr Bhagat’s begins with an assessment. Your concerns, skin, facial structure and goals are considered before a personalised treatment plan is recommended.",
 }: {
   eyebrow?: string;
   title?: string;
@@ -387,7 +387,7 @@ export function BeginConsultation({
             {lead}
           </Prose>
           <div className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6">
-            <PrimaryLink href="/book">Book a Consultation</PrimaryLink>
+            <PrimaryLink href="/book">Request a Consultation</PrimaryLink>
             <TextLink href="/concerns" ground="black">
               Explore your concerns
             </TextLink>

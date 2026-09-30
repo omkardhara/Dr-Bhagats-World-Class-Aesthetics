@@ -5,7 +5,7 @@ import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { ARTICLE_SHOTS } from "@/lib/shotList";
 import { Eyebrow, PageHero, Section, TextLink } from "@/components/ui";
-import { formatDate } from "@/lib/format";
+import { desk, formatDate } from "@/lib/format";
 import { JOURNAL_CATEGORIES, journalCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { journalQuery } from "@/sanity/lib/queries";
@@ -32,8 +32,12 @@ async function getArticles(): Promise<ArticleSummary[]> {
 function Meta({ article, className = "" }: { article: ArticleSummary; className?: string }) {
   return (
     <p className={`text-[0.65rem] uppercase tracking-widest text-brand-champagne-dark ${className}`}>
-      {article.category ? journalCategoryLabel(article.category) : "Journal"}
-      <span className="text-brand-gray-text"> · {formatDate(article.publishedAt)}</span>
+      {article.doctor ? desk(article.doctor.name) : journalCategoryLabel(article.category) || "Journal"}
+      <span className="text-brand-gray-text">
+        {" · "}
+        {article.category ? `${journalCategoryLabel(article.category)} · ` : ""}
+        {formatDate(article.publishedAt)}
+      </span>
     </p>
   );
 }
@@ -68,6 +72,7 @@ export default async function JournalPage({ searchParams }: PageProps<"/journal"
       <PageHero
         eyebrow="Journal"
         title="Thoughts on skin, ageing, aesthetics and the art of looking well."
+        lead="Written by Dr Priyam Bhagat and Dr Kamlesh V. Bhagat, from their own practice rather than from a press release."
       />
 
       {used.length > 1 ? (

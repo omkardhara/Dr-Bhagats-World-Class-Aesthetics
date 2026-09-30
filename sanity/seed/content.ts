@@ -1247,6 +1247,8 @@ export type SeedProgramme = {
   title: string;
   shortTitle: string;
   slug: string;
+  /** What the programme is, and is not: a strategy rather than a package. */
+  positioning: string;
   tagline: string;
   body: string[];
   closing?: string;
@@ -1257,6 +1259,8 @@ export type SeedProgramme = {
   objective: string;
   concerns: string[];
   approaches: string[];
+  /** The technology a plan may draw on. Selected at assessment, never in advance. */
+  technologies: string[];
 };
 
 export const PROGRAMMES: SeedProgramme[] = [
@@ -1264,21 +1268,23 @@ export const PROGRAMMES: SeedProgramme[] = [
     title: "The Signature Lift",
     shortTitle: "Signature Lift",
     slug: "signature-lift",
+    positioning: "Not a protocol. A clinical strategy.",
     tagline: "A refined approach to facial ageing and laxity.",
     body: [
-      "Facial ageing is rarely caused by one thing. Our approach looks at skin quality, laxity, collagen, facial contours and the individual pattern of ageing before determining the appropriate treatment strategy.",
-      "Depending on the patient, this may involve lifting, tightening, collagen stimulation, skin-quality treatments or a combination of modalities.",
+      "Every face ages differently.",
+      "Some patients need improved skin quality. Some need tissue tightening. Some need contour refinement. Some need a combination of approaches.",
+      "The Signature Lift is our personalised approach to facial rejuvenation, created around your anatomy, skin quality and goals rather than a predetermined treatment package.",
     ],
     closing:
       "The objective is not to change your face. It is to restore definition and freshness while keeping it recognisably yours.",
     forWhom:
       "Patients noticing a softening jawline, a loss of definition, or skin that no longer feels firm, who would like a refreshed result rather than an obviously treated one.",
     assessed: [
-      "The degree and pattern of laxity",
-      "Facial proportions",
       "Skin quality",
+      "Laxity",
       "Tissue descent",
-      "Volume and fat distribution",
+      "Facial proportions",
+      "Volume distribution",
       "The degree of correction you would like",
     ],
     personalisation:
@@ -1325,11 +1331,13 @@ export const PROGRAMMES: SeedProgramme[] = [
       "Definition and freshness restored, while the face remains recognisably your own.",
     concerns: ["Facial Ageing & Skin Laxity", "Eyes & Periorbital Ageing", "Facial Contouring"],
     approaches: ["Facial Rejuvenation", "Facial Contouring"],
+    technologies: ["Endolift X", "Thermage FLX", "Ultraformer MPT", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
   {
     title: "The Signature Skin Quality Programme",
     shortTitle: "Skin Quality",
     slug: "skin-quality-programme",
+    positioning: "Not a facial. A programme for the skin itself.",
     tagline: "Because beautiful skin is the foundation of every aesthetic result.",
     body: [
       "Texture, pores, pigmentation, hydration, firmness and collagen all contribute to the way skin looks and feels.",
@@ -1391,11 +1399,13 @@ export const PROGRAMMES: SeedProgramme[] = [
       "Skin that looks healthy and even, and stays that way.",
     concerns: ["Skin Quality, Texture & Pores", "Facial Ageing & Skin Laxity"],
     approaches: ["Skin Quality"],
+    technologies: ["Hydrafacial", "OxyGeneo", "Dermapen 4", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
   {
     title: "The Signature Pigmentation Programme",
     shortTitle: "Pigmentation",
     slug: "pigmentation-programme",
+    positioning: "Not a quick fix. A long-term strategy.",
     tagline: "A long-term approach to clearer, more even skin.",
     body: [
       "Pigmentation is not always simply a problem of excess pigment.",
@@ -1456,11 +1466,13 @@ export const PROGRAMMES: SeedProgramme[] = [
       "A clearer, more even complexion, and a plan that keeps it that way.",
     concerns: ["Pigmentation & Melasma"],
     approaches: ["Pigmentation", "Skin Quality"],
+    technologies: ["Fotona StarWalker", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
   {
     title: "The Signature Acne Scar Programme",
     shortTitle: "Acne Scars",
     slug: "acne-scar-programme",
+    positioning: "Not one treatment. A staged plan.",
     tagline: "Because every scar has a history—and a different structure.",
     body: [
       "Acne scars vary considerably in their depth, shape and underlying changes.",
@@ -1522,11 +1534,13 @@ export const PROGRAMMES: SeedProgramme[] = [
       "Meaningful improvement in texture and evenness, and skin you feel comfortable in.",
     concerns: ["Acne & Acne Scars"],
     approaches: ["Acne & Scarring"],
+    technologies: ["Sylfirm X", "Dermapen 4", "SkinPen", "Fotona SP Dynamis Max"],
   },
   {
     title: "The Signature Hair & Scalp Programme",
     shortTitle: "Hair",
     slug: "hair-and-scalp-programme",
+    positioning: "Not a package. A course guided by your response.",
     tagline: "A personalised approach to healthier hair.",
     body: [
       "Hair loss and thinning have many possible causes. A meaningful treatment plan begins with understanding what is driving the problem rather than simply treating the symptom.",
@@ -1585,6 +1599,7 @@ export const PROGRAMMES: SeedProgramme[] = [
       "Denser, healthier hair, and a plan that maintains it.",
     concerns: ["Hair & Scalp"],
     approaches: ["Hair & Scalp"],
+    technologies: ["GFC"],
   },
 ];
 
@@ -1856,13 +1871,34 @@ export type SeedArticle = {
   publishedAt: string;
   concern?: string;
   approach?: string;
+  /** Whose desk the piece comes from. The Journal is written, not published. */
+  doctor: string;
   paragraphs: string[];
 };
 
 export const ARTICLES: SeedArticle[] = [
   {
+    title: "Why I don’t treat every face that asks for tightening",
+    slug: "why-i-dont-treat-every-face-that-asks-for-tightening",
+    doctor: "Dr Priyam Bhagat",
+    category: "approach",
+    excerpt:
+      "Tightening is not a diagnosis. What I look at before deciding whether any energy treatment is appropriate - and when the answer is none at all.",
+    publishedAt: "2026-09-29T09:00:00.000Z",
+    concern: "Facial Ageing & Skin Laxity",
+    approach: "Facial Rejuvenation",
+    paragraphs: [
+      "Patients often come to me asking for skin tightening.",
+      "But “tightening” is not a diagnosis.",
+      "Before deciding what treatment to use, I look at the quality of the skin, the degree and direction of laxity, facial structure, tissue distribution and what the patient actually wants to change.",
+      "Only then do I decide whether radiofrequency, ultrasound, laser, a minimally invasive approach — or sometimes no energy treatment at all — is appropriate.",
+      "It is a slower conversation than naming a machine. It is also the reason the result tends to look like the patient, rather than like a treatment.",
+    ],
+  },
+  {
     title: "Beyond Wrinkles: Understanding the Architecture of Facial Ageing",
     slug: "architecture-of-facial-ageing",
+    doctor: "Dr Kamlesh V. Bhagat",
     category: "ageing",
     featured: true,
     excerpt:
@@ -1896,6 +1932,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "The Difference Between Tightening, Lifting and Improving Skin Quality",
     slug: "tightening-lifting-and-skin-quality",
+    doctor: "Dr Priyam Bhagat",
     category: "technology",
     excerpt:
       "It is one of the most common questions in consultation \u2014 and the word lift means very different things to different patients.",
@@ -1933,6 +1970,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "Pigmentation Is Not One Problem",
     slug: "pigmentation-is-not-one-problem",
+    doctor: "Dr Kamlesh V. Bhagat",
     category: "skin",
     excerpt:
       "Melasma, post-inflammatory pigmentation and sun-induced pigmentation can look similar to the patient, but they behave very differently.",
@@ -1966,6 +2004,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "When a Laser Is the Right Answer \u2014 and When It Isn\u2019t",
     slug: "when-a-laser-is-the-right-answer",
+    doctor: "Dr Priyam Bhagat",
     category: "technology",
     excerpt:
       "An advanced laser practice is not about having sophisticated equipment. It is about knowing when a laser is actually the right treatment.",
@@ -1997,6 +2036,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "The Difference Between Looking Refreshed and Looking Done",
     slug: "refreshed-not-done",
+    doctor: "Dr Priyam Bhagat",
     category: "ageing",
     excerpt:
       "The best aesthetic results are not necessarily the most obvious ones. Expression, proportion and movement are what make a face recognisable.",
@@ -2028,6 +2068,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "The Art of Knowing When Not to Treat",
     slug: "knowing-when-not-to-treat",
+    doctor: "Dr Kamlesh V. Bhagat",
     category: "approach",
     excerpt:
       "There is always another treatment that can be offered. The more difficult clinical decision is knowing when a patient does not need one.",
@@ -2058,6 +2099,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "Skin Quality: The Quiet Foundation of a Beautiful Face",
     slug: "skin-quality-the-quiet-foundation",
+    doctor: "Dr Priyam Bhagat",
     category: "skin",
     excerpt:
       "Luminosity, texture, elasticity, firmness, evenness. Youthfulness is not simply the absence of wrinkles.",
@@ -2090,6 +2132,7 @@ export const ARTICLES: SeedArticle[] = [
   {
     title: "Why every plan begins with a consultation",
     slug: "why-every-plan-begins-with-a-consultation",
+    doctor: "Dr Kamlesh V. Bhagat",
     category: "approach",
     excerpt:
       "What happens during an assessment, and why it matters more than the treatment that follows.",

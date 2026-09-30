@@ -19,7 +19,7 @@ import {
 import { formatDate, pad } from "@/lib/format";
 import { programmeHref } from "@/lib/links";
 import { DOCTOR_SHOTS, shotListEnabled, SITE_SHOTS } from "@/lib/shotList";
-import { LOCATIONS, PHILOSOPHY_LINE, PHILOSOPHY_TEXT, SUPPORTING_LINE, TAGLINE } from "@/lib/site";
+import { INTRO_TEXT, INTRO_TITLE, LOCATIONS, PHILOSOPHY_LINE, SUPPORTING_LINE, TAGLINE } from "@/lib/site";
 import { RESULT_CATEGORIES, resultCategoryLabel, TECHNOLOGY_CATEGORIES } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
 import { imageProps } from "@/sanity/lib/image";
@@ -133,8 +133,8 @@ export default async function Home() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
-              <Eyebrow>A doctor-led philosophy</Eyebrow>
-              <Display className="mt-8">{PHILOSOPHY_LINE}</Display>
+              <Eyebrow>{PHILOSOPHY_LINE}</Eyebrow>
+              <Display className="mt-8">{INTRO_TITLE}</Display>
             </Reveal>
             <SanityPicture
               image={home.settings?.philosophyImage}
@@ -146,15 +146,9 @@ export default async function Home() {
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal index={1}>
-              <Statement>{PHILOSOPHY_TEXT[0]}</Statement>
-              <Prose className="mt-8">{PHILOSOPHY_TEXT[1]}</Prose>
-              {/* The differentiator the doctors asked the site to communicate most strongly. */}
-              <Prose className="mt-6">
-                Our real difference is clinical judgement and experience: knowing which treatment to
-                use, when to combine technologies, when not to use something at all, and how to build a
-                long-term plan for each patient. Every face is different. Every treatment plan should be
-                too.
-              </Prose>
+              <Prose>{INTRO_TEXT[0]}</Prose>
+              <Prose className="mt-6">{INTRO_TEXT[1]}</Prose>
+              <Statement className="mt-10">{INTRO_TEXT[2]}</Statement>
             </Reveal>
             <ul className="mt-14">
               {PRINCIPLES.map((line, index) => (

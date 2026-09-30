@@ -68,6 +68,9 @@ export type Approach = Ref & {
 export type ProgrammeSummary = ProgrammeRef & { shortTitle?: string };
 
 export type Programme = ProgrammeSummary & {
+  /** What the programme is, and is not. */
+  positioning?: string;
+  technologies?: TechnologyRef[];
   body?: string;
   closing?: string;
   forWhom?: string;

@@ -8,7 +8,7 @@ import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import { ARTICLE_SHOTS } from "@/lib/shotList";
 import { Eyebrow, PageHero, Section, TextLink } from "@/components/ui";
-import { formatDate } from "@/lib/format";
+import { desk, formatDate } from "@/lib/format";
 import { BRAND, SITE_URL } from "@/lib/site";
 import { journalCategoryLabel } from "@/sanity/lib/categories";
 import { getClient } from "@/sanity/lib/client";
@@ -90,8 +90,8 @@ export default async function ArticlePage({ params }: PageProps<"/journal/[slug]
         lead={article.excerpt}
       >
         <p className="mt-10 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
-          {journalCategoryLabel(article.category) || "Journal"} · {formatDate(article.publishedAt)} ·{" "}
-          {author}
+          {article.doctor ? `${desk(article.doctor.name)} · ` : ""}
+          {journalCategoryLabel(article.category) || "Journal"} · {formatDate(article.publishedAt)}
         </p>
       </PageHero>
 
