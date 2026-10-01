@@ -30,7 +30,7 @@ const TECHNOLOGIES: [string, string][] = [
   ["endolift-x", "Endolift X"],
   ["sylfirm-x", "Sylfirm X"],
   ["fotona-sp-dynamis-max", "Fotona SP Dynamis Max"],
-  ["fotona-starwalker", "Fotona StarWalker"],
+  ["fotona-starwalker", "Fotona StarWalker MaQX"],
   ["gentleyag", "GentleYAG"],
 ];
 

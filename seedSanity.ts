@@ -66,8 +66,9 @@ const machineNames = new Set(MACHINES.map((m) => m.name));
 
 const ids = {
   machine: (name: string) => {
-    if (!machineNames.has(name)) throw new Error(`Unknown technology: ${name}`);
-    return `machine.${slug(name)}`;
+    const machine = MACHINES.find((m) => m.name === name);
+    if (!machine) throw new Error(`Unknown technology: ${name}`);
+    return `machine.${machine.slug ?? slug(name)}`;
   },
   modality: (name: string) => `treatment.${slug(name)}`,
   concern: (title: string) => {
@@ -190,7 +191,7 @@ async function seed() {
       "machine",
       {
         name: m.name,
-        slug: slugField(slug(m.name)),
+        slug: slugField(m.slug ?? slug(m.name)),
         purpose: m.purpose,
         description: m.description,
         categories: m.categories,
@@ -324,7 +325,6 @@ async function seed() {
         institution: d.institution,
         role: d.role,
         specialty: d.specialty,
-        position: d.position,
         headline: d.headline,
         domains: d.domains,
         principle: d.principle,
@@ -340,7 +340,8 @@ async function seed() {
         ...(d.credential ? { credential: d.credential } : {}),
       },
       // `qualifications` and `memberships` are superseded by `foundations`.
-      ["bio", "qualifications", "memberships", ...(d.credential ? [] : ["credential"])]
+      // `position` is retired: each doctor is introduced by name, degree and title.
+      ["bio", "position", "qualifications", "memberships", ...(d.credential ? [] : ["credential"])]
     );
   }
 

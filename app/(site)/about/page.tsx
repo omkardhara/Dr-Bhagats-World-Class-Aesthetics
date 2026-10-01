@@ -209,8 +209,7 @@ function DoctorProfile({ doctor, flip, shots }: { doctor: Doctor; flip: boolean;
 
   const header = (
     <div>
-      {doctor.position ? <Eyebrow ground="black">{doctor.position}</Eyebrow> : null}
-      <h2 className="mt-8 text-4xl font-normal leading-[1.04] tracking-[0.005em] text-brand-cream sm:text-5xl lg:text-6xl">
+      <h2 className="text-4xl font-normal leading-[1.04] tracking-[0.005em] text-brand-cream sm:text-5xl lg:text-6xl">
         {doctor.name}
       </h2>
       {/* The positioning line: what this doctor is the authority on. */}

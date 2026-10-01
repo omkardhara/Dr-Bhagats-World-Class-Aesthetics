@@ -119,13 +119,6 @@ export const doctor = defineType({
       rows: 2,
       group: "profile",
     }),
-    defineField({
-      name: "position",
-      title: "Position in the practice",
-      description: "For example: Co-Founder",
-      type: "string",
-      group: "profile",
-    }),
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0, group: "profile" }),
     defineField({
       name: "shortBio",

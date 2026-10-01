@@ -44,6 +44,8 @@ export const slug = (value: string) =>
  */
 export type SeedMachine = {
   name: string;
+  /** Pins the address when the name changes. Defaults to a slug of the name. */
+  slug?: string;
   /** In the doctors' categories; a technology may sit in more than one. */
   categories: TechnologyCategory[];
   /** Carries its own page, built from the fields below. */
@@ -158,7 +160,8 @@ export const MACHINES: SeedMachine[] = [
       "It is often combined with medical skincare, peels or microneedling within skin-quality and scar plans. It may not be chosen where the skin is inflamed, where recent sun exposure raises the risk of pigmentation, or where another treatment would achieve the same result more gently.",
   },
   {
-    name: "Fotona StarWalker",
+    name: "Fotona StarWalker MaQX",
+    slug: "fotona-starwalker",
     categories: ["pigmentation", "skin-quality"],
     dedicatedPage: true,
     purpose:
@@ -166,7 +169,7 @@ export const MACHINES: SeedMachine[] = [
     description:
       "Q-switched Nd:YAG laser platform for pigment clearance, tattoo removal and laser toning.",
     whatItIs:
-      "Fotona StarWalker allows us to treat unwanted pigment precisely. It breaks pigment into particles the body can clear, while leaving the surrounding skin largely undisturbed - which is why it can be used gently on Indian skin within a careful plan.",
+      "Fotona StarWalker MaQX allows us to treat unwanted pigment precisely. It breaks pigment into particles the body can clear, while leaving the surrounding skin largely undisturbed - which is why it can be used gently on Indian skin within a careful plan.",
     whyWeUse:
       "Pigmentation and vascular concerns require diagnosis before treatment. I first assess the type and pattern of pigmentation, skin type, associated redness or vascular change, previous treatment and the likelihood of recurrence. StarWalker may be considered when its laser capabilities are appropriate for the specific indication, and the wavelength and treatment approach are selected according to the patient’s skin and the clinical problem. A laser is a tool. The diagnosis and treatment plan come first.",
     whyWeUseBy: "Dr Kamlesh V. Bhagat",
@@ -462,7 +465,7 @@ export const MODALITIES: SeedModality[] = [
   {
     name: "Laser Toning",
     description: "Gentle, repeated laser treatment to even out tone and pigmentation.",
-    machines: ["Fotona StarWalker"],
+    machines: ["Fotona StarWalker MaQX"],
   },
   {
     name: "Medical Peels",
@@ -618,7 +621,7 @@ export const CONCERNS: SeedConcern[] = [
     resultCategory: "pigmentation",
     programmes: ["The Signature Pigmentation Programme"],
     approaches: ["Pigmentation", "Skin Quality"],
-    technologies: ["Fotona StarWalker", "Sylfirm X", "Fotona SP Dynamis Max"],
+    technologies: ["Fotona StarWalker MaQX", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
   {
     title: "Acne & Acne Scars",
@@ -1060,7 +1063,7 @@ export const APPROACHES: SeedApproach[] = [
       "Laser Skin Resurfacing",
     ],
     concerns: ["Pigmentation & Melasma", "Acne & Acne Scars"],
-    technologies: ["Fotona StarWalker", "Sylfirm X", "Fotona SP Dynamis Max"],
+    technologies: ["Fotona StarWalker MaQX", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
   {
     title: "Acne & Scarring",
@@ -1485,7 +1488,7 @@ export const PROGRAMMES: SeedProgramme[] = [
       "A clearer, more even complexion, and a plan that keeps it that way.",
     concerns: ["Pigmentation & Melasma"],
     approaches: ["Pigmentation", "Skin Quality"],
-    technologies: ["Fotona StarWalker", "Sylfirm X", "Fotona SP Dynamis Max"],
+    technologies: ["Fotona StarWalker MaQX", "Sylfirm X", "Fotona SP Dynamis Max"],
   },
   {
     title: "The Signature Acne Scar Programme",
@@ -1641,7 +1644,6 @@ export type SeedDoctor = {
   credential?: string;
   role: string;
   specialty: string;
-  position: string;
   order: number;
   /** Three qualities. Parallel in form for both doctors, so neither reads as senior. */
   headline: string;
@@ -1669,7 +1671,6 @@ export const DOCTORS: SeedDoctor[] = [
     credential: "Gold Medallist \u00b7 University of Mumbai",
     role: "Consultant Dermatologist",
     specialty: "Aesthetic & Cosmetic Dermatology | Laser & Energy-Based Medicine",
-    position: "Co-Founder",
     order: 0,
     headline: "Aesthetic vision. Scientific precision. Refinement.",
     domains: [
@@ -1726,7 +1727,6 @@ export const DOCTORS: SeedDoctor[] = [
     institution: KEM,
     role: "Consultant Dermatologist & Dermatosurgeon",
     specialty: "Clinical Dermatology & Dermatosurgery | Diagnosis & Aesthetic Medicine",
-    position: "Co-Founder",
     order: 1,
     headline: "Clinical depth. Surgical precision. Aesthetic judgement.",
     domains: ["Clinical depth", "Dermatosurgery", "Diagnosis", "Precision", "Judgement"],

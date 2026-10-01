@@ -11,7 +11,7 @@ export const siteSettingsQuery = defineQuery(`
 export const homeQuery = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{ heroImage, philosophyImage, clinicImage },
   "doctors": *[_type == "doctor"] | order(order asc){
-    _id, name, degree, institution, credential, role, specialty, position, shortBio, portrait,
+    _id, name, degree, institution, credential, role, specialty, shortBio, portrait,
     headline, domains, quote,
     "slug": slug.current
   },
@@ -140,7 +140,7 @@ export const machineSlugsQuery = defineQuery(`
 
 export const doctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc){
-    _id, name, degree, institution, credential, role, specialty, position,
+    _id, name, degree, institution, credential, role, specialty,
     headline, domains, principle, perspectiveTitle, perspective, closing,
     shortBio, biography, quote, practisingSince, expertise,
     foundations[]{ _key, title, detail },

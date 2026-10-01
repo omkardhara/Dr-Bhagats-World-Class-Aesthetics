@@ -119,7 +119,6 @@ export type Doctor = {
   degree?: string;
   institution?: string;
   credential?: string;
-  position?: string;
   role?: string;
   specialty?: string;
   /** Three qualities: the doctor's own register, shown beneath the name. */
