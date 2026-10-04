@@ -57,6 +57,7 @@ export const ART_DIRECTION = [
   "Real skin. No heavy retouching, no smoothing filters.",
   "Models sign a release; no patient is photographed for the shoot. Before-and-after cases are clinical photographs, taken separately with written consent.",
   "Shoot every set-up both wide and tight, and landscape and portrait where possible, so each slot has options.",
+  "One photograph can fill slots of different shapes. When uploading, set the hotspot in the Studio: the site crops each slot to its own shape around that point, so a face is never cut off.",
 ];
 
 export const SITE_SHOTS = {

@@ -41,7 +41,8 @@ export default async function SanityPicture({
   brief?: Brief;
   className?: string;
 }) {
-  const props = imageProps(image, width);
+  // The slot's own shape, cropped around the hotspot rather than the centre.
+  const props = imageProps(image, width, ratio);
   if (!props) {
     return brief && (await shotListEnabled()) ? (
       <ShotBrief brief={brief} ratio={ratio} className={className} />

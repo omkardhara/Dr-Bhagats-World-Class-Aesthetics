@@ -85,9 +85,9 @@ export default async function Home() {
   const [home, shots] = await Promise.all([getHome(), shotListEnabled()]);
   // The banner first; a single hero image remains valid, and both may be unset.
   const slides = (home.settings?.heroImages ?? [])
-    .map((image) => imageProps(image, 2880))
+    .map((image) => imageProps(image, 2880, "16/9"))
     .filter((image): image is { url: string; alt?: string } => image !== null);
-  const single = imageProps(home.settings?.heroImage, 2880);
+  const single = imageProps(home.settings?.heroImage, 2880, "16/9");
   const hero = slides.length > 0 ? slides : single ? [single] : [];
   const hasClinicImage = Boolean(home.settings?.clinicImage?.asset) || shots;
   const resultCategories = RESULT_CATEGORIES.filter((c) => home.resultCategories.includes(c.value));
