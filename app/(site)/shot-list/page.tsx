@@ -10,6 +10,7 @@ import {
   EXPERIENCE_SHOTS,
   DOCTOR_SHOTS,
   FORMAT,
+  PIXELS,
   PROGRAMME_SHOTS,
   shotListEnabled,
   SITE_SHOTS,
@@ -34,11 +35,12 @@ const TECHNOLOGIES: [string, string][] = [
   ["gentleyag", "GentleYAG"],
 ];
 
-type Shot = Brief & { format: string; where: string; href: string };
+type Shot = Brief & { format: string; pixels: string; where: string; href: string };
 
 const shot = (brief: Brief, ratio: string, where: string, href: string): Shot => ({
   ...brief,
   format: FORMAT[ratio],
+  pixels: PIXELS[ratio],
   where,
   href,
 });
@@ -47,7 +49,10 @@ const GROUPS: { title: string; shots: Shot[] }[] = [
   {
     title: "Home",
     shots: [
-      shot(SITE_SHOTS.homeHero, "hero", "Home - opening image", "/"),
+      shot(SITE_SHOTS.homeHero, "hero", "Home - banner, slide 1", "/"),
+      shot(SITE_SHOTS.homeHero2, "hero", "Home - banner, slide 2", "/"),
+      shot(SITE_SHOTS.homeHero3, "hero", "Home - banner, slide 3", "/"),
+      shot(SITE_SHOTS.homeHero4, "hero", "Home - banner, slide 4", "/"),
       shot(SITE_SHOTS.homePhilosophy, "4/3", "Home - doctor-led philosophy", "/"),
       shot(SITE_SHOTS.homeClinic, "4/3", "Home - the clinic", "/"),
     ],
@@ -159,7 +164,7 @@ export default async function ShotListPage() {
               key: item.title,
               title: item.title,
               detail: item.direction,
-              meta: `${item.format} · ${item.where}`,
+              meta: `${item.format} · ${item.pixels} · ${item.where}`,
               href: item.href,
             }))}
           />

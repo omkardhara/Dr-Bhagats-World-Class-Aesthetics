@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import HeroSlides from "@/components/HeroSlides";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import ShotBrief from "@/components/ShotBrief";
@@ -82,7 +83,12 @@ const PRINCIPLES = ["The doctor decides.", "Technology supports.", "You receive 
  */
 export default async function Home() {
   const [home, shots] = await Promise.all([getHome(), shotListEnabled()]);
-  const hero = imageProps(home.settings?.heroImage, 2400);
+  // The banner first; a single hero image remains valid, and both may be unset.
+  const slides = (home.settings?.heroImages ?? [])
+    .map((image) => imageProps(image, 2880))
+    .filter((image): image is { url: string; alt?: string } => image !== null);
+  const single = imageProps(home.settings?.heroImage, 2880);
+  const hero = slides.length > 0 ? slides : single ? [single] : [];
   const hasClinicImage = Boolean(home.settings?.clinicImage?.asset) || shots;
   const resultCategories = RESULT_CATEGORIES.filter((c) => home.resultCategories.includes(c.value));
 
@@ -90,14 +96,8 @@ export default async function Home() {
     <main className="flex-1 bg-brand-bone">
       {/* 01 — Hero: the practice, not a list of services. */}
       <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-brand-black">
-        {hero ? (
-          <>
-            <Image src={hero.url} alt={hero.alt ?? ""} fill priority sizes="100vw" className="object-cover" />
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/70 to-brand-black/25"
-            />
-          </>
+        {hero.length > 0 ? (
+          <HeroSlides slides={hero} />
         ) : shots ? (
           <ShotBrief brief={SITE_SHOTS.homeHero} fill />
         ) : (

@@ -19,7 +19,24 @@ export const siteSettings = defineType({
   title: "Site Settings",
   type: "document",
   fields: [
-    imageField("heroImage", "Homepage hero", "Full-bleed image behind the homepage hero."),
+    defineField({
+      name: "heroImages",
+      title: "Homepage banner",
+      description:
+        "The photographs that crossfade behind the homepage headline, in order. Three to five works best; one renders as a still image. Each needs space at the lower left, where the headline sits.",
+      type: "array",
+      of: [
+        defineField({
+          name: "slide",
+          title: "Photograph",
+          type: "image",
+          options: { hotspot: true },
+          fields: [defineField({ name: "alt", title: "Alt text", type: "string" })],
+        }),
+      ],
+      validation: (Rule) => Rule.max(5),
+    }),
+    imageField("heroImage", "Homepage hero (single)", "Used only when the banner above is empty."),
     imageField("philosophyImage", "Philosophy", "Shown beside the philosophy statement on the homepage."),
     imageField(
       "doctorsImage",

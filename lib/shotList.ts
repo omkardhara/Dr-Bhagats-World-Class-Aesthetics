@@ -35,6 +35,20 @@ export const FORMAT: Record<string, string> = {
   "1/1": "Square",
 };
 
+/**
+ * What to deliver, in pixels. These are minimums for a retina screen: shoot at
+ * the camera's full resolution and crop to these ratios. Sanity resizes
+ * everything below this on the way out, so larger files cost nothing.
+ */
+export const PIXELS: Record<string, string> = {
+  hero: "2880 × 1620 px",
+  "21/9": "2400 × 1029 px",
+  "16/9": "2000 × 1125 px",
+  "4/3": "1600 × 1200 px",
+  "3/4": "1600 × 2133 px",
+  "1/1": "1400 × 1400 px",
+};
+
 /** The art direction every photograph shares. */
 export const ART_DIRECTION = [
   "Natural daylight, or soft light that looks like it. No hard flash, no coloured gels.",
@@ -47,9 +61,24 @@ export const ART_DIRECTION = [
 
 export const SITE_SHOTS = {
   homeHero: {
-    title: "The clinic, at its most atmospheric",
+    title: "Homepage banner - the clinic, at its most atmospheric",
     direction:
       "The reception or a corridor in soft, low light - or a doctor seen at a distance. Keep the lower left deep and dark: the headline sits over it.",
+  },
+  homeHero2: {
+    title: "Homepage banner - the consultation",
+    direction:
+      "Doctor and model in conversation, shot wide and low-lit so the headline still reads over the lower left.",
+  },
+  homeHero3: {
+    title: "Homepage banner - the hands",
+    direction:
+      "A treatment or an examination in close detail: gloved hands, an instrument, warm light against a dark room.",
+  },
+  homeHero4: {
+    title: "Homepage banner - the detail",
+    direction:
+      "An architectural or material detail of the clinic, dark and quiet: stone, glass, a corridor, the monogram at a distance.",
   },
   homePhilosophy: {
     title: "A consultation in progress",
