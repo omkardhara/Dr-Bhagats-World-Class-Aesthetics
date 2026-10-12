@@ -26,8 +26,16 @@ export default function DoctorSchema({ doctors }: { doctors: Doctor[] }) {
             affiliation: BRAND.legalName,
           };
           if (doctor.role) node.jobTitle = doctor.role;
+          if (doctor.degree) node.honorificSuffix = doctor.degree;
+          // The institution is the credential a patient and an assistant both check.
+          if (doctor.institution) {
+            node.alumniOf = { "@type": "EducationalOrganization", name: doctor.institution };
+          }
+          if (doctor.credential) node.award = doctor.credential;
           if (doctor.shortBio) node.description = doctor.shortBio;
-          if (doctor.expertise?.length) node.knowsAbout = doctor.expertise;
+          if (doctor.expertise?.length || doctor.domains?.length) {
+            node.knowsAbout = [...(doctor.expertise ?? []), ...(doctor.domains ?? [])];
+          }
           if (doctor.qualifications?.length) {
             node.alumniOf = doctor.qualifications.map((name) => ({
               "@type": "EducationalOrganization",
@@ -35,7 +43,11 @@ export default function DoctorSchema({ doctors }: { doctors: Doctor[] }) {
             }));
           }
           if (doctor.memberships?.length) node.memberOf = doctor.memberships;
-          if (doctor.achievements?.length) node.award = doctor.achievements;
+          if (doctor.achievements?.length) {
+            node.award = doctor.credential
+              ? [doctor.credential, ...doctor.achievements]
+              : doctor.achievements;
+          }
           return node;
         }),
       }}
