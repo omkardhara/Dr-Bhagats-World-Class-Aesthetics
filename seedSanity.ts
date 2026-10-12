@@ -247,6 +247,7 @@ async function seed() {
         technologyNote: c.technologyNote,
         expectations: c.expectations,
         relatedConditions: c.relatedConditions,
+        faqs: c.faqs.map((faq, index) => ({ _key: `q${index}`, ...faq })),
         resultCategory: c.resultCategory,
         programmes: c.programmes.map((t) => ref(ids.programme(t))),
         approaches: c.approaches.map((t) => ref(ids.approach(t))),

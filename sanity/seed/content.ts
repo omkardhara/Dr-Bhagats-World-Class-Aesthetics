@@ -546,6 +546,8 @@ export type SeedConcern = {
   selection: string;
   expectations: string;
   relatedConditions: string[];
+  /** The questions patients actually ask. Rendered as FAQPage structured data. */
+  faqs: { question: string; answer: string }[];
   /** The doctor's note on how a technology is chosen for this concern. */
   technologyNote?: string;
   resultCategory: ResultCategory;
@@ -558,6 +560,28 @@ export const CONCERNS: SeedConcern[] = [
   {
     title: "Facial Ageing & Skin Laxity",
     slug: "facial-ageing",
+    faqs: [
+      {
+        question: "At what age should I start treating facial ageing?",
+        answer:
+          "There is no age at which treatment becomes necessary. What matters is what is actually changing: some patients in their thirties have early laxity worth addressing, while others in their fifties need nothing more than good skin care. We assess the face and tell you honestly if there is nothing worth treating yet.",
+      },
+      {
+        question: "Will I look like I have had something done?",
+        answer:
+          "That is the outcome we work hardest to avoid. Treatment is planned so that the change is gradual and proportionate, and we would rather do slightly less and review than overcorrect. The aim is that people notice you look well, not that you look treated.",
+      },
+      {
+        question: "Is non-surgical tightening the same as a facelift?",
+        answer:
+          "No. Non-surgical treatment firms and remodels tissue over months; it does not reposition it the way surgery does. Where laxity is advanced, we will say so, and a surgical opinion is the more honest answer.",
+      },
+      {
+        question: "How long do the results last?",
+        answer:
+          "Collagen-led results typically develop over two to six months and then hold for a period that varies with your skin, your age and how the result is maintained. Ageing continues, so the plan is reviewed over time rather than treated as finished.",
+      },
+    ],
     summary:
       "Loss of firmness, volume and definition happens gradually, and differently for every face.",
     experience:
@@ -596,6 +620,28 @@ export const CONCERNS: SeedConcern[] = [
     technologyNote:
       "Pigmentation is rarely just a surface problem. When I assess pigmentation, I first try to understand its pattern, depth, triggers, associated redness and the patient’s history of previous treatments. In selected patients, Sylfirm X can be considered as part of a broader pigmentation strategy, particularly when I want to address pigmentary change while also working on aspects of skin quality. It is not a universal treatment for melasma, and I do not use one protocol for every pigmentation patient. The diagnosis comes first. The technology follows.",
     slug: "pigmentation",
+    faqs: [
+      {
+        question: "Can melasma be cured?",
+        answer:
+          "Melasma is managed rather than cured. With the right combination of medical treatment, sun protection and carefully chosen in-clinic treatment it can be significantly improved and kept under control, but it tends to return without maintenance.",
+      },
+      {
+        question: "Is laser treatment safe for Indian skin?",
+        answer:
+          "It can be, when the wavelength and settings are chosen for your skin type and used conservatively. Indian and other richly pigmented skin is more prone to post-inflammatory pigmentation, which is why we often begin with medical treatment and introduce any device gradually.",
+      },
+      {
+        question: "Why does my pigmentation keep coming back?",
+        answer:
+          "Because the cause is usually still active. Sun, heat, hormones and inflammation all drive pigment production, so treatment that removes pigment without addressing the trigger gives a temporary result. Maintenance is planned from the first consultation.",
+      },
+      {
+        question: "How long before I see a difference?",
+        answer:
+          "Pigmentation improves gradually, over months rather than weeks. Some patients notice brighter, more even skin within a few weeks of starting medical treatment; the deeper or more stubborn patterns take considerably longer.",
+      },
+    ],
     summary:
       "Uneven tone has many causes. Identifying the right one matters more than the strength of the treatment.",
     experience:
@@ -628,6 +674,28 @@ export const CONCERNS: SeedConcern[] = [
     technologyNote:
       "Acne scars are not all the same. Before selecting a treatment, I look at the type of scar, skin texture, active acne, pigmentation and the overall condition of the skin. In selected patients, Sylfirm X can be useful when I want to combine controlled RF delivery with microneedling to address aspects of texture and scarring. There is no single acne-scar protocol, and no single technology that works for every scar.",
     slug: "acne",
+    faqs: [
+      {
+        question: "Should active acne be treated before acne scars?",
+        answer:
+          "Yes. Scar treatment works best once the skin is settled, and treating scars while acne is still active risks new scarring. Acne is treated as a medical condition first, and scar treatment follows once the skin is stable.",
+      },
+      {
+        question: "Which treatment is best for acne scars?",
+        answer:
+          "There is no single answer, because most patients have more than one type of scar. Rolling, boxcar and ice-pick scars respond to different treatments, so the plan is matched to the scars you actually have and usually staged over several months.",
+      },
+      {
+        question: "Will the brown marks left by my acne fade on their own?",
+        answer:
+          "Flat brown or red marks left after acne often fade over months without treatment, particularly with sun protection. Treatment can speed that up, but it is worth knowing which of your marks are pigment, which are redness and which are true scars, because they behave very differently.",
+      },
+      {
+        question: "Can I have treatment if I am taking isotretinoin?",
+        answer:
+          "It depends on the treatment, the dose and how long you have been taking it. Some procedures are better deferred; others can proceed safely. Tell us at consultation that you are on it, and we will plan around it.",
+      },
+    ],
     summary:
       "Active acne and the scarring it leaves are different problems, treated in a particular order.",
     experience:
@@ -659,6 +727,28 @@ export const CONCERNS: SeedConcern[] = [
     technologyNote:
       "When patients say their skin looks dull, uneven or not as smooth as it used to, I first determine what is contributing to that appearance: texture, pores, pigmentation, previous acne, early laxity or simply a change in overall skin quality. Sylfirm X may be considered in selected patients when controlled RF microneedling can address that particular combination of concerns. The objective is not simply to make the skin tighter. It is to improve the quality and appearance of the skin in a way that is appropriate for that individual face.",
     slug: "skin-quality",
+    faqs: [
+      {
+        question: "What does skin quality actually mean?",
+        answer:
+          "The things that make skin look healthy rather than merely younger: texture, pore appearance, hydration, barrier strength, evenness and the way it reflects light. It is the foundation that makes every other treatment look better.",
+      },
+      {
+        question: "Can enlarged pores be made permanently smaller?",
+        answer:
+          "Pore size is largely determined by your skin type and cannot be permanently changed. What can be improved is how visible pores are, by addressing oil, congestion and the firmness of the surrounding skin, maintained with consistent care.",
+      },
+      {
+        question: "Are medical facials worth having?",
+        answer:
+          "They are useful for settling congestion, restoring hydration and preparing skin for other treatment. What they are not is a treatment plan on their own, and we would say so rather than sell you a course of them.",
+      },
+      {
+        question: "How quickly will my skin look better?",
+        answer:
+          "Brightness and hydration can improve within days. Changes that depend on collagen, such as texture and pore appearance, develop over two to three months.",
+      },
+    ],
     summary: "Healthy skin is the foundation every other treatment depends on.",
     experience:
       "Your skin may look dull or tired, feel rough or dehydrated, or show enlarged pores and uneven texture - even without lines or obvious ageing.",
@@ -688,6 +778,28 @@ export const CONCERNS: SeedConcern[] = [
   {
     title: "Eyes & Periorbital Ageing",
     slug: "eyes",
+    faqs: [
+      {
+        question: "Can dark circles be treated?",
+        answer:
+          "It depends what is causing them, and often more than one thing is. Pigment, thin skin showing the vessels beneath, hollowing and shadow all look similar in the mirror but need entirely different treatment, which is why this area is assessed carefully before anything is recommended.",
+      },
+      {
+        question: "Is filler safe under the eyes?",
+        answer:
+          "In the right patient and in experienced hands it can be, but the under-eye is one of the least forgiving areas of the face and not everyone is a candidate. Where the anatomy does not support it, we will say no.",
+      },
+      {
+        question: "What can be done about heavy upper eyelids?",
+        answer:
+          "Mild heaviness from skin laxity may respond to tightening treatment. Where there is significant excess skin or the heaviness comes from the brow, a surgical opinion is more appropriate, and we will tell you that rather than treat around it.",
+      },
+      {
+        question: "Why do my eyes look tired when I am not?",
+        answer:
+          "The periorbital area shows volume loss, pigmentation and skin thinning earlier than the rest of the face. The assessment separates what is structural from what is surface, because the two are treated differently.",
+      },
+    ],
     summary:
       "The skin around the eyes is the thinnest on the face, and it asks for particular precision.",
     experience:
@@ -718,6 +830,28 @@ export const CONCERNS: SeedConcern[] = [
   {
     title: "Facial Contouring",
     slug: "facial-contouring",
+    faqs: [
+      {
+        question: "Can my jawline be defined without surgery?",
+        answer:
+          "In selected patients, yes, through a combination of structural support, refinement of muscle activity and tightening. How much definition is achievable depends on your underlying bone structure and the degree of laxity, which is assessed first.",
+      },
+      {
+        question: "Will fillers change how I look?",
+        answer:
+          "Used properly, they restore proportion rather than alter your features. We work in small amounts, review, and build up gradually; we would rather do less than produce a face you do not recognise.",
+      },
+      {
+        question: "How long does treatment to the chin or jaw last?",
+        answer:
+          "Injectable results are measured in months rather than years and are maintained with review. Tightening treatments develop over months and hold for longer.",
+      },
+      {
+        question: "Can fullness under the chin be treated without surgery?",
+        answer:
+          "Often, yes, depending on whether the fullness is fat, laxity or both, and on the quality of the overlying skin. The assessment decides whether a non-surgical approach can reasonably achieve what you are hoping for.",
+      },
+    ],
     summary: "Proportion and balance, refined subtly and in harmony with your features.",
     experience:
       "You may feel that your jawline lacks definition, that your profile looks out of balance, or that one feature draws attention in a way you would like to soften.",
@@ -747,6 +881,28 @@ export const CONCERNS: SeedConcern[] = [
   {
     title: "Hair & Scalp",
     slug: "hair",
+    faqs: [
+      {
+        question: "Will my hair grow back?",
+        answer:
+          "That depends entirely on the cause, which is why the diagnosis comes before any treatment. Some forms of hair loss recover well; in others the realistic goal is to keep what you have and improve its quality. We tell you which of those applies to you.",
+      },
+      {
+        question: "How long before I see a change?",
+        answer:
+          "Hair responds slowly. The first change is usually less hair fall, within a couple of months; density is assessed at three to six months, with photography, because month-to-month change is hard to judge in the mirror.",
+      },
+      {
+        question: "Will I need blood tests?",
+        answer:
+          "Sometimes. Where nutritional, thyroid or hormonal factors may be contributing, investigations are requested, but only when the result would change the plan.",
+      },
+      {
+        question: "Do I have to keep treating it?",
+        answer:
+          "Many causes of hair loss are ongoing, so treatment continues in order to hold the response. The plan is reviewed periodically rather than continued indefinitely without assessment.",
+      },
+    ],
     summary: "Hair loss has a cause. Treatment begins with finding it.",
     experience:
       "You may be noticing more hair on your pillow or in the shower, a widening parting, thinning at the crown, patches of hair loss, or a scalp that is itchy, flaky or oily.",
@@ -776,6 +932,28 @@ export const CONCERNS: SeedConcern[] = [
   {
     title: "Body Contouring",
     slug: "body-contouring",
+    faqs: [
+      {
+        question: "Is non-surgical body treatment a way to lose weight?",
+        answer:
+          "No. It suits people who are close to a stable weight and want refinement of a particular area. If weight loss is the goal, treatment here is not the answer, and we will say so.",
+      },
+      {
+        question: "Will the fat come back?",
+        answer:
+          "Treated fat cells do not return, but the remaining cells can enlarge if your weight increases. Results are held by a stable weight rather than by further treatment.",
+      },
+      {
+        question: "Can loose skin on the body be tightened?",
+        answer:
+          "Mild to moderate laxity can improve with tightening treatment. Significant loose skin, such as after large weight loss or pregnancy, usually needs a surgical opinion, and we would rather tell you that at the first visit.",
+      },
+      {
+        question: "How many sessions will I need?",
+        answer:
+          "Body treatment is delivered as a course, with the number of sessions decided by the area, the concern and how you respond. The result is best judged after the full course rather than between sessions.",
+      },
+    ],
     summary:
       "Contour, firmness and skin quality on the body, approached with the same care as the face.",
     experience:
@@ -799,6 +977,28 @@ export const CONCERNS: SeedConcern[] = [
   {
     title: "Hair Removal",
     slug: "hair-removal",
+    faqs: [
+      {
+        question: "Is laser hair removal permanent?",
+        answer:
+          "It is a reduction rather than a removal. Hair becomes finer and sparser over a course of treatment, and most patients need occasional maintenance sessions afterwards, particularly where hormonal factors are involved.",
+      },
+      {
+        question: "Is it safe for darker skin?",
+        answer:
+          "Yes, when the wavelength and settings are selected for your skin type. This is precisely where the settings matter more than the platform, and where treatment should be delivered under medical supervision.",
+      },
+      {
+        question: "How many sessions will I need?",
+        answer:
+          "Usually a course spaced several weeks apart, because only hair in its active growth phase responds at each session. The number depends on the area, your hair and the hormonal factors behind it.",
+      },
+      {
+        question: "Why does my unwanted hair keep returning?",
+        answer:
+          "Persistent or coarse hair growth, particularly on the face, can have a hormonal cause. Where we suspect that, medical assessment runs alongside the laser course, because treating the hair alone would mean treating the symptom.",
+      },
+    ],
     summary: "Long-term hair reduction, with every setting chosen for your skin.",
     experience:
       "You may be tired of shaving, waxing or threading, dealing with ingrowing hairs, or noticing unwanted hair growth that has increased over time.",
