@@ -112,7 +112,6 @@ export async function GET() {
     "- Technology names are tools the doctors may select; they are not products sold to patients.",
     "",
   ]
-    .filter((line) => line !== "")
     .join("\n")
     .replace(/\n{3,}/g, "\n\n");
 
