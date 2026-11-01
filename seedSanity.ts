@@ -279,6 +279,8 @@ async function seed() {
       combinations: a.combinations,
       maintenance: a.maintenance,
       technologyNote: a.technologyNote,
+      standalone: a.standalone ?? false,
+      sections: (a.sections ?? []).map((section, index) => ({ _key: `s${index}`, ...section })),
       modalities: a.modalities.map((name) => ref(ids.modality(name))),
       concerns: a.concerns.map((t) => ref(ids.concern(t))),
       technologies: a.technologies.map((name) => ref(ids.machine(name))),

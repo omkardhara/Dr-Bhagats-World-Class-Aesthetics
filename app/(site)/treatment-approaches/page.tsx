@@ -48,6 +48,9 @@ async function getData(): Promise<{ approaches: ApproachSummary[]; programmes: P
  */
 export default async function TreatmentApproachesPage() {
   const { approaches, programmes } = await getData();
+  // The eight keep their numbering; a category of its own follows them.
+  const eight = approaches.filter((approach) => !approach.standalone);
+  const categories = approaches.filter((approach) => approach.standalone);
 
   return (
     <main className="flex-1 bg-brand-bone">
@@ -60,7 +63,7 @@ export default async function TreatmentApproachesPage() {
       <Section ground="bone">
         {/* The rows carry their own padding, so the list is pulled flush with the section. */}
         <ul className="lg:-my-10">
-          {approaches.map((approach, index) => (
+          {eight.map((approach, index) => (
             <li key={approach._id} className="border-t border-brand-gray-muted/30 first:border-t-0">
               <Reveal>
                 <Link
@@ -91,6 +94,39 @@ export default async function TreatmentApproachesPage() {
           ))}
         </ul>
       </Section>
+
+      {categories.map((category) => (
+        <Rail key={category._id} ground="white" id={category.slug} title={category.title}>
+          <Reveal>
+            {category.focus || category.summary ? (
+              <p className="max-w-2xl text-[1.05rem] leading-[1.8] text-brand-gray-text">
+                {category.focus ?? category.summary}
+              </p>
+            ) : null}
+          </Reveal>
+          {category.sections?.length ? (
+            <ul className="mt-10">
+              {category.sections.map((section, index) => (
+                <li
+                  key={section._key}
+                  className="border-t border-brand-gray-muted/30 py-5 first:border-t-0 first:pt-0"
+                >
+                  <Reveal index={index % 3}>
+                    <span className="text-[1.05rem] leading-[1.6] text-brand-black">
+                      {section.title}
+                    </span>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <div className="mt-10">
+            <TextLink href={`/treatment-approaches/${category.slug}`} ground="white">
+              {category.title} →
+            </TextLink>
+          </div>
+        </Rail>
+      ))}
 
       {programmes.length > 0 ? (
         <Rail ground="black" id="signature" title="The Dr Bhagat’s Signature">

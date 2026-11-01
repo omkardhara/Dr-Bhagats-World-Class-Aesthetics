@@ -515,6 +515,24 @@ export const MODALITIES: SeedModality[] = [
     machines: ["GFC"],
   },
   {
+    name: "Laser Hair Restoration",
+    description:
+      "Laser treatment of the scalp, where the assessment indicates it - delivered as the Fotona Hair Restart protocol.",
+    machines: ["Fotona SP Dynamis Max"],
+  },
+  {
+    name: "Skin Boosters",
+    description:
+      "Injectable hydration, placed within the skin to address hydration and the quality of the skin surface.",
+    machines: [],
+  },
+  {
+    name: "Biostimulatory Treatments",
+    description:
+      "Injectable treatments intended to work gradually on skin quality, used in selected patients after assessment.",
+    machines: [],
+  },
+  {
     name: "Laser Hair Reduction",
     description: "Long-term reduction of unwanted hair, with settings selected for skin type.",
     machines: ["GentleYAG", "Fotona SP Dynamis Max"],
@@ -1053,6 +1071,10 @@ export type SeedApproach = {
   technologies: string[];
   /** The doctor's note beside the technology list. */
   technologyNote?: string;
+  /** Named parts of an approach, where it divides into distinct kinds of treatment. */
+  sections?: { title: string; body: string }[];
+  /** Shown as its own category rather than numbered within the eight. */
+  standalone?: boolean;
 };
 
 export const APPROACHES: SeedApproach[] = [
@@ -1072,6 +1094,10 @@ export const APPROACHES: SeedApproach[] = [
       {
         approach: "Skin Quality",
         note: "When the concern is the skin's surface - texture, pores, radiance or hydration - rather than the support beneath it.",
+      },
+      {
+        approach: "Injectables & Facial Refinement",
+        note: "When expression lines, lost volume or lip proportion are part of the picture, and treatment by hand is more appropriate than a device.",
       },
     ],
     philosophy:
@@ -1124,6 +1150,10 @@ export const APPROACHES: SeedApproach[] = [
       {
         approach: "Skin Quality",
         note: "When the surface of the skin, rather than its shape, is what you would like to change.",
+      },
+      {
+        approach: "Injectables & Facial Refinement",
+        note: "Where filler or neuromodulator treatment is the appropriate way to address proportion, rather than a device.",
       },
     ],
     philosophy:
@@ -1329,7 +1359,7 @@ export const APPROACHES: SeedApproach[] = [
       },
     ],
     philosophy:
-      "Hair responds slowly, so treatment is a programme rather than an appointment. We combine medical management with regenerative therapy and track progress, so the plan evolves with your response.",
+      "Hair thinning, hair fall and reduced hair density can have different causes. Our approach begins with an individual hair and scalp assessment, followed by a treatment plan tailored to the patient\u2019s needs. Hair also responds slowly, so treatment is a programme rather than an appointment, and the plan evolves with your response.",
     addresses: [
       "Hair thinning and increased hair fall",
       "Patterned hair loss",
@@ -1345,7 +1375,25 @@ export const APPROACHES: SeedApproach[] = [
       "Realistic timelines",
     ],
     options:
-      "Treatment is directed at the cause, and may include medical treatment, regenerative therapy such as growth factor concentrate, and scalp care. Investigations are requested where they will change the plan.",
+      "Every treatment plan is individualised. The choice of treatment depends on the cause of hair loss, the scalp assessment and suitability, and investigations are requested where they will change the plan.",
+    sections: [
+      {
+        title: "Fotona Hair Restart",
+        body: "Laser-based hair restoration, where indicated.",
+      },
+      {
+        title: "GFC Hair Therapy",
+        body: "A regenerative treatment option for selected patients.",
+      },
+      {
+        title: "Regenerative Hair Treatments",
+        body: "Selected treatments designed to support hair restoration, based on individual assessment.",
+      },
+      {
+        title: "Medical Hair & Scalp Management",
+        body: "Diagnosis-led care and ongoing follow-up.",
+      },
+    ],
     expectations:
       "Hair responds slowly. The first change is usually reduced hair fall; improvement in density is assessed at three to six months, with photography.",
     downtime:
@@ -1354,9 +1402,9 @@ export const APPROACHES: SeedApproach[] = [
       "Combinations are useful because medical treatment addresses the cause while in-clinic therapy supports the follicles. Both are reviewed together as the hair responds.",
     maintenance:
       "Many causes of hair loss are ongoing, so treatment continues in order to maintain the response, with periodic review.",
-    modalities: ["Medical Treatment", "PRP & GFC"],
+    modalities: ["Medical Treatment", "PRP & GFC", "Laser Hair Restoration"],
     concerns: ["Hair & Scalp"],
-    technologies: ["GFC"],
+    technologies: ["GFC", "Fotona SP Dynamis Max"],
   },
   {
     title: "Hair Removal",
@@ -1443,6 +1491,69 @@ export const APPROACHES: SeedApproach[] = [
     modalities: ["Body Contouring", "Radiofrequency Skin Tightening"],
     concerns: ["Body Contouring"],
     technologies: ["Venus Bliss Max", "Ultraformer MPT", "Endolift X", "Fotona StarFormer"],
+  },
+  {
+    title: "Injectables & Facial Refinement",
+    standalone: true,
+    summary:
+      "Expression, contour and skin quality, treated by hand rather than by a device - and only after assessment.",
+    focus:
+      "Injectables & Facial Refinement is what is delivered by the doctor\u2019s hand: softening expression, restoring proportion, and treating the quality of the skin itself. Each is considered separately, and none is a default.",
+    related: [
+      {
+        approach: "Facial Contouring",
+        note: "Where definition is the concern. Device-based lifting and contouring are assessed there, and the two are often considered together.",
+      },
+      {
+        approach: "Skin Quality",
+        note: "Where texture, pores and barrier health lead. Skin boosters and regenerative treatment sit within that plan.",
+      },
+    ],
+    philosophy:
+      "Injectable treatments require an individual assessment of facial anatomy, medical history, suitability and expectations. We discuss the available options, expected benefits, limitations and potential risks before recommending a treatment. The aim is an appropriate, considered result \u2014 not a predetermined look.",
+    addresses: [
+      "Selected dynamic expression lines",
+      "Facial contours and proportion",
+      "Lip shape and proportion",
+      "Volume, where it has been lost",
+      "Hydration, texture and elasticity of the skin",
+    ],
+    considerations: [
+      "Facial anatomy and proportion",
+      "Medical history and previous treatment",
+      "Muscle activity and expression",
+      "Skin quality and condition",
+      "Your expectations, and whether they can be met",
+    ],
+    sections: [
+      {
+        title: "Expression Lines",
+        body: "Neuromodulators for selected dynamic expression lines, following individual assessment.",
+      },
+      {
+        title: "Facial Refinement",
+        body: "Hyaluronic-acid fillers for selected concerns involving facial contours, lips or volume, where appropriate.",
+      },
+      {
+        title: "Skin Quality & Regenerative Aesthetics",
+        body: "Beyond volume. A considered approach to skin quality. Healthy-looking skin involves more than facial contours: hydration, texture, elasticity and overall skin appearance each contribute to skin quality. Our approach combines individual assessment with selected skin-quality and regenerative treatments, chosen according to the patient\u2019s concerns, skin condition and suitability. The objective is to address the aspects of skin quality that matter to each individual, with realistic expectations and an emphasis on appropriate treatment selection. Treatments may include, where offered and clinically appropriate, skin boosters, selected biostimulatory treatments, GFC and other regenerative approaches.",
+      },
+    ],
+    options:
+      "Which of the three applies to you, and in what measure, is decided at the consultation. Expression, contour and skin quality are assessed separately, because a face that looks tired for one reason is not helped by treating another.",
+    expectations:
+      "Softening of expression develops over a few days and is reviewed at two weeks. Contour changes are visible immediately but settle over a fortnight. Skin-quality and regenerative treatment works gradually, across a course, and is judged over months rather than at the next appointment.",
+    downtime:
+      "Most injectable treatment allows a return to normal activity the same day, with the possibility of swelling, redness or bruising for a few days. We will tell you before treatment what to plan around.",
+    combinations:
+      "Combinations are useful because expression, volume and skin quality change independently of one another, and because injectable treatment often sits alongside device-based tightening rather than replacing it. Treatments are sequenced rather than delivered together, so each can be assessed.",
+    maintenance:
+      "Neuromodulator results are measured in months; filler results in months to a year or more, depending on the product and the area; skin-quality treatment is maintained as a course with review. Nothing here is permanent, which is part of why it is approached conservatively.",
+    technologyNote:
+      "Injectable treatment is delivered by the doctor rather than by a platform, which is why no technology is listed here. Where a device would serve the same concern better, that is what we recommend instead.",
+    modalities: ["Botulinum Toxin", "Dermal Fillers", "Skin Boosters", "Biostimulatory Treatments", "PRP & GFC"],
+    concerns: ["Facial Contouring", "Facial Ageing & Skin Laxity", "Skin Quality, Texture & Pores"],
+    technologies: [],
   },
 ];
 

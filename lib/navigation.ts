@@ -25,6 +25,7 @@ export const FOOTER_NAV: { title: string; links: NavLink[] }[] = [
     links: [
       { label: "Concerns", href: "/concerns" },
       { label: "Treatments", href: "/treatment-approaches" },
+      { label: "Injectables & Facial Refinement", href: "/treatment-approaches/injectables-and-facial-refinement" },
       { label: "The Dr Bhagat’s Signature", href: "/signature" },
       { label: "Technology", href: "/technology" },
       { label: "Results", href: "/results" },

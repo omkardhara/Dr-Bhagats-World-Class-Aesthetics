@@ -110,6 +110,10 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
           <p className="mt-10 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
             Treatment approach {pad(position + 1)} of {pad(sequence.length)}
           </p>
+        ) : approach.standalone ? (
+          <p className="mt-10 text-[0.65rem] uppercase tracking-widest text-brand-champagne-light">
+            A category of its own, alongside the eight approaches
+          </p>
         ) : null}
       </PageHero>
 
@@ -166,6 +170,27 @@ export default async function ApproachPage({ params }: PageProps<"/treatment-app
 
       {approach.options || approach.modalities?.length ? (
         <Rail ground="bone" index={3} title="Possible treatment options">
+          {approach.sections?.length ? (
+            <ul className="mb-12">
+              {approach.sections.map((section, index) => (
+                <li
+                  key={section._key}
+                  className="border-t border-brand-gray-muted/30 py-8 first:border-t-0 first:pt-0"
+                >
+                  <Reveal index={index % 3}>
+                    <h3 className="text-xl font-normal tracking-[0.01em] text-brand-black lg:text-2xl">
+                      {section.title}
+                    </h3>
+                    {section.body ? (
+                      <p className="mt-4 max-w-2xl text-[1rem] leading-[1.8] text-brand-gray-text">
+                        {section.body}
+                      </p>
+                    ) : null}
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          ) : null}
           {approach.options ? (
             <Reveal>
               <Prose>{approach.options}</Prose>

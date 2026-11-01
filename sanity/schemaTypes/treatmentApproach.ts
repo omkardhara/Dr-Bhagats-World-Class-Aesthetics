@@ -31,6 +31,31 @@ export const treatmentApproach = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({ name: "order", title: "Display order", type: "number", initialValue: 0 }),
+    defineField({
+      name: "standalone",
+      title: "Its own category",
+      description:
+        "Shown on the Treatments page as a category of its own rather than numbered within the eight approaches.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "sections",
+      title: "Sections",
+      description:
+        "Where an approach divides into distinct kinds of treatment, each with its own heading.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Title", type: "string" }),
+            defineField({ name: "body", title: "Body", type: "text", rows: 4 }),
+          ],
+          preview: { select: { title: "title", subtitle: "body" } },
+        }),
+      ],
+    }),
     defineField({ name: "summary", title: "Summary", type: "text", rows: 2 }),
     text(
       "focus",

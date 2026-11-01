@@ -65,7 +65,8 @@ export const concernSlugsQuery = defineQuery(`
 
 export const approachesQuery = defineQuery(`{
   "approaches": *[_type == "treatmentApproach"] | order(order asc){
-    _id, title, summary, focus, "slug": slug.current,
+    _id, title, summary, focus, standalone, "slug": slug.current,
+    sections[]{ _key, title },
     "concerns": concerns[]->{ _id, title, "slug": slug.current }
   },
   "programmes": *[_type == "signatureProgramme"] | order(order asc){
@@ -75,11 +76,14 @@ export const approachesQuery = defineQuery(`{
 
 export const approachBySlugQuery = defineQuery(`
   *[_type == "treatmentApproach" && slug.current == $slug][0]{
-    _id, title, summary, focus, philosophy, considerations, image, technologyNote,
+    _id, title, summary, focus, philosophy, considerations, image, technologyNote, standalone,
+    sections[]{ _key, title, body },
     addresses, options, expectations, downtime, combinations, maintenance,
     "slug": slug.current,
     "related": related[]{ _key, note, "approach": approach->{ _id, title, "slug": slug.current } },
-    "sequence": *[_type == "treatmentApproach"] | order(order asc){ _id, title, "slug": slug.current },
+    "sequence": *[_type == "treatmentApproach" && standalone != true] | order(order asc){
+      _id, title, "slug": slug.current
+    },
     "modalities": modalities[]->{ _id, name, description },
     "concerns": concerns[]->{ _id, title, summary, "slug": slug.current },
     "technologies": technologies[]->{ _id, name, purpose, dedicatedPage, "slug": slug.current },

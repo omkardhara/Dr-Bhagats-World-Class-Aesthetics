@@ -42,12 +42,17 @@ export type Concern = ConcernSummary & {
 export type ApproachSummary = Ref & {
   summary?: string;
   focus?: string;
+  /** Shown as its own category rather than numbered within the eight. */
+  standalone?: boolean;
+  sections?: { _key: string; title: string }[];
   concerns?: Ref[];
 };
 
 export type Approach = Ref & {
   summary?: string;
   technologyNote?: string;
+  standalone?: boolean;
+  sections?: { _key: string; title: string; body?: string }[];
   focus?: string;
   related?: { _key: string; note?: string; approach: Ref | null }[];
   /** Every approach in display order, for the page's position and the next approach. */
