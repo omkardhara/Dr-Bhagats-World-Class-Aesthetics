@@ -3,13 +3,15 @@ import { defineQuery } from "next-sanity";
 /* Site ---------------------------------------------------------------- */
 
 export const siteSettingsQuery = defineQuery(`
-  *[_id == "siteSettings"][0]{ heroImages, heroImage, philosophyImage, doctorsImage, clinicImage, consultationImage }
+  *[_id == "siteSettings"][0]{ heroImages, heroImage, heroPoster, "heroVideo": heroVideo.asset->url, philosophyImage, doctorsImage, clinicImage, consultationImage }
 `);
 
 /* Home ---------------------------------------------------------------- */
 
 export const homeQuery = defineQuery(`{
-  "settings": *[_id == "siteSettings"][0]{ heroImages, heroImage, philosophyImage, clinicImage },
+  "settings": *[_id == "siteSettings"][0]{
+    heroImages, heroImage, heroPoster, "heroVideo": heroVideo.asset->url, philosophyImage, clinicImage
+  },
   "doctors": *[_type == "doctor"] | order(order asc){
     _id, name, degree, institution, credential, role, specialty, shortBio, portrait,
     headline, domains, quote,

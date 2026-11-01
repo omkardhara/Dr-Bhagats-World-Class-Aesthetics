@@ -37,6 +37,19 @@ export const siteSettings = defineType({
       validation: (Rule) => Rule.max(5),
     }),
     imageField("heroImage", "Homepage hero (single)", "Used only when the banner above is empty."),
+    defineField({
+      name: "heroVideo",
+      title: "Homepage video loop",
+      description:
+        "A short, silent loop behind the headline, ten to fifteen seconds. Shown on tablet and desktop only, and never to a visitor who has asked for reduced motion.",
+      type: "file",
+      options: { accept: "video/mp4" },
+    }),
+    imageField(
+      "heroPoster",
+      "Homepage video - still frame",
+      "The frame shown before the video plays, and in its place on phones. Required for the video to appear."
+    ),
     imageField("philosophyImage", "Philosophy", "Shown beside the philosophy statement on the homepage."),
     imageField(
       "doctorsImage",

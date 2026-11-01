@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import HeroSlides from "@/components/HeroSlides";
+import HeroMedia from "@/components/HeroMedia";
 import Reveal from "@/components/Reveal";
 import SanityPicture from "@/components/SanityPicture";
 import ShotBrief from "@/components/ShotBrief";
@@ -89,6 +89,9 @@ export default async function Home() {
     .filter((image): image is { url: string; alt?: string } => image !== null);
   const single = imageProps(home.settings?.heroImage, 2880, "16/9");
   const hero = slides.length > 0 ? slides : single ? [single] : [];
+  // The video needs its still frame; without one there is nothing to show first.
+  const poster = imageProps(home.settings?.heroPoster, 2880, "16/9") ?? hero[0] ?? null;
+  const video = home.settings?.heroVideo ? { url: home.settings.heroVideo } : null;
   const hasClinicImage = Boolean(home.settings?.clinicImage?.asset) || shots;
   const resultCategories = RESULT_CATEGORIES.filter((c) => home.resultCategories.includes(c.value));
 
@@ -96,8 +99,10 @@ export default async function Home() {
     <main className="flex-1 bg-brand-bone">
       {/* 01 — Hero: the practice, not a list of services. */}
       <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-brand-black">
-        {hero.length > 0 ? (
-          <HeroSlides slides={hero} />
+        {video && poster ? (
+          <HeroMedia video={video} poster={poster} slides={hero} />
+        ) : hero.length > 0 ? (
+          <HeroMedia poster={null} slides={hero} />
         ) : shots ? (
           <ShotBrief brief={SITE_SHOTS.homeHero} fill />
         ) : (

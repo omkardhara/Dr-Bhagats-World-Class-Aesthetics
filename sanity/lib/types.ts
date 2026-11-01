@@ -206,6 +206,9 @@ export type Article = Omit<ArticleSummary, "concern"> & {
 export type SiteSettings = {
   /** The homepage banner, in order. One photograph renders as a still image. */
   heroImages?: SanityImage[] | null;
+  /** A silent loop behind the headline, with the still frame it falls back to. */
+  heroVideo?: string | null;
+  heroPoster?: SanityImage | null;
   heroImage?: SanityImage | null;
   philosophyImage?: SanityImage | null;
   doctorsImage?: SanityImage | null;
