@@ -57,14 +57,20 @@ export default function HeroMedia({
 
   return (
     <>
-      <Image
-        src={poster.url}
-        alt={poster.alt ?? ""}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      {/* Photography underneath where it exists, so a phone sees the banner
+          rather than a frame grab. The poster stands in until it does. */}
+      {slides.length > 0 ? (
+        <HeroSlides slides={slides} />
+      ) : (
+        <Image
+          src={poster.url}
+          alt={poster.alt ?? ""}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      )}
 
       {playVideo ? (
         <video
