@@ -113,7 +113,7 @@ export const LOCATIONS: Location[] = [
 ];
 
 export const SOCIALS = {
-  instagram: "https://www.instagram.com/finesselaserskinclinic/",
+  instagram: "https://www.instagram.com/doc.bhagat?vrfl=MXJ3M3lsZHAwNGF5ag==",
   facebook: "https://www.facebook.com/profile.php?id=100091663637045",
 } as const;
 
