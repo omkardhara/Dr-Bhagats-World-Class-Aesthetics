@@ -17,7 +17,7 @@ export default function HeroSlides({
   slides,
   interval = 7000,
 }: {
-  slides: { url: string; alt?: string }[];
+  slides: { url: string; alt?: string; mobileUrl?: string }[];
   interval?: number;
 }) {
   const [index, setIndex] = useState(0);
@@ -40,7 +40,21 @@ export default function HeroSlides({
 
   return (
     <>
-      {slides.map((slide, slideIndex) => (
+      {slides.map((slide, slideIndex) =>
+        slide.mobileUrl ? (
+          // Art direction: a portrait crop on phones, the landscape original from tablet up.
+          <picture key={slide.url}>
+            <source media="(max-width: 767px)" srcSet={slide.mobileUrl} />
+            <img
+              src={slide.url}
+              alt={slideIndex === 0 ? (slide.alt ?? "") : ""}
+              aria-hidden={slideIndex === 0 ? undefined : true}
+              fetchPriority={slideIndex === 0 ? "high" : undefined}
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+              style={{ opacity: slideIndex === index ? 1 : 0 }}
+            />
+          </picture>
+        ) : (
         <Image
           key={slide.url}
           src={slide.url}
@@ -52,7 +66,8 @@ export default function HeroSlides({
           className="object-cover transition-opacity duration-[2000ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
           style={{ opacity: slideIndex === index ? 1 : 0 }}
         />
-      ))}
+        )
+      )}
 
       <div
         aria-hidden

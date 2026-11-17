@@ -50,6 +50,8 @@ type HomeData = {
 /** 1920×1080, 151 KB. */
 const HERO_IMAGE = {
   url: "/images/hero-lobby.jpg",
+  /** Portrait crop for phones, so the tall fold shows the wall and door rather than a blind centre slice. */
+  mobileUrl: "/images/hero-lobby-mobile.jpg",
   alt: "Warm copper-toned lobby with a curved wall and soft lighting at Dr Bhagat’s World Class Aesthetics",
 };
 

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import HeroSlides from "@/components/HeroSlides";
 
-type Slide = { url: string; alt?: string };
+type Slide = { url: string; alt?: string; mobileUrl?: string };
 
 /**
  * The homepage fold: a silent video loop where it is worth the bandwidth, and
