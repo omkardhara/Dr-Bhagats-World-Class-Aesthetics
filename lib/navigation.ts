@@ -35,6 +35,8 @@ export const FOOTER_NAV: { title: string; links: NavLink[] }[] = [
     title: "The practice",
     links: [
       { label: "About", href: "/about" },
+      { label: "Dr Priyam Bhagat", href: "/doctors/dr-priyam-bhagat" },
+      { label: "Dr Kamlesh Bhagat", href: "/doctors/dr-kamlesh-bhagat" },
       { label: "The Dr Bhagat’s Experience", href: "/experience" },
       { label: "Journal", href: "/journal" },
       { label: "Contact", href: "/contact" },

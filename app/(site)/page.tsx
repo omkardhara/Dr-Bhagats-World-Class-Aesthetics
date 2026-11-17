@@ -17,6 +17,7 @@ import {
   Statement,
   TextLink,
 } from "@/components/ui";
+import { doctorHref, doctorPortraitAlt } from "@/lib/doctors";
 import { formatDate, pad } from "@/lib/format";
 import { programmeHref } from "@/lib/links";
 import { DOCTOR_SHOTS, shotListEnabled, SITE_SHOTS } from "@/lib/shotList";
@@ -188,7 +189,11 @@ export default async function Home() {
               <Reveal key={doctor._id} index={index}>
                 <article>
                   <SanityPicture
-                    image={doctor.portrait}
+                    image={
+                      doctor.portrait
+                        ? { ...doctor.portrait, alt: doctorPortraitAlt(doctor.slug, doctor.name) }
+                        : doctor.portrait
+                    }
                     brief={DOCTOR_SHOTS[doctor.slug]}
                     ratio="3/4"
                     width={1200}
@@ -238,8 +243,8 @@ export default async function Home() {
                       {doctor.quote}
                     </blockquote>
                   ) : null}
-                  <TextLink href={`/about#${doctor.slug}`} ground="black" className="mt-8">
-                    Read profile
+                  <TextLink href={doctorHref(doctor.slug)} ground="black" className="mt-8">
+                    Read {doctor.name}&rsquo;s profile
                   </TextLink>
                 </article>
               </Reveal>

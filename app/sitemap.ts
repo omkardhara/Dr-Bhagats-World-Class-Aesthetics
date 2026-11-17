@@ -10,6 +10,8 @@ const STATIC_ROUTES = [
   { path: "/concerns", priority: 0.9 },
   { path: "/book", priority: 0.9 },
   { path: "/about", priority: 0.8 },
+  { path: "/doctors/dr-priyam-bhagat", priority: 0.8 },
+  { path: "/doctors/dr-kamlesh-bhagat", priority: 0.8 },
   { path: "/treatment-approaches", priority: 0.8 },
   { path: "/signature", priority: 0.8 },
   { path: "/experience", priority: 0.7 },

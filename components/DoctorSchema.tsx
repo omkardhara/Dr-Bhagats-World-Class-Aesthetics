@@ -17,9 +17,9 @@ export default function DoctorSchema({ doctors }: { doctors: Doctor[] }) {
         "@graph": doctors.map((doctor) => {
           const node: Record<string, unknown> = {
             "@type": "Physician",
-            "@id": `${SITE_URL}/about#${doctor.slug}`,
+            "@id": `${SITE_URL}/doctors/${doctor.slug}`,
             name: doctor.name,
-            url: `${SITE_URL}/about#${doctor.slug}`,
+            url: `${SITE_URL}/doctors/${doctor.slug}`,
             medicalSpecialty: "Dermatology",
             worksFor: { "@id": `${SITE_URL}/#organization` },
             workLocation: LOCATIONS.map((location) => ({ "@id": `${SITE_URL}/#${location.id}` })),
