@@ -47,6 +47,12 @@ type HomeData = {
   articles: ArticleSummary[];
 };
 
+/** 1920×1080, 151 KB. */
+const HERO_IMAGE = {
+  url: "/images/hero-lobby.jpg",
+  alt: "Warm copper-toned lobby with a curved wall and soft lighting at Dr Bhagat’s World Class Aesthetics",
+};
+
 const EMPTY: HomeData = {
   settings: null,
   doctors: [],
@@ -84,13 +90,8 @@ const PRINCIPLES = ["The doctor decides.", "Technology supports.", "You receive 
  */
 export default async function Home() {
   const [home, shots] = await Promise.all([getHome(), shotListEnabled()]);
-  // The banner first; a single hero image remains valid, and both may be unset.
-  const slides = (home.settings?.heroImages ?? [])
-    .map((image) => imageProps(image, 2880, "16/9"))
-    .filter((image): image is { url: string; alt?: string } => image !== null);
-  const single = imageProps(home.settings?.heroImage, 2880, "16/9");
-  const hero = slides.length > 0 ? slides : single ? [single] : [];
-  // The video needs its still frame; without one there is nothing to show first.
+  // The clinic lobby photograph is the hero, set in code; heroImages and heroImage in Sanity no longer apply.
+  const hero = [HERO_IMAGE];
   const poster = imageProps(home.settings?.heroPoster, 2880, "16/9") ?? hero[0] ?? null;
   const video = home.settings?.heroVideo ? { url: home.settings.heroVideo } : null;
   const hasClinicImage = Boolean(home.settings?.clinicImage?.asset) || shots;
